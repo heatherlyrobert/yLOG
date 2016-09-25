@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2c"
-#define   YLOG_VER_TXT      "added unit testing assistance functions"
+#define   YLOG_VER_NUM      "1.2d"
+#define   YLOG_VER_TXT      "added special break line for unit testing assistance functions"
 
 
 
