@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2b"
-#define   YLOG_VER_TXT      "standardize the version string"
+#define   YLOG_VER_NUM      "1.2c"
+#define   YLOG_VER_TXT      "added unit testing assistance functions"
 
 
 
@@ -279,6 +279,8 @@ void        yLOG_complex       (const char *a_subject, cchar *a_format, ...);
 /*---(breaks (2))-----------*/
 void        yLOG_break         (void);
 void        yLOG_sync          (void);
+void        yLOG_unitcond      (int a_scrp, int a_cond, int a_line, char *a_desc);
+void        yLOG_unitstep      (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc);
 /*---(compact (9))----------*/
 void        yLOG_senter        (const char *a_func);
 void        yLOG_sexit         (const char *a_func);

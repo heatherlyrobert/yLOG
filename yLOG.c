@@ -106,9 +106,7 @@ yLOG__main(
    /*---(first, defense)-----------------*/
    if (a_change != '<' && a_change != '>' && a_change != '-')
       a_change = '?';
-   if (a_level != 's' && a_level != 'i' && a_level != 'x' &&
-         a_level != '>')
-      a_level  = '?';
+   if (strchr ("sixt>", a_level) == NULL)  a_level  = '?';
    /*---(exdent, if needed)--------------*/
    if (a_change == '<' && its_indent > 0) {
       its_indent--;
@@ -322,6 +320,24 @@ yLOG_break    (void)
    if (its_quiet) return;
    fprintf (its_log, "------- --- ------ --- %s%s\n", its_prefix,
          "---------------------------------------------------------");
+   return;
+}
+
+void
+yLOG_unitcond (int a_scrp, int a_cond, int a_line, char *a_desc)
+{
+   if (its_quiet) return;
+   snprintf   (its_msg, 190, "UNIT TEST COND %2.2d.%3.3d.-- at %5d, %s", a_scrp, a_cond, a_line, a_desc);
+   yLOG__main ('-', 't', its_msg);
+   return;
+}
+
+void
+yLOG_unitstep (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc)
+{
+   if (its_quiet) return;
+   snprintf   (its_msg, 190, "UNIT TEST STEP %2.2d.%3.3d.%2.2d at %5d, %s", a_scrp, a_cond, a_step, a_line, a_desc);
+   yLOG__main ('-', 't', its_msg);
    return;
 }
 
