@@ -25,6 +25,7 @@ defensive coding, and early issue detection in custom programs.
 .sp
 .BI "void     yLOG_enter   (cchar *" "a_func" ");"
 .BI "void     yLOG_exit    (cchar *" "a_func" ");"
+.BI "void     yLOG_exitr   (cchar *" "a_func" ", cint " "a_rce" ");"
 
 .R  ---normal--------------------------------------
 .sp
@@ -48,7 +49,7 @@ defensive coding, and early issue detection in custom programs.
 
 .R  ---compact-------------------------------------
 .BI "void     yLOG_senter  (cchar *" "a_func" ");"
-.BI "void     yLOG_sexit   (void);"
+.BI "void     yLOG_sexit   (cchar *" "a_func" ", cint " "a_rce");"
 .BI "void     yLOG_snote   (cchar *" "a_info" ");"
 .BI "void     yLOG_sinfo   (cchar *" "a_subject" ", cchar *" "a_info" ");"
 .BI "void     yLOG_sint    (cint   " "a_value" ");"

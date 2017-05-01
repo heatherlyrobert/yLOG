@@ -106,7 +106,7 @@ yLOG__main(
    /*---(first, defense)-----------------*/
    if (a_change != '<' && a_change != '>' && a_change != '-')
       a_change = '?';
-   if (strchr ("sixt>", a_level) == NULL)  a_level  = '?';
+   /*> if (strchr ("sixt>", a_level) == NULL)  a_level  = '?';                        <*/
    /*---(exdent, if needed)--------------*/
    if (a_change == '<' && its_indent > 0) {
       its_indent--;
@@ -265,6 +265,17 @@ void
 yLOG_exit     (const char *a_func)
 {
    if (its_quiet) return;
+   snprintf (its_msg, MSG_LEN, "EXITING  (%.30s)", a_func);
+   yLOG__main ('<', 's', its_msg);
+   return;
+}
+
+void
+yLOG_exitr    (const char *a_func, const int a_rce)
+{
+   if (its_quiet) return;
+   snprintf (its_msg, MSG_LEN, "WARNING, rce (%d)", a_rce);
+   yLOG__main ('-', 'w', its_msg);
    snprintf (its_msg, MSG_LEN, "EXITING  (%.30s)", a_func);
    yLOG__main ('<', 's', its_msg);
    return;
@@ -612,6 +623,17 @@ yLOG_sexit    (const char *a_func)
    if (its_quiet) return;
    strncat(its_single, ";;", 200);
    yLOG__main('-', 's', its_single);
+   return;
+}
+
+void
+yLOG_sexitr   (const char *a_func, const int a_rce)
+{
+   char  msg[200];
+   if (its_quiet) return;
+   snprintf(msg, 200, ", WARN %d;;", a_rce);
+   strncat(its_single, msg, 200);
+   yLOG__main('-', 'w', its_single);
    return;
 }
 

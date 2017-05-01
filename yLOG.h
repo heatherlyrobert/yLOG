@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2d"
-#define   YLOG_VER_TXT      "added special break line for unit testing assistance functions"
+#define   YLOG_VER_NUM      "1.2e"
+#define   YLOG_VER_TXT      "added exitr and sexitr to also show return code"
 
 
 
@@ -263,6 +263,7 @@ long long   yLOG_time          (void);
 /*---(function (2))---------*/
 void        yLOG_enter         (const char *a_func);
 void        yLOG_exit          (const char *a_func);
+void        yLOG_exitr         (const char *a_func   , const int a_rce);
 /*---(normal (12))----------*/
 void        yLOG_note          (const char *a_info);
 void        yLOG_info          (const char *a_subject, const char    *a_info);
@@ -284,6 +285,7 @@ void        yLOG_unitstep      (int a_scrp, int a_cond, int a_step, int a_line, 
 /*---(compact (9))----------*/
 void        yLOG_senter        (const char *a_func);
 void        yLOG_sexit         (const char *a_func);
+void        yLOG_sexitr        (const char *a_func,    const int   a_rce);
 void        yLOG_snote         (const char *a_info);
 void        yLOG_sinfo         (const char *a_subject, const char *a_info);
 void        yLOG_sint          (const int   a_value);
