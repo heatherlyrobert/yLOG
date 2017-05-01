@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2e"
-#define   YLOG_VER_TXT      "added exitr and sexitr to also show return code"
+#define   YLOG_VER_NUM      "1.2f"
+#define   YLOG_VER_TXT      "fixed minor formatting issues in man file"
 
 
 

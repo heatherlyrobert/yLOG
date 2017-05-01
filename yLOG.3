@@ -23,9 +23,9 @@ defensive coding, and early issue detection in custom programs.
 
 .R  ---functions-----------------------------------
 .sp
-.BI "void     yLOG_enter   (cchar *" "a_func" ");"
-.BI "void     yLOG_exit    (cchar *" "a_func" ");"
-.BI "void     yLOG_exitr   (cchar *" "a_func" ", cint " "a_rce" ");"
+.BI "void     yLOG_enter   (cchar *" "a_func   " ");"
+.BI "void     yLOG_exit    (cchar *" "a_func   " ");"
+.BI "void     yLOG_exitr   (cchar *" "a_func   " ", cint    " "a_rce" ");"
 
 .R  ---normal--------------------------------------
 .sp
@@ -40,7 +40,7 @@ defensive coding, and early issue detection in custom programs.
 .BI "void     yLOG_point   (cchar *" "a_subject" ", cvoid  *" "a_pointer" ");"
 .BI "void     yLOG_bullet  (cint   " "a_num    " ", cchar  *" "a_info" ");"
 .BI "void     yLOG_pair    (cint   " "a_num    " ", cint    " "a_value" ");"
-.BI "void     yLOG_complex (cchar *" "a_subject" ", cchar *" "a_format" ", " "..." ");"
+.BI "void     yLOG_complex (cchar *" "a_subject" ", cchar  *" "a_format" ", " "..." ");"
 
 .R  ---breaks--------------------------------------
 .sp
@@ -48,21 +48,21 @@ defensive coding, and early issue detection in custom programs.
 .BI "void     yLOG_sync    (void);"
 
 .R  ---compact-------------------------------------
-.BI "void     yLOG_senter  (cchar *" "a_func" ");"
-.BI "void     yLOG_sexit   (cchar *" "a_func" ", cint " "a_rce");"
-.BI "void     yLOG_snote   (cchar *" "a_info" ");"
-.BI "void     yLOG_sinfo   (cchar *" "a_subject" ", cchar *" "a_info" ");"
-.BI "void     yLOG_sint    (cint   " "a_value" ");"
-.BI "void     yLOG_shex    (cuint  " "a_value" ");"
-.BI "void     yLOG_schar   (cchar  " "a_info" ");"
+.BI "void     yLOG_senter  (cchar *" "a_func   " ");"
+.BI "void     yLOG_sexit   (cchar *" "a_func   " ", cint    " "a_rce" ");"
+.BI "void     yLOG_snote   (cchar *" "a_info   " ");"
+.BI "void     yLOG_sinfo   (cchar *" "a_subject" ", cchar  *" "a_info" ");"
+.BI "void     yLOG_sint    (cint   " "a_value  " ");"
+.BI "void     yLOG_shex    (cuint  " "a_value  " ");"
+.BI "void     yLOG_schar   (cchar  " "a_info   " ");"
 .BI "void     yLOG_spoint  (cvoid *" "a_pointer" ");"
-.BI "void     yLOG_svalue  (cchar *" "a_subject" ", cint   " "a_value" ");"
+.BI "void     yLOG_svalue  (cchar *" "a_subject" ", cint    " "a_value" ");"
 
 .R  ---warnings------------------------------------
 .sp
-.BI "void     yLOG_warn    (cchar *" "a_subject" ", cchar *" "a_issue" ");"
-.BI "void     yLOG_error   (cchar *" "a_subject" ", cchar *" "a_issue" ");"
-.BI "void     yLOG_fatal   (cchar *" "a_subject" ", cchar *" "a_issue" ");"
+.BI "void     yLOG_warn    (cchar *" "a_subject" ", cchar  *" "a_issue" ");"
+.BI "void     yLOG_error   (cchar *" "a_subject" ", cchar  *" "a_issue" ");"
+.BI "void     yLOG_fatal   (cchar *" "a_subject" ", cchar  *" "a_issue" ");"
 
 .R  ---extended------------------------------------
 .sp
