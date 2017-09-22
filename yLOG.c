@@ -356,6 +356,17 @@ yLOG_unitstep (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc)
    return;
 }
 
+void
+yLOG_unitdone (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc)
+{
+   if (its_quiet) return;
+   fprintf (its_log, "unit--- --- ------ [t] %s%s\n", its_prefix,
+         "---------------------------------------------------------");
+   snprintf   (its_msg, 190, "STEP %2.2d.%3.3d.%2.2d at %5d, %s", a_scrp, a_cond, a_step, a_line, a_desc);
+   yLOG__main ('-', 't', its_msg);
+   return;
+}
+
 
 /*====================------------------------------------====================*/
 /*===----                     messages (complete)                      ----===*/

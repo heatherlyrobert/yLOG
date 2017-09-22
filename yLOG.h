@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2g"
-#define   YLOG_VER_TXT      "moved to make_program makefile enhancement"
+#define   YLOG_VER_NUM      "1.2h"
+#define   YLOG_VER_TXT      "small fixes"
 
 
 
