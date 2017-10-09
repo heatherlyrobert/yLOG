@@ -218,6 +218,8 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    return fileno(its_log);
 }
 
+int yLOG_lognum          (void) { return fileno(its_log); }
+
 void                    /* PURPOSE : log footer and close logger              */
 yLOG_end      (void)
 {

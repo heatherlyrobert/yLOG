@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2h"
-#define   YLOG_VER_TXT      "small fixes"
+#define   YLOG_VER_NUM      "1.2i"
+#define   YLOG_VER_TXT      "added yLOG_lognum and cleaned up man files"
 
 
 
@@ -258,6 +258,7 @@ typedef   const int    cint;
 /*---(overall (4))----------*/
 char       *yLOG_version       (void);
 int         yLOG_begin         (const char *a_program, const char a_location, const char a_quiet);
+int         yLOG_lognum        (void);
 void        yLOG_end           (void);
 long long   yLOG_time          (void);
 /*---(function (2))---------*/

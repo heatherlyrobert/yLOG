@@ -1,0 +1,72 @@
+.TH yLOG 7 2008-jul "linux" "heatherly custom tools manual"
+
+.SH NAME
+yLOG_martus \- decision rationale, objectives, and overview
+
+.SH IMAGERY
+martus (mar-toos, ףטרתûש) means witness, record, spectate, or testify
+
+.SH SUMMARY
+yLOG is a simple, direct, consistent, and clean shared library for process
+execution logging to encourage program monitoring, execution flow understanding,
+defensive coding, and early issue detection.
+
+.SH SCOPE, REASONING and DECISION
+
+.B definition (D).  
+process execution logging is a method for process self-journalling in order
+to gain insight into status, internal settings, execution paths, function
+sequencing, and duration/timing.
+
+.B WTF (?).  
+building a custom method for such a infrequently reviewed capability seems
+retarded at best ;) but, when it is needed, it is a absolutely invaluable
+resource.  get good at it.
+
+.B value (V).   
+process logging is a rapid way to diagnose process issues.  it is a huge
+time saver in build/testing, recreating prodution issues, and regaining
+logic/flow knowledge.  saves a lot of debugger time.
+
+.B complication (C).  
+tragically, the art of logging and messaging seems to have died with the
+"operator" role and is now absent or an incoherent stream of one-dimensional
+ad-hoc messages.
+
+.B answer (A).   
+i will standardize on a common logging library which can create a clearly
+timemarked, indented, and accurate record of program actions which can be
+easily searched and filtered.
+
+.B target user (T).  
+very technical, well-versed, busy programmers
+
+.B top requirements...
+   -- single, sharded library for all logging functions
+   -- easy in incorporate into programs
+   -- create a structured, searchable 7bit-safe ascii log file
+   -- encourage programmers to build logging into programs early
+   -- cut significant time from tracing and debugging
+
+.B focus on...
+   -- logging program start and conclusion
+   -- entry and exit to all major functions
+   -- indenting messages to make flow clear
+   -- categorizing messages to allow quick filtering and searching
+   -- showing critical informational and context messages
+   -- provide a standard for warning and errors
+   -- giving a true sense of durations and elapsed time
+   -- and, foremost, being standard so reading becomes easy and fast
+
+.SH SEE ALSO
+this documentation is layered to provide easier navigation.
+   yLOG (3), library functions, constants, and usage
+   yLOG (7), decision rationale, objectives, and overview
+
+.SH AUTHOR
+jelloshrke ata gmail dotta com
+
+.SH COLOPHON
+this page is part of a documentation package mean to make the use of the
+heatherly tools easier and faster
+

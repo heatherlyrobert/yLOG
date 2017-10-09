@@ -1,14 +1,15 @@
-.TH yLOG 3 2008-Jul "linux" "heatherly custom tools manual"
+.TH yLOG 3 2008-jul "linux" "heatherly custom tools manual"
 
 .SH NAME
-.BI yLOG
-\- simple, direct, consistent, and clean process execution logging
+yLOG_martus \- clean, consistent, and complete execution logging
+
+.SH IMAGERY
+martus (mar-toos, ףטרתûש) means witness, record, spectate, or testify
 
 .SH SUMMARY
-.BI yLOG
-is a simple, direct, consistent, and clean shared library for 
-process execution logging to encourage program monitoring, execution flow understanding,
-defensive coding, and early issue detection in custom programs.
+yLOG is a simple, direct, consistent, and clean shared library for process
+execution logging to encourage program monitoring, execution flow understanding,
+defensive coding, and early issue detection.
 
 .SH SYNOPSIS
 .nf
@@ -18,6 +19,7 @@ defensive coding, and early issue detection in custom programs.
 .sp
 .BI "char     yLOG_version (void);"
 .BI "int      yLOG_begin   (cchar *" "a_program" ", cchar " "a_location" ", cchar " "a_quiet" ");"
+.BI "int      yLOG_lognum  (void);"
 .BI "void     yLOG_end     (void);"
 .BI "char     yLOG_time    (void);"
 
@@ -79,40 +81,6 @@ defensive coding, and early issue detection in custom programs.
 Must also link to either the yLOG.so (shared) or yLOG.a (static) library
 as this is not automatic.  Add "-lyLOG" to the object linking.
 
-.SH OVERVIEW
-tragically the art of logging and messaging seems to have died
-with the passing of the "operator" role and now is done on a prorietary basis
-using expensive commercial tools.  not good.  or, worse, as an incoherent stream
-of one-dimensional ad-hoc messages.  bloody worse ;(
-
-so, yLOG provides a set of shared functions for logging program activities
-which report to a structured, searchable message file that supports tracing
-monitoring, warning, debugging, and maintenance.  it is designed to take a
-repetative, tedious, haphazard, neglected, and error-prone task and make it
-easy, systematic, shared, consistent, and maintainable.
-
-yLOG focuses on improving the self-diagnostic capabilities by...
-   - logging program start and conclusion
-   - entry and exit to all major functions
-   - indenting messages to make flow clear
-   - categorizing messages to allow quick filtering and searching
-   - showing critical informational and context messages
-   - provide a standard for warning and errors
-   - giving a true sense of durations and elapsed time
-   - and, foremost, being standard so reading becomes easy and fast
-
-while this can not replace a program's own awareness, it can supplement it
-in a way that promotes fast, accurate production monitoring.  whenever i
-attempt to trace a program using error messages, i ultimately need indenting,
-timestamping, etc and end up coming back to this library.
-
-many existing libraries and utilities have been built by better programmers
-which are likely superior in speed, size, capability, and reliability; BUT,
-i would not have learned nearly as much using them, so i follow the adage...
-
-TO TRULY LEARN> do not seek to follow in the footsteps of the men of old;
-seek what they sought ~ Matsuo Basho
-
 .SH DESCRIPTION
 yLOG consists of
 .BI 36
@@ -138,6 +106,9 @@ in order to prepare the logger for use, this function passes a couple of
 vital pieces of information.  The first is the program name to name the
 output file.  The second is the output location (see FILE section below).
 And the third is yLOG_NOISE (full output) or yLOG_QUIET (no output).
+.sp
+.B yLOG_lognum,
+returns the file number of the logger to avoid closing or confusion.
 .sp
 .B yLOG_end,
 stops the logger and frees up the resources.  Any calls to the logger after
@@ -424,10 +395,15 @@ yLOG has no input or configuration files.
 i have never allowed anyone else to use it, so maybe there will be many once
 it hits other setups.  in particular, my logging directories are custom.
 
+.SH SEE ALSO
+this documentation is layered to provide easier navigation.
+   yLOG (3), library functions, constants, and usage
+   yLOG (7), decision rationale, objectives, and overview
+
 .SH AUTHOR
-rsheatherly
+jelloshrke ata gmail dotta com
 
 .SH COLOPHON
-this page is part of a documentation package meant to make use of the
+this page is part of a documentation package mean to make the use of the
 heatherly tools easier and faster
 
