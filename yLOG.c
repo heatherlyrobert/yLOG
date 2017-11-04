@@ -190,7 +190,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
       } else {  /* default is personal log file */
          snprintf(filename, 500, "%s/l_hlisda/%s.%-25.25s.%s.ulog", getenv("HOME"), _prefix, _prog, _suffix);
       }
-      its_log = fopen(filename, "w");
+      its_log = fopen (filename, "w");
       if (its_log == NULL) {
          printf ("FATAL, can not open logger\n");
          return -1;
@@ -215,10 +215,10 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    fprintf(its_log, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
    yLOG_note("logger loaded");
    /*---(complete)-----------------------*/
-   return fileno(its_log);
+   return fileno (its_log);
 }
 
-int yLOG_lognum          (void) { return fileno(its_log); }
+int yLOG_lognum          (void) { return fileno (its_log); }
 
 void                    /* PURPOSE : log footer and close logger              */
 yLOG_end      (void)
@@ -244,7 +244,8 @@ yLOG_end      (void)
    fprintf(its_log, "   dur (ms)   : %lld\n",  _wall - its_wall_start);
    fprintf(its_log, "   duration   : %2ldh, %2ldm, %2lds\n", _hrs, _min, _sec);
    fprintf(its_log, "==========================================================================end===\n");
-   fclose(its_log);
+   fclose (its_log);
+   its_quiet = 1;
    return;
 }
 
@@ -297,13 +298,13 @@ yLOG_sync     (void)
    /*---(defense: quiet mode)------------*/
    if (its_quiet) return;
    /*---(output line)--------------------*/
-   fprintf(its_log, "SYNC======= ====== === %s%s\n", its_prefix,
+   fprintf (its_log, "SYNC======= ====== === %s%s\n", its_prefix,
          "============================================================");
    /*---(update)-------------------------*/
    ++its_nsyncs;
    if (its_nsyncs == 1)  return;
    /*---(close log)----------------------*/
-   fclose(its_log);
+   fclose (its_log);
    /*---(trim)---------------------------*/
    snprintf (cmd, 950, "cat %s | head -n $(grep -n \"^SYNC=====\" %s | head -n 1 | cut -d: -f 1) > temp.ulog", filename, filename);
    system (cmd);
