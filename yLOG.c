@@ -9,6 +9,7 @@
 #include  <sys/time.h>          /* gettimeofday                               */
 #include  <sys/unistd.h>        /* gethostname, getpid, getppid               */
 #include  <stdarg.h>                   /* va_arg                              */
+#include  <ySTR.h>
 
 /*-> to support the 'uname' call to get machine and system names  */
 #include  <sys/utsname.h>
@@ -407,7 +408,7 @@ void
 yLOG_char          (const char *a_subject, const char a_char)
 {
    if (its_quiet) return;
-   sprintf(its_msg, "%-10.10s: %c", a_subject, a_char);
+   sprintf(its_msg, "%-10.10s: %c", a_subject, (unsigned char) chrvisible (a_char));
    yLOG__main('-', 'i', its_msg);
    return;
 }

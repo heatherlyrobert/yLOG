@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2j"
-#define   YLOG_VER_TXT      "turned off logging after end to make safer in unit testing"
+#define   YLOG_VER_NUM      "1.2k"
+#define   YLOG_VER_TXT      "altered yLOG_char to always show chrvisible version"
 
 
 
