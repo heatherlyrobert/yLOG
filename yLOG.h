@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2k"
-#define   YLOG_VER_TXT      "altered yLOG_char to always show chrvisible version"
+#define   YLOG_VER_NUM      "1.2l"
+#define   YLOG_VER_TXT      "added yLOG_sdouble, was missing and needed for yCALC"
 
 
 
@@ -290,6 +290,7 @@ void        yLOG_sexitr        (const char *a_func,    const int   a_rce);
 void        yLOG_snote         (const char *a_info);
 void        yLOG_sinfo         (const char *a_subject, const char *a_info);
 void        yLOG_sint          (const int   a_value);
+void        yLOG_sdouble       (const double  a_value);
 void        yLOG_shex          (const unsigned int   a_value);
 void        yLOG_schar         (const char  a_info);
 void        yLOG_spoint        (const void *a_pointer);

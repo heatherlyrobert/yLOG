@@ -673,6 +673,16 @@ yLOG_sint     (const int  a_value)
 }
 
 void
+yLOG_sdouble  (const double  a_value)
+{
+   if (its_quiet) return;
+   char  msg[200];
+   snprintf(msg, 200, ", %.6lf", a_value);
+   strncat(its_single, msg, 200);
+   return;
+}
+
+void
 yLOG_shex     (const unsigned int  a_value)
 {
    if (its_quiet) return;
