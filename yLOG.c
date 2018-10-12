@@ -54,13 +54,13 @@ yLOG_version       (void)
 {
    char    t [20] = "";
 #if    __TINYC__ > 0
-   strncpy (t, "[tcc built  ]", 15);
+   strlcpy (t, "[tcc built  ]", 15);
 #elif  __GNUC__  > 0
-   strncpy (t, "[gnu gcc    ]", 15);
+   strlcpy (t, "[gnu gcc    ]", 15);
 #elif  __HEPH__  > 0
-   strncpy (t, "[hephaestus ]", 18);
+   strlcpy (t, "[hephaestus ]", 18);
 #else
-   strncpy (t, "[unknown    ]", 15);
+   strlcpy (t, "[unknown    ]", 15);
 #endif
    snprintf (yLOG_ver, 100, "%s   %s : %s", t, YLOG_VER_NUM, YLOG_VER_TXT);
    return yLOG_ver;
@@ -197,7 +197,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
          return -1;
       }
    }
-   strncpy (its_prog, a_program, 29);
+   strlcpy (its_prog, a_program, 29);
    /*---(get wall time)------------------*/
    its_wall_start = yLOG__timestamp();
    /*---(display)------------------------*/
@@ -628,7 +628,7 @@ yLOG_senter   (const char *a_func)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, "%.30s>>", a_func);
-   strncpy(its_single, msg, 200);
+   strlcpy (its_single, msg, 200);
    return;
 }
 
@@ -636,7 +636,7 @@ void
 yLOG_sexit    (const char *a_func)
 {
    if (its_quiet) return;
-   strncat(its_single, ";;", 200);
+   strlcat (its_single, ";;", 200);
    yLOG__main('-', 's', its_single);
    return;
 }
@@ -647,7 +647,7 @@ yLOG_sexitr   (const char *a_func, const int a_rce)
    char  msg[200];
    if (its_quiet) return;
    snprintf(msg, 200, ", WARN %d;;", a_rce);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    yLOG__main('-', 'w', its_single);
    return;
 }
@@ -658,7 +658,7 @@ yLOG_snote    (const char *a_info)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, ", %s", a_info);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    return;
 }
 
@@ -668,7 +668,7 @@ yLOG_sint     (const int  a_value)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, ", %d", a_value);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    return;
 }
 
@@ -678,7 +678,7 @@ yLOG_sdouble  (const double  a_value)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, ", %.6lf", a_value);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    return;
 }
 
@@ -688,7 +688,7 @@ yLOG_shex     (const unsigned int  a_value)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, ", 0x%08x", a_value);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    return;
 }
 
@@ -698,7 +698,7 @@ yLOG_spoint   (const void *a_pointer)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, ", %p", a_pointer);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    return;
 }
 
@@ -708,7 +708,7 @@ yLOG_schar    (const char a_info)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, ", %c", a_info);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    return;
 }
 
@@ -718,7 +718,7 @@ yLOG_sinfo    (const char *a_subject, const char *a_info)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, ", %s=%s", a_subject, a_info);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    return;
 }
 
@@ -728,7 +728,7 @@ yLOG_svalue   (const char *a_subject, const int  a_value)
    if (its_quiet) return;
    char  msg[200];
    snprintf(msg, 200, ", %s=%d", a_subject, a_value);
-   strncat(its_single, msg, 200);
+   strlcat (its_single, msg, 200);
    return;
 }
 

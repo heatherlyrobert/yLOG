@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2l"
-#define   YLOG_VER_TXT      "added yLOG_sdouble, was missing and needed for yCALC"
+#define   YLOG_VER_NUM      "1.2m"
+#define   YLOG_VER_TXT      "switched all strncpy/strncat (overflow errors) to my ySTR functions"
 
 
 
