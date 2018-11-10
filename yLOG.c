@@ -14,6 +14,8 @@
 /*-> to support the 'uname' call to get machine and system names  */
 #include  <sys/utsname.h>
 
+#define     LEN_PREFIX       100
+
 #define           LOGDIR     "/var/log/yLOG/"
 #define           HISDIR     "/var/log/yLOG.historical/"
 #define           ROOTDIR    "/"
@@ -26,8 +28,7 @@ static char      its_core;            /* log core heatherly libraries or skip */
 llong            its_wall_start;      /* start wall msec time                 */
 static int       its_count;           /* message count                        */
 static int       its_indent;          /* level of indent (0 - 9)              */
-static char      its_prefix[100];     /* actual indent text (of spaces)       */
-static int       its_prelen;          /* length of prefix in characters       */
+static char      its_prefix [LEN_PREFIX];    /* actual indent text (of spaces)       */
 
 #define   MSG_LEN      200
 static char      _text      [MSG_LEN];
@@ -89,6 +90,23 @@ yLOG__timestamp(void)             /* PURPOSE : timestamp in milliseconds      */
    return tint;
 }
 
+static char
+ylog__prefix            (void)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         i           =    0;
+   /*---(standard prefix)----------------*/
+   strlcpy (its_prefix, "", LEN_PREFIX);
+   for (i = 0; i <  its_indent; ++i   )  strlcat (its_prefix, "Ï··", LEN_PREFIX);
+   /*---(add marks every third)----------*/
+   for (i = 2; i <  its_indent; i += 3)  its_prefix [i * 3] = '+';
+   /*---(clear just before entry)--------*/
+   its_prefix [its_indent * 3 - 1] = ' ';
+   its_prefix [its_indent * 3 - 2] = ' ';
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
 static void             /* PURPOSE : write a message to the log file          */
 yLOG__main(
       char     a_change,     /* type of change to indentation                 */
@@ -102,7 +120,7 @@ yLOG__main(
     *   - calls to log are done through specializers (this function is private)
     *   - the pCHG and pLVL standards are defined in the file header
     *=========================================================================*/
-   /*---(locals)-----------+-----------+-*/
+   /*---(locals)-----------+-----+-----+-*/
    llong       _wall;                            /* timestamp                 */
    /*---(first, defense)-----------------*/
    if (a_change != '<' && a_change != '>' && a_change != '-')
@@ -111,10 +129,7 @@ yLOG__main(
    /*---(exdent, if needed)--------------*/
    if (a_change == '<' && its_indent > 0) {
       its_indent--;
-      its_prelen -= 3;
-      strcpy(its_prefix, "");
-      int i;
-      for (i = 0; i < its_prelen; ++i) strcat(its_prefix, " ");
+      ylog__prefix ();
    }
    /*---(get wall time)----------------*/
    _wall  = yLOG__timestamp() - its_wall_start;
@@ -130,8 +145,7 @@ yLOG__main(
    /*---(indent, if needed)--------------*/
    if (a_change == '>') {
       its_indent++;
-      strcat(its_prefix, "   ");
-      its_prelen += 3;
+      ylog__prefix ();
    }
    /*---(complete)-----------------------*/
    return;
@@ -161,7 +175,6 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    /*---(initialize class variables)-----*/
    its_count  = 0;
    its_indent = 0;
-   its_prelen = 0;
    strcpy(its_prefix, "");
    /*---(get the date)-------------------*/
    time_date = time(NULL);

@@ -225,8 +225,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2m"
-#define   YLOG_VER_TXT      "switched all strncpy/strncat (overflow errors) to my ySTR functions"
+#define   YLOG_VER_NUM      "1.2n"
+#define   YLOG_VER_TXT      "changed prefix to have column markers"
 
 
 
