@@ -19,6 +19,7 @@
 #define           LOGDIR     "/var/log/yLOG/"
 #define           HISDIR     "/var/log/yLOG.historical/"
 #define           ROOTDIR    "/"
+#define           USBDIR     "/mnt/usb1/"
 
 typedef struct tm   tTIME;
 
@@ -161,16 +162,15 @@ static void      o___BOOKENDS________________o (void) {;}
 int        /*----: initialize logger and log header info ---------------------*/
 yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
 {
-   /*---(locals)-------------------------*/
-   time_t    time_date;
-   tTIME    *curr_time = NULL;
-   char      _prog[50] = "________________________________________________";
-   int       i    = 0;                       /* loop iterator                 */
-   char      _prefix[20];
-   char      _suffix[20];
+   /*---(locals)-----------+-----+-----+-*/
+   time_t      time_date;
+   tTIME      *curr_time   = NULL;
+   char        x_prog      [50] = "________________________________________________";
+   int         i           = 0;                       /* loop iterator                 */
+   char        x_prefix    [20];
    /*---(defense)------------------------*/
-   if (a_quiet == 0) its_quiet = a_quiet;
-   else              its_quiet = 1;
+   if (a_quiet == yLOG_QUIET) its_quiet = 1;
+   else                       its_quiet = 0;
    if (its_quiet) return 1;
    /*---(initialize class variables)-----*/
    its_count  = 0;
@@ -188,21 +188,22 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
          if ((  a_program[i] >= 'A' && a_program[i] <= 'Z') ||
                (a_program[i] >= 'a' && a_program[i] <= 'z') ||
                (a_program[i] >= '0' && a_program[i] <= '9')) {
-            _prog[i] = a_program[i];
+            x_prog[i] = a_program[i];
             continue;
          }
-         _prog[i] = '_';
+         x_prog[i] = '_';
       }
-      strftime(_prefix, 20, "%y.%m.%d.%H.%M.%S", curr_time);
-      strftime(_suffix, 20, "%U",                curr_time);
+      strftime (x_prefix, 20, "%y.%m.%d.%H.%M.%S", curr_time);
       if (a_location == yLOG_SYSTEM) {
-         snprintf(filename, 500, "%s%s.%-25.25s.%s.ulog", LOGDIR, _prefix, _prog, _suffix);
+         snprintf(filename, 500, "%s%s.%-25.25s.ulog", LOGDIR , x_prefix, x_prog);
       } else if (a_location == yLOG_HISTORICAL) {
-         snprintf(filename, 500, "%s%s.%-25.25s.%s.ulog", HISDIR, _prefix, _prog, _suffix);
+         snprintf(filename, 500, "%s%s.%-25.25s.ulog", HISDIR , x_prefix, x_prog);
       } else if (a_location == yLOG_ROOT      ) {
-         snprintf(filename, 500, "%s%s.%-25.25s.%s.ulog", ROOTDIR, _prefix, _prog, _suffix);
+         snprintf(filename, 500, "%s%s.%-25.25s.ulog", ROOTDIR, x_prefix, x_prog);
+      } else if (a_location == yLOG_USB) {
+         snprintf(filename, 500, "%s%s.%-25.25s.ulog", USBDIR , x_prefix, x_prog);
       } else {  /* default is personal log file */
-         snprintf(filename, 500, "%s/l_hlisda/%s.%-25.25s.%s.ulog", getenv("HOME"), _prefix, _prog, _suffix);
+         snprintf(filename, 500, "%s/l_hlisda/%s.%-25.25s.ulog", getenv("HOME"), x_prefix, x_prog);
       }
       its_log = fopen (filename, "w");
       if (its_log == NULL) {

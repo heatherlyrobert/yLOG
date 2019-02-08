@@ -4,7 +4,7 @@
 
 /*   focus         : (SA) system_admin
  *   niche         : (pm) program execution monitoring
- *   application   : yLOG
+ *   heritage      : clio-chrysafenios (muse of history, song, and poetry)
  *   purpose       : provide simple, consistent, clean process execution logging
  *
  *   base_system   : gnu/linux   (powerful, ubiquitous, technical, and hackable)
@@ -17,6 +17,16 @@
  *   priorities    : direct, simple, brief, vigorous, and lucid (h.w. fowler)
  *   end goal      : loosely coupled, strict interface, maintainable, portable)
  * 
+ */
+
+/*===[[ HERITAGE ]]===========================================================*/
+
+/*
+ *  
+ *   clio-chrysafenios (flowering) is the muse of history, often known as the
+ *   proclaimer.  she is typically shown with a open parchment scroll, book,
+ *   or set of tablets.
+ *
  */
 /*===[[ SUMMARY ]]============================================================*/
 
@@ -225,20 +235,22 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2n"
-#define   YLOG_VER_TXT      "changed prefix to have column markers"
+#define   YLOG_VER_NUM      "1.2o"
+#define   YLOG_VER_TXT      "added alternate logging locations"
 
 
 
 /*===[[ CONSTANTS ]]======================================*/
+#define   yLOG_NONE         '-'
 #define   yLOG_SYSTEM       's'
 #define   yLOG_HISTORICAL   'h'
 #define   yLOG_PERSONAL     'p'
 #define   yLOG_STDOUT       'o'
 #define   yLOG_ROOT         'r'
+#define   yLOG_USB          'u'
 
-#define   yLOG_NOISE        0
-#define   yLOG_QUIET        1
+#define   yLOG_NOISE        'N'
+#define   yLOG_QUIET        'Q'
 
 
 
