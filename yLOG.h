@@ -233,11 +233,7 @@
 
 
 
-/*===[[ VERSION ]]========================================*/
-/* rapidly evolving version number to aid with visual change confirmation     */
-#define   YLOG_VER_NUM      "1.2o"
-#define   YLOG_VER_TXT      "added alternate logging locations"
-
+#define   LOG_FD     99
 
 
 /*===[[ CONSTANTS ]]======================================*/

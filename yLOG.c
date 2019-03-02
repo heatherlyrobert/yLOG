@@ -1,25 +1,8 @@
-/*===[[ START ]]==============================================================*/
+/*============================[[ beg-of-code ]]===============================*/
 #include  "yLOG.h"
+#include  "yLOG_priv.h"
 
-#include  <stdio.h>
-#include  <stdlib.h>                  /* getenv()                            */
-#include  <string.h>
-#include  <ctype.h>
-#include  <time.h>              /* clock, time                                */
-#include  <sys/time.h>          /* gettimeofday                               */
-#include  <sys/unistd.h>        /* gethostname, getpid, getppid               */
-#include  <stdarg.h>                   /* va_arg                              */
-#include  <ySTR.h>
 
-/*-> to support the 'uname' call to get machine and system names  */
-#include  <sys/utsname.h>
-
-#define     LEN_PREFIX       100
-
-#define           LOGDIR     "/var/log/yLOG/"
-#define           HISDIR     "/var/log/yLOG.historical/"
-#define           ROOTDIR    "/"
-#define           USBDIR     "/mnt/usb1/"
 
 typedef struct tm   tTIME;
 
@@ -45,7 +28,6 @@ static char      filename   [500] = "stdout";
 static char      yLOG_ver [200] = "";
 
 
-
 /*====================------------------------------------====================*/
 /*===----                           utility                            ----===*/
 /*====================------------------------------------====================*/
@@ -64,7 +46,7 @@ yLOG_version       (void)
 #else
    strlcpy (t, "[unknown    ]", 15);
 #endif
-   snprintf (yLOG_ver, 100, "%s   %s : %s", t, YLOG_VER_NUM, YLOG_VER_TXT);
+   snprintf (yLOG_ver, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
    return yLOG_ver;
 }
 
@@ -166,8 +148,9 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    time_t      time_date;
    tTIME      *curr_time   = NULL;
    char        x_prog      [50] = "________________________________________________";
-   int         i           = 0;                       /* loop iterator                 */
+   int         i           =    0;
    char        x_prefix    [20];
+   int         x_fd        =    0;
    /*---(defense)------------------------*/
    if (a_quiet == yLOG_QUIET) its_quiet = 1;
    else                       its_quiet = 0;
@@ -205,7 +188,14 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
       } else {  /* default is personal log file */
          snprintf(filename, 500, "%s/l_hlisda/%s.%-25.25s.ulog", getenv("HOME"), x_prefix, x_prog);
       }
-      its_log = fopen (filename, "w");
+      x_fd    = open  (filename, O_WRONLY | O_CREAT | O_TRUNC);
+      if (x_fd < 0) {
+         printf ("FATAL, can not open logger\n");
+         return -1;
+      }
+      dup2 (x_fd, LOG_FD);
+      close (x_fd);
+      its_log = fdopen (LOG_FD, "w");
       if (its_log == NULL) {
          printf ("FATAL, can not open logger\n");
          return -1;
