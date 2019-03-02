@@ -23,8 +23,8 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2q"
-#define     P_VERTXT    "divided code into files for simplicity, created new header"
+#define     P_VERNUM    "1.2r"
+#define     P_VERTXT    "unit tested prefix and main, added some defense"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -85,6 +85,7 @@
 #include  <sys/unistd.h>        /* gethostname, getpid, getppid               */
 #include  <stdarg.h>                   /* va_arg                              */
 #include  <ySTR.h>
+#include  <yURG.h>
 
 /*-> to support the 'uname' call to get machine and system names  */
 #include  <sys/utsname.h>
@@ -95,6 +96,37 @@
 #define           ROOTDIR    "/"
 #define           USBDIR     "/mnt/usb1/"
 
+
+/*===[[ STANDARDS ]]===============================================#
+/*---(indentation)----------------------*/
+#define           LVL_BEG         '>'    /* indent, beg of function           */
+#define           LVL_SAME        '-'    /* level stays the same, content     */
+#define           LVL_END         '<'    /* exdent, end of function           */
+/*---(mortal, dangerous)----------------*/
+#define           TYPE_NUCLEAR    'n'    /* fatal, non-graceful, system-wide  */
+#define           TYPE_CLUMSY     'c'    /* fatal, non-graceful, local        */     */
+#define           TYPE_GRACEFUL   'g'    /* fatal, graceful, handlable        */
+/*---(debugging)------------------------*/
+#define           TYPE_ERROR      'e'    /* difficult, but recoverable        */
+#define           TYPE_WARNING    'w'    /* handled, easily recoverable       */
+#define           TYPE_UPDATE     'u'    /* new data or versions              */
+/*---(review)---------------------------*/
+#define           TYPE_DEBUG      'd'    /* temp checkpoint or data           */
+#define           TYPE_UNITTEST   't'    /* unit testing framework            */
+/*---(context)--------------------------*/
+#define           TYPE_MARK       'm'    /* mark, sync point, tag             */
+#define           TYPE_INFO       'i'    /* norml data and checkpoints        */
+#define           TYPE_STRUCT     's'    /* entering and exiting routines     */
+/*---(call-back)------------------------*/
+#define           TYPE_CALLBACK   'x'    /* asyncronous endpoints             */
+/*---(validators)-----------------------*/
+#define           LVL_VALID       "<->"
+#define           TYPE_VALID      "ncgewudtmisx"
+#define           LVL_UNKNOWN     '?'
+#define           TYPE_UNKNOWN    '?'
+/*---(done)-----------------------------*/
+
+
 typedef struct tm   tTIME;
 
 
@@ -102,6 +134,7 @@ typedef    struct  cITS  tITS;
 struct cITS {
    char        prog        [LEN_TITLE];     /* calling program name           */
    FILE       *logger;                      /* file to receive messages       */
+   char        full        [LEN_RECD];      /* full message to be written     */
    char        core;                        /* log core heatherly libraries   */
    llong       wall_start;                  /* start wall msec time           */
    int         count;                       /* message count                  */
@@ -116,5 +149,14 @@ struct cITS {
 };
 extern  tITS  its;
 
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+llong       ylog__timestamp         (void);
+char        ylog__prefix            (void);
+void        ylog__main              (char a_change, char a_level, char *a_message);
+
+char        ylog__unit_quiet        (void);
+char        ylog__unit_loud         (void);
+char        ylog__unit_end          (void);
+char*       ylog_base__unit         (char *a_question, int a_num);
 
 #endif

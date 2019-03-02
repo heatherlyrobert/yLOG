@@ -24,7 +24,7 @@ yLOG_sexit    (const char *a_func)
 {
    if (its.quiet) return;
    strlcat (its.single, ";;", 200);
-   yLOG__main('-', 's', its.single);
+   ylog__main (LVL_SAME, TYPE_STRUCT, its.single);
    return;
 }
 
@@ -35,7 +35,7 @@ yLOG_sexitr   (const char *a_func, const int a_rce)
    if (its.quiet) return;
    snprintf(msg, 200, ", WARN %d;;", a_rce);
    strlcat (its.single, msg, 200);
-   yLOG__main('-', 'w', its.single);
+   ylog__main (LVL_SAME, TYPE_WARNING, its.single);
    return;
 }
 

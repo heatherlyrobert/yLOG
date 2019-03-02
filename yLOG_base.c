@@ -1,8 +1,8 @@
 /*============================[[ beg-of-code ]]===============================*/
-#include  "yLOG.h"
-#include  "yLOG_priv.h"
+#include    "yLOG.h"
+#include    "yLOG_priv.h"
 
-extern  tITS  its;
+tITS        its;
 
 
 
@@ -39,8 +39,8 @@ yLOG_version       (void)
 /*====================------------------------------------====================*/
 static void      o___DRIVERS_________________o (void) {;}
 
-llong
-yLOG__timestamp(void)             /* PURPOSE : timestamp in milliseconds      */
+llong             /* PURPOSE : timestamp in milliseconds      */
+ylog__timestamp         (void)
 {
    /* second
     * millisecond  ms  0.001 sec
@@ -56,25 +56,30 @@ yLOG__timestamp(void)             /* PURPOSE : timestamp in milliseconds      */
    return tint;
 }
 
-static char
+char
 ylog__prefix            (void)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;
+   /*---(rational limits)----------------*/
+   if (its.indent <  0)  its.indent = 0;
+   if (its.indent > 30)  its.indent = 30;
    /*---(standard prefix)----------------*/
    strlcpy (its.prefix, "", LEN_HUND);
    for (i = 0; i <  its.indent; ++i   )  strlcat (its.prefix, "Ï··", LEN_HUND);
    /*---(add marks every third)----------*/
    for (i = 2; i <  its.indent; i += 3)  its.prefix [i * 3] = '+';
    /*---(clear just before entry)--------*/
-   its.prefix [its.indent * 3 - 1] = ' ';
-   its.prefix [its.indent * 3 - 2] = ' ';
+   if (its.indent > 0) {
+      its.prefix [its.indent * 3 - 1] = ' ';
+      its.prefix [its.indent * 3 - 2] = ' ';
+   }
    /*---(complete)-----------------------*/
    return 0;
 }
 
-static void             /* PURPOSE : write a message to the log file          */
-yLOG__main(
+void             /* PURPOSE : write a message to the log file          */
+ylog__main(
       char     a_change,     /* type of change to indentation                 */
       char     a_level,      /* type of message                               */
       char    *a_message)    /* actual message text                           */
@@ -89,25 +94,26 @@ yLOG__main(
    /*---(locals)-----------+-----+-----+-*/
    llong       _wall;                            /* timestamp                 */
    /*---(first, defense)-----------------*/
-   if (a_change != '<' && a_change != '>' && a_change != '-')
-      a_change = '?';
-   /*> if (strchr ("sixt>", a_level) == NULL)  a_level  = '?';                        <*/
+   if (a_change == 0 || strchr (LVL_VALID , a_change) == NULL)   a_change = LVL_UNKNOWN;
+   if (a_level  == 0 || strchr (TYPE_VALID, a_level ) == NULL)   a_level  = TYPE_UNKNOWN;
    /*---(exdent, if needed)--------------*/
    if (a_change == '<' && its.indent > 0) {
       its.indent--;
       ylog__prefix ();
    }
    /*---(get wall time)----------------*/
-   _wall  = yLOG__timestamp() - its.wall_start;
+   _wall  = ylog__timestamp() - its.wall_start;
    /*---(update count)-------------------*/
    its.count++;
-   /*---(log)----------------------------*/
-   /*> fprintf(its.logger, "%8lld %4d [%c] %s%s\n", _wall % 100000000,                   <* 
-    *>       its.count % 10000, a_level, its.prefix, a_message);                      <*/
-   fprintf(its.logger, "%7lld.%03lld %6d [%c] %s%s\n",
+   /*---(message)------------------------*/
+   sprintf (its.full, "%7lld.%03lld %6d [%c] %s%s",
          (_wall / 1000) % 10000000, _wall % 1000,
          its.count % 1000000, a_level, its.prefix, a_message);
-   fflush(its.logger);
+   /*---(log)----------------------------*/
+   if (its.logger != NULL) {
+      fprintf (its.logger, "%s\n", its.full);
+      fflush  (its.logger);
+   }
    /*---(indent, if needed)--------------*/
    if (a_change == '>') {
       its.indent++;
@@ -126,7 +132,7 @@ static void      o___ACCESSORS_______________o (void) {;}
 
 int   yLOG_lognum   (void) { return fileno (its.logger); }
 
-llong yLOG_time     (void) { return yLOG__timestamp(); }
+llong yLOG_time     (void) { return ylog__timestamp(); }
 
 
 
@@ -200,7 +206,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    }
    strlcpy (its.prog, a_program, 29);
    /*---(get wall time)------------------*/
-   its.wall_start = yLOG__timestamp();
+   its.wall_start = ylog__timestamp();
    /*---(display)------------------------*/
    fprintf(its.logger, "heatherly program logger================================================begin===\n");
    gethostname(t, LEN_DESC);
@@ -228,7 +234,7 @@ yLOG_end      (void)
    time_t      time_date = time(NULL);
    struct tm*  curr_time = localtime(&time_date);
    /*---(get wall time)----------------*/
-   llong _wall = yLOG__timestamp();
+   llong _wall = ylog__timestamp();
    long  _elap = _wall - its.wall_start;
    long  _sec  = _elap / 1000;
    long  _hrs  = _sec / 3600;
@@ -247,6 +253,58 @@ yLOG_end      (void)
    fclose (its.logger);
    its.quiet = 1;
    return;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                         unit testing                         ----===*/
+/*====================------------------------------------====================*/
+static void      o___UNITTEST________________o (void) {;};
+
+char          unit_answer [LEN_RECD];
+
+char       /*----: set up program urgents/debugging --------------------------*/
+ylog__unit_quiet       (void)
+{
+   yLOG_begin ("yLOG", yLOG_SYSTEM, yLOG_QUIET);
+   return 0;
+}
+
+char       /*----: set up program urgents/debugging --------------------------*/
+ylog__unit_loud        (void)
+{
+   yLOG_begin   ("yLOG_unit", yLOG_SYSTEM, yLOG_NOISE);
+   /*> DEBUG_YLOGS  yLOG_info     ("yLOG"      , yLOG_version   ());                  <*/
+   return 0;
+}
+
+char       /*----: stop logging ----------------------------------------------*/
+ylog__unit_end         (void)
+{
+   yLOG_end     ();
+   return 0;
+}
+
+char*            /*--> unit test accessor ------------------------------*/
+ylog_base__unit         (char *a_question, int a_num)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        t           [LEN_RECD]  = "[]";
+   int         c           =    0;
+   /*---(prepare)------------------------*/
+   strncpy  (unit_answer, "BASE             : question not understood", LEN_RECD);
+   /*---(crontab name)-------------------*/
+   if      (strcmp (a_question, "prefix"     ) == 0) {
+      sprintf (t, "[%s]", its.prefix);
+      snprintf (unit_answer, LEN_RECD, "BASE prefix      : %2d  %2d%s", its.indent, strlen (its.prefix), t);
+   }
+   else if (strcmp (a_question, "full"       ) == 0) {
+      sprintf (t, "[%s]", its.full);
+      snprintf (unit_answer, LEN_RECD, "BASE full        : %2d%s", strlen (its.full), t);
+   }
+   /*---(complete)-----------------------*/
+   return unit_answer;
 }
 
 

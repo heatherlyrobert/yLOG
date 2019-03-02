@@ -24,7 +24,7 @@ yLOG_hintx         (cchar *a_file, cint a_line, char *a_reason, cchar *a_format,
    if (!its.quiet) {
       vsnprintf (x_format, 190, a_format, args);
       sprintf   (its.msg, "HINT      : %s", x_format);
-      yLOG__main('-', 'w', its.msg);
+      ylog__main (LVL_SAME, TYPE_WARNING, its.msg);
    }
    /*---(complete)-----------------------*/
    va_end    (args);
@@ -36,7 +36,7 @@ yLOG_warn          (const char *a_item,    const char *a_issue)
 {
    if (its.quiet) return;
    sprintf(its.msg, "WARNING   : (%.15s) %.45s", a_item, a_issue);
-   yLOG__main('-', 'w', its.msg);
+   ylog__main (LVL_SAME, TYPE_WARNING, its.msg);
    return;
 }
 
@@ -55,7 +55,7 @@ yLOG_warnx         (cchar *a_file, cint a_line, char *a_reason, cchar *a_format,
    /*> if (!its.quiet) {                                                              <* 
     *>    vsnprintf (x_format, 190, a_format, args);                                  <* 
     *>    sprintf   (its.msg, "WARNING   : %s", x_format);                            <* 
-    *>    yLOG__main('-', 'w', its.msg);                                              <* 
+    *>    ylog__main (LVL_SAME, TYPE_WARNING, its.msg);                                              <* 
     *> }                                                                              <*/
    /*---(complete)-----------------------*/
    va_end    (args);
@@ -67,7 +67,7 @@ yLOG_error    (const char *a_item,    const char *a_issue)
 {
    if (its.quiet) return;
    sprintf(its.msg, "ERROR     : (%.15s) %.45s", a_item, a_issue);
-   yLOG__main('-', 'e', its.msg);
+   ylog__main (LVL_SAME, TYPE_ERROR, its.msg);
    return;
 }
 
@@ -86,7 +86,7 @@ yLOG_errorx        (cchar *a_file, cint a_line, char *a_reason, cchar *a_format,
    if (!its.quiet) {
       vsnprintf (x_format, 190, a_format, args);
       sprintf   (its.msg, "ERROR     : %s", x_format);
-      yLOG__main('-', 'w', its.msg);
+      ylog__main (LVL_SAME, TYPE_ERROR, its.msg);
    }
    /*---(complete)-----------------------*/
    va_end    (args);
@@ -98,7 +98,7 @@ yLOG_fatal    (const char *a_item,    const char *a_issue)
 {
    if (its.quiet) return;
    sprintf(its.msg, "FATAL     : (%.15s) %.45s", a_item, a_issue);
-   yLOG__main('-', 'g', its.msg);
+   ylog__main (LVL_SAME, TYPE_GRACEFUL, its.msg);
    return;
 }
 
@@ -118,7 +118,7 @@ yLOG_fatalx        (cchar *a_file, cint a_line, char *a_reason, cchar *a_format,
       vsnprintf (x_format, 190, a_format, args);
       x_format [190] = '\0';
       sprintf   (its.msg, "FATAL     : %s", x_format);
-      yLOG__main('-', 'w', its.msg);
+      ylog__main (LVL_SAME, TYPE_GRACEFUL, its.msg);
    }
    /*---(complete)-----------------------*/
    va_end    (args);
