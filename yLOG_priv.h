@@ -23,8 +23,8 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2p"
-#define     P_VERTXT    "moved logger to fd 99 as a new standard"
+#define     P_VERNUM    "1.2q"
+#define     P_VERTXT    "divided code into files for simplicity, created new header"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -89,13 +89,32 @@
 /*-> to support the 'uname' call to get machine and system names  */
 #include  <sys/utsname.h>
 
-#define     LEN_PREFIX       100
 
 #define           LOGDIR     "/var/log/yLOG/"
 #define           HISDIR     "/var/log/yLOG.historical/"
 #define           ROOTDIR    "/"
 #define           USBDIR     "/mnt/usb1/"
 
+typedef struct tm   tTIME;
+
+
+typedef    struct  cITS  tITS;
+struct cITS {
+   char        prog        [LEN_TITLE];     /* calling program name           */
+   FILE       *logger;                      /* file to receive messages       */
+   char        core;                        /* log core heatherly libraries   */
+   llong       wall_start;                  /* start wall msec time           */
+   int         count;                       /* message count                  */
+   int         indent;                      /* level of indent (0 - 9)        */
+   char        prefix      [LEN_HUND];      /* actual indent text (of spaces) */
+   char        msg         [LEN_PATH];      /* full message to log            */
+   char        single      [LEN_PATH];      /* short form cum message         */
+   char        quiet;
+   int         nsyncs;                      /* count of sync calls            */
+   char        filename    [LEN_PATH];
+   char        version     [LEN_HUND];
+};
+extern  tITS  its;
 
 
 #endif

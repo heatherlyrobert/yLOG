@@ -1,40 +1,4 @@
 /*============================[[    beg-code    ]]============================*/
-
-/*===[[ HEADER ]]=============================================================*/
-
-/*   focus         : (SA) system_admin
- *   niche         : (pm) program execution monitoring
- *   heritage      : clio-chrysafenios (muse of history, song, and poetry)
- *   purpose       : provide simple, consistent, clean process execution logging
- *
- *   base_system   : gnu/linux   (powerful, ubiquitous, technical, and hackable)
- *   lang_name     : ansi-c      (wicked, limitless, universal, and everlasting)
- *   dependencies  : none
- *   size          : tiny        (less than 500 slocL)
- * 
- *   author        : rsheatherly
- *   created       : 2008-07
- *   priorities    : direct, simple, brief, vigorous, and lucid (h.w. fowler)
- *   end goal      : loosely coupled, strict interface, maintainable, portable)
- * 
- */
-
-/*===[[ HERITAGE ]]===========================================================*/
-
-/*
- *  
- *   clio-chrysafenios (flowering) is the muse of history, often known as the
- *   proclaimer.  she is typically shown with a open parchment scroll, book,
- *   or set of tablets.
- *
- */
-/*===[[ SUMMARY ]]============================================================*/
-
-/*   yLOG is a simple, direct, consistent, and clean shared library to enable
- *   process execution logging and encourge monitoring, process flow
- *   understanding, and early issue detection in my custom programs.
- *
- */
 /*===[[ PURPOSE ]]============================================================*/
 
 /*   yLOG is a simple, direct, and lucid strategy for logging program activities
