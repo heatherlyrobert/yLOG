@@ -23,8 +23,8 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2r"
-#define     P_VERTXT    "unit tested prefix and main, added some defense"
+#define     P_VERNUM    "1.2s"
+#define     P_VERTXT    "unit tested all long message types, except va_args/complex"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -68,6 +68,19 @@
  "-- make can filter out to produce both debug and production versions¦" \
  "-- all messages are categorized, indented, and include timestamps¦" \
  "-- will log onto a ram-drive for speed (/var/yLOG)¦"
+
+/*
+ *  all intenting is by threes (no configuration so the eyes standardize)
+ *  timestamps and counts are perfectly aligned to avoid eye tracking issues
+ *  message types are always in same column to help sorting and filtering
+ *  indentation includes markers to help line up top-to-bottom
+ *  all data titles are 10 characters so everything lines up perfect
+ *
+ *
+ *
+ *
+ *
+ */
 
 
 
@@ -146,6 +159,8 @@ struct cITS {
    int         nsyncs;                      /* count of sync calls            */
    char        filename    [LEN_PATH];
    char        version     [LEN_HUND];
+   char        title       [LEN_LABEL];     /* title for messages             */
+   char        data        [LEN_FULL];      /* string for messages            */
 };
 extern  tITS  its;
 

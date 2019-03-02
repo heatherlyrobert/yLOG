@@ -208,6 +208,7 @@
 #define   yLOG_STDOUT       'o'
 #define   yLOG_ROOT         'r'
 #define   yLOG_USB          'u'
+#define   yLOG_NULL         '0'
 
 #define   yLOG_NOISE        'N'
 #define   yLOG_QUIET        'Q'
@@ -243,7 +244,7 @@ void        yLOG_info          (const char *a_subject, const char    *a_info);
 void        yLOG_delim         (const char *a_subject, const char    *a_info);
 void        yLOG_value         (const char *a_subject, const int      a_value);
 void        yLOG_llong         (const char *a_subject, const llong    a_value);
-void        yLOG_hex           (const char *a_subject, const int      a_value);
+void        yLOG_hex           (const char *a_subject, const long     a_value);
 void        yLOG_double        (const char *a_subject, const double   a_value);
 void        yLOG_char          (const char *a_subject, const char     a_char);
 void        yLOG_point         (const char *a_subject, const void    *a_value);

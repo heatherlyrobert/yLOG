@@ -92,7 +92,7 @@ ylog__main(
     *   - the pCHG and pLVL standards are defined in the file header
     *=========================================================================*/
    /*---(locals)-----------+-----+-----+-*/
-   llong       _wall;                            /* timestamp                 */
+   llong       x_wall;                            /* timestamp                 */
    /*---(first, defense)-----------------*/
    if (a_change == 0 || strchr (LVL_VALID , a_change) == NULL)   a_change = LVL_UNKNOWN;
    if (a_level  == 0 || strchr (TYPE_VALID, a_level ) == NULL)   a_level  = TYPE_UNKNOWN;
@@ -102,12 +102,12 @@ ylog__main(
       ylog__prefix ();
    }
    /*---(get wall time)----------------*/
-   _wall  = ylog__timestamp() - its.wall_start;
+   x_wall  = ylog__timestamp() - its.wall_start;
    /*---(update count)-------------------*/
    its.count++;
    /*---(message)------------------------*/
    sprintf (its.full, "%7lld.%03lld %6d [%c] %s%s",
-         (_wall / 1000) % 10000000, _wall % 1000,
+         (x_wall / 1000) % 10000000, x_wall % 1000,
          its.count % 1000000, a_level, its.prefix, a_message);
    /*---(log)----------------------------*/
    if (its.logger != NULL) {
@@ -152,16 +152,17 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    char        x_prefix    [20];
    int         x_fd        =    0;
    char        t           [LEN_DESC];
+   /*---(initialize class variables)-----*/
+   strcpy (its.filename, "stdout");
+   its.logger = NULL;
+   its.nsyncs = 0;
+   its.count  = 0;
+   its.indent = 0;
+   strcpy (its.prefix, "");
    /*---(defense)------------------------*/
    if (a_quiet == yLOG_QUIET) its.quiet = 1;
    else                       its.quiet = 0;
    if (its.quiet) return 1;
-   /*---(initialize class variables)-----*/
-   strcpy (its.filename, "stdout");
-   its.nsyncs = 0;
-   its.count  = 0;
-   its.indent = 0;
-   strcpy(its.prefix, "");
    /*---(get the date)-------------------*/
    time_date = time(NULL);
    curr_time = localtime(&time_date);
@@ -188,6 +189,8 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
          snprintf(its.filename, 500, "%s%s.%-25.25s.ulog", ROOTDIR, x_prefix, x_prog);
       } else if (a_location == yLOG_USB) {
          snprintf(its.filename, 500, "%s%s.%-25.25s.ulog", USBDIR , x_prefix, x_prog);
+      } else if (a_location == yLOG_NULL) {
+         snprintf(its.filename, 500, "/dev/null");
       } else {  /* default is personal log file */
          snprintf(its.filename, 500, "%s/l_hlisda/%s.%-25.25s.ulog", getenv("HOME"), x_prefix, x_prog);
       }
@@ -229,7 +232,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
 void                    /* PURPOSE : log footer and close logger              */
 yLOG_end      (void)
 {
-   if (its.quiet) return;
+   if (its.logger == NULL) return;
    /*---(get the date)---------------------------*/
    time_t      time_date = time(NULL);
    struct tm*  curr_time = localtime(&time_date);
