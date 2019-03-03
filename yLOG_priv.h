@@ -23,8 +23,8 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2s"
-#define     P_VERTXT    "unit tested all long message types, except va_args/complex"
+#define     P_VERNUM    "1.2t"
+#define     P_VERTXT    "all shorts unit tested and fixed up, more defensive"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -159,8 +159,9 @@ struct cITS {
    int         nsyncs;                      /* count of sync calls            */
    char        filename    [LEN_PATH];
    char        version     [LEN_HUND];
-   char        title       [LEN_LABEL];     /* title for messages             */
+   char        title       [LEN_FULL];      /* title for messages             */
    char        data        [LEN_FULL];      /* string for messages            */
+   char        temp        [LEN_FULL];      /* string for short working area  */
 };
 extern  tITS  its;
 
@@ -168,6 +169,10 @@ extern  tITS  its;
 llong       ylog__timestamp         (void);
 char        ylog__prefix            (void);
 void        ylog__main              (char a_change, char a_level, char *a_message);
+
+char*       ylog_title              (const char *a_title);
+char*       ylog_data               (const char *a_data);
+char*       ylog_terse              (const char *a_data);
 
 char        ylog__unit_quiet        (void);
 char        ylog__unit_loud         (void);

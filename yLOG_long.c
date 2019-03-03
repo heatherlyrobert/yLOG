@@ -4,6 +4,39 @@
 
 
 
+/*====================------------------------------------====================*/
+/*===----                       helper functions                       ----===*/
+/*====================------------------------------------====================*/
+static void      o___HELPERS_________________o (void) {;}
+
+char*        /*--> defense for bad titles in longs ---------------------------*/
+ylog_title         (const char *a_title)
+{
+   if (a_title == NULL)              strlcpy (its.title, "¢null?"  , LEN_FULL);
+   else if (strlen (a_title) <= 0)   strlcpy (its.title, "¢empty?" , LEN_FULL);
+   else                              strlcpy (its.title, a_title   , LEN_FULL);
+   return its.title;
+}
+
+char*        /*--> defense for bad data in longs -----------------------------*/
+ylog_data          (const char *a_data)
+{
+   if (a_data == NULL)               strlcpy (its.data , "¢ data was null ?" , LEN_FULL);
+   else if (strlen (a_data) <= 0)    strlcpy (its.data , "¢ data was empty ?", LEN_FULL);
+   else                              strlcpy (its.data , a_data              , LEN_FULL);
+   return its.data;
+}
+
+char*        /*--> defense for bad data in shorts ----------------------------*/
+ylog_terse         (const char *a_data)
+{
+   if (a_data == NULL)               strlcpy (its.data , "¢null?"  , LEN_FULL);
+   else if (strlen (a_data) <= 0)    strlcpy (its.data , "¢empty?" , LEN_FULL);
+   else                              strlcpy (its.data , a_data   , LEN_FULL);
+   return its.data;
+}
+
+
 
 /*====================------------------------------------====================*/
 /*===----                          structure                           ----===*/
@@ -14,7 +47,7 @@ void
 yLOG_enter    (const char *a_func)
 {
    if (its.quiet) return;
-   snprintf (its.msg, LEN_PATH, "ENTERING (%.30s)", a_func);
+   snprintf (its.msg, LEN_PATH, "ENTERING (%.30s)", ylog_title (a_func));
    ylog__main (LVL_BEG , TYPE_STRUCT, its.msg);
    return;
 }
@@ -23,7 +56,7 @@ void
 yLOG_exit     (const char *a_func)
 {
    if (its.quiet) return;
-   snprintf (its.msg, LEN_PATH, "EXITING  (%.30s)", a_func);
+   snprintf (its.msg, LEN_PATH, "EXITING  (%.30s)", ylog_title (a_func));
    ylog__main (LVL_END , TYPE_STRUCT, its.msg);
    return;
 }
@@ -34,34 +67,9 @@ yLOG_exitr    (const char *a_func, const int a_rce)
    if (its.quiet) return;
    snprintf (its.msg, LEN_PATH, "WARNING, rce (%d)", a_rce);
    ylog__main (LVL_SAME, TYPE_WARNING, its.msg);
-   snprintf (its.msg, LEN_PATH, "EXITING  (%.30s)", a_func);
+   snprintf (its.msg, LEN_PATH, "EXITING  (%.30s)", ylog_title (a_func));
    ylog__main (LVL_END , TYPE_STRUCT, its.msg);
    return;
-}
-
-
-
-/*====================------------------------------------====================*/
-/*===----                       helper functions                       ----===*/
-/*====================------------------------------------====================*/
-static void      o___HELPERS_________________o (void) {;}
-
-char*
-ylog_title         (const char *a_title)
-{
-   if (a_title == NULL)              strlcpy (its.title, "¢null?"  , LEN_LABEL);
-   else if (strlen (a_title) <= 0)   strlcpy (its.title, "¢empty?" , LEN_LABEL);
-   else                              strlcpy (its.title, a_title   , LEN_LABEL);
-   return its.title;
-}
-
-char*
-ylog_data          (const char *a_data)
-{
-   if (a_data == NULL)               strlcpy  (its.data, "¢ data was null ?" , LEN_FULL);
-   else if (strlen (a_data) <= 0)    strlcpy  (its.data, "¢ data was empty ?", LEN_FULL);
-   else                              strlcpy  (its.data, a_data              , LEN_FULL);
-   return its.data;
 }
 
 
