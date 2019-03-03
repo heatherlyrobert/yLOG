@@ -4,12 +4,11 @@
 
 
 
-/*===[[ HEADER ]]=============================================================*/
-/*345678901-12345678901-123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*===[[ BEG_HEADER ]]=========================================================*/
 
 #define     P_FOCUS     "SA (system administration)"
 #define     P_NICHE     "pm (process monitoring)"
-#define     P_PURPOSE   "simple, consistent, clean process execution logging"
+#define     P_PURPOSE   "simple, automated, consistent process execution logging"
 
 #define     P_NAMESAKE  "clio-chrysafenios (flowering)"
 #define     P_HERITAGE  "greek muse of written and oral history, song, and poetry"
@@ -23,8 +22,8 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2w"
-#define     P_VERTXT    "rewrote the man (3) page to be cleaner and clearer"
+#define     P_VERNUM    "1.2x"
+#define     P_VERTXT    "integrated best strategy comments into new-style header"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -38,49 +37,59 @@
  "of written and oral history, song, and poetry.  she is typically shown¦" \
  "holding a scroll and near a chest of books or tablets.¦"
 
-/*345678901-12345678901-123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
-
-#define     P_SUMMARY   \
- "yLOG is a simple, direct, consistent, and clean shared library to enable¦" \
- "process execution logging and encourge monitoring, process flow¦" \
- "understanding, and early issue detection in my custom programs.¦
+#define     P_DEFINE    \
+ "process execution logging is a method for process self-journalling in order¦" \
+ "to gain insight into status, internal settings, execution paths, function¦" \
+ "sequencing, and duration/timing.¦"
 #define     P_CURRENT   \
  "my code base is growing quickly and much of that code executes either¦" \
  "continuously, frequently, or at critical moments -- big code base,¦" \
  "audacious plans, and one programmer to rule it all ;)¦"
-#define     P_ALTERNS   "syslog,systemd,printf,gdb"
 #define     P_CONCERN   \
  "the art of logging and messaging seems to have died with the system¦" \
  "operator and is now done using expensive commercial tools with incoherent¦" \
- "streams of one dimensional messages.¦"
+ "streams of one dimensional, ad-hoc messages.¦"
+#define     P_ALTERNS   "syslog, systemd, printf, gdb"
+#define     P_VALUE     \
+ "process logging is a rapid way to diagnose process issues.  it is a huge¦" \
+ "time saver in build/testing, recreating prodution issues, and regaining¦" \
+ "logic/flow knowledge.  saves a lot of debugger time.¦"
 #define     P_USERBASE  \
  "never confuse tailored, technical, super-user systems and general, easy-¦" \
  "to-use, zero effort required systems built to get end-users up and happy¦" \
  "as quickly as possible.¦"
-#define     P_COURSE    \
+#define     P_NEED      \
  "i need something configurable, built-in, and ready for immediate use.  it¦" \
  "must include structure/flow logging as well as values, contents, and¦" \
  "warning messages and be easy to search and filter.¦"
-#define     P_ASSUME    \
- "-- create a standard, indented flow that is easy to follow¦" \
- "-- partners with yURG to allow up front and run-time configuration¦" \
- "-- easy to build into any c program and improve overtime¦" \
- "-- make can filter out to produce both debug and production versions¦" \
- "-- all messages are categorized, indented, and include timestamps¦" \
- "-- will log onto a ram-drive for speed (/var/yLOG)¦"
+#define     P_SUMMARY   \
+ "yLOG is a simple, direct, consistent, and clean shared library to enable¦" \
+ "process execution logging and encourge monitoring, process flow¦" \
+ "understanding, and early issue detection in my custom programs.¦
+#define     P_OBJECTIVE \
+ "a) allow programs to be observed without significantly altering them¦" \
+ "b) provide a forensic trail for programs to aid reproduction of issues¦" \
+ "c) keep it simple so that it does not require huge learning curve¦" \
+ "d) cleanly incorporated so it can remain permenantly in source code¦" \
+ "e) maximize reuse so i don't have to recreate each time¦" \
+ "f) standardize so data can be scanned quickly and troubles found fast¦" \
+ "g) easy and automatic to remove so as to not hamper production¦" \
+ "h) allows programmers to see the true program execution  path¦" \
+ "i) cut significant time from tracing, debugging, and maintaining¦" \
+ "j) speed education of new maintainers and unit testers (watch flow)¦" \
+ "k) re-enforce a disciplined development culture and building-to-last¦" \
+ "l) avoid a product that will require me to switch every few years¦"
+#define     P_WARNINGS  \
+ "a) logging eats up cpu, disk, and other resources¦" \
+ "b) is rarely reviewed (only because existing methods are complicated)¦" \
+ "c) can distract when nothing needs to be reviewed (configurable)¦" \
+ "d) is one more thing that can go wrong (always funny)¦" \
+ "e) must be very different for high volume apps¦" \
+ "f) has to be built ahead of time and therefore can slow projects¦" \
+ "g) since its shared, changes can effect all programs¦" \
+ "h) drives a single method of thinking (myopia requires self-review)¦"
 
-/*
- *  all intenting is by threes (no configuration so the eyes standardize)
- *  timestamps and counts are perfectly aligned to avoid eye tracking issues
- *  message types are always in same column to help sorting and filtering
- *  indentation includes markers to help line up top-to-bottom
- *  all data titles are 10 characters so everything lines up perfect
- *
- *
- *
- *
- *
- */
+/*===[[ END_HEADER ]]=========================================================*/
 
 
 
@@ -148,7 +157,6 @@ typedef struct tm   tTIME;
 typedef    struct  cITS  tITS;
 struct cITS {
    char        loud;  
-   char        quiet;
    char        prog        [LEN_TITLE];     /* calling program name           */
    FILE       *logger;                      /* file to receive messages       */
    char        full        [LEN_RECD];      /* full message to be written     */
