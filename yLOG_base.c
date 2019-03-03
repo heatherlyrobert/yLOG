@@ -141,7 +141,7 @@ llong yLOG_time     (void) { return ylog__timestamp(); }
 /*====================------------------------------------====================*/
 static void      o___BOOKENDS________________o (void) {;}
 
-int        /*----: initialize logger and log header info ---------------------*/
+char       /*----: initialize logger and log header info ---------------------*/
 yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
 {
    /*---(locals)-----------+-----+-----+-*/
@@ -162,7 +162,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    /*---(defense)------------------------*/
    if (a_quiet == yLOG_NOISE) its.loud  = 'y';
    else                       its.loud  = '-';
-   if (RUN_QUIET)  return 1;
+   if (RUN_QUIET)  return 0;
    /*---(get the date)-------------------*/
    time_date = time(NULL);
    curr_time = localtime(&time_date);
@@ -206,7 +206,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
       if (its.logger == NULL) {
          its.loud  = '-';
          printf ("FATAL, can not open logger\n");
-         return -1;
+         return -2;
       }
    }
    strlcpy (its.prog, a_program, 29);
@@ -228,7 +228,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    fprintf(its.logger, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
    yLOG_note("logger loaded");
    /*---(complete)-----------------------*/
-   return fileno (its.logger);
+   return 0;
 }
 
 void                    /* PURPOSE : log footer and close logger              */

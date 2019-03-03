@@ -231,11 +231,12 @@ typedef   const int    cint;
 
 
 /*===[[ PUBLIC FUNCTIONS ]]===============================*/
-/*---(overall (4))----------*/
-char       *yLOG_version       (void);
-int         yLOG_begin         (const char *a_program, const char a_location, const char a_quiet);
-int         yLOG_lognum        (void);
+/*---(program)--------------*/
+char        yLOG_begin         (const char *a_program, const char a_location, const char a_quiet);
 void        yLOG_end           (void);
+/*---(support)--------------*/
+char       *yLOG_version       (void);
+int         yLOG_lognum        (void);
 long long   yLOG_time          (void);
 /*---(function (2))---------*/
 void        yLOG_enter         (const char *a_func);
