@@ -196,6 +196,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
       }
       x_fd    = open  (its.filename, O_WRONLY | O_CREAT | O_TRUNC);
       if (x_fd < 0) {
+         its.loud  = '-';
          printf ("FATAL, can not open logger\n");
          return -1;
       }
@@ -203,6 +204,7 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
       close (x_fd);
       its.logger = fdopen (LOG_FD, "w");
       if (its.logger == NULL) {
+         its.loud  = '-';
          printf ("FATAL, can not open logger\n");
          return -1;
       }

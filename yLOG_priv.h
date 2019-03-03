@@ -23,8 +23,8 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2u"
-#define     P_VERTXT    "all error messages unit tested and fixed up, more defensive"
+#define     P_VERNUM    "1.2v"
+#define     P_VERTXT    "added basic signal logging capability"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

@@ -152,3 +152,40 @@ SCRP          v21  (BASE  ) verify message writing, types, indents, and count 
 
 
 
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-123456  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)===========  ========================(arguments)=================================================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  (BASE  ) verify handling of non-init                               ylog__prefix                                                                                          ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  clean                                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     code     v21  manually clear message               - - - - - - - - - - - - -   strcpy (its.full, "");                                                                                                                                                                                                     
+
+   COND       v21  attempt to enter a function                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  call main                            yLOG_enter                  "one"                                                                                                 v_null      0                                                                                                    
+     get      v21  ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        :  0[]                                                                              
+
+   COND       v21  attempt to exit a function                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  call main                            yLOG_exit                   "one"                                                                                                 v_null      0                                                                                                    
+     get      v21  ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        :  0[]                                                                              
+
+   COND       v21  attempt to write information                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  call main                            yLOG_info                   "one"                  , "two"                                                                        v_null      0                                                                                                    
+     get      v21  ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        :  0[]                                                                              
+
+   COND       v21  attempt to write value                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  call main                            yLOG_value                  "one"                  , 123                                                                          v_null      0                                                                                                    
+     get      v21  ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        :  0[]                                                                              
+
+   COND       v21  attempt to write a short form                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  call main                            yLOG_senter                 "one"                                                                                                 v_null      0                                                                                                    
+     exec     v21  call main                            yLOG_sint                   123                                                                                                   v_null      0                                                                                                    
+     exec     v21  call main                            yLOG_sexit                  "one"                                                                                                 v_null      0                                                                                                    
+     get      v21  ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        :  0[]                                                                              
+
+   COND       v21  attempt to write error                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  call main                            yLOG_error                  "one"                                                                                                 v_null      0                                                                                                    
+     get      v21  ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        :  0[]                                                                              
+
+
+
+
+
