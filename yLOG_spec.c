@@ -15,7 +15,7 @@ yLOG_sync     (void)
    /*---(locals)-----------+-----------+-*/
    char        cmd         [1000] = "";
    /*---(defense: quiet mode)------------*/
-   if (its.quiet) return;
+   if (RUN_QUIET)  return;
    /*---(output line)--------------------*/
    fprintf (its.logger, "SYNC======= ====== === %s%s\n", its.prefix,
          "============================================================");
@@ -44,7 +44,7 @@ yLOG_sync     (void)
 void
 yLOG_break    (void)
 {
-   if (its.quiet) return;
+   if (RUN_QUIET)  return;
    fprintf (its.logger, "------- --- ------ --- %s%s\n", its.prefix,
          "---------------------------------------------------------");
    return;
@@ -60,7 +60,7 @@ static void      o___UNITTEST________________o (void) {;}
 void
 yLOG_unitcond (int a_scrp, int a_cond, int a_line, char *a_desc)
 {
-   if (its.quiet) return;
+   if (RUN_QUIET)  return;
    fprintf (its.logger, "unit=== === ====== [t] %s%s\n", its.prefix,
          "=========================================================");
    snprintf   (its.msg, 190, "COND %2.2d.%3.3d.-- at %5d, %s", a_scrp, a_cond, a_line, a_desc);
@@ -71,7 +71,7 @@ yLOG_unitcond (int a_scrp, int a_cond, int a_line, char *a_desc)
 void
 yLOG_unitstep (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc)
 {
-   if (its.quiet) return;
+   if (RUN_QUIET)  return;
    fprintf (its.logger, "unit--- --- ------ [t] %s%s\n", its.prefix,
          "---------------------------------------------------------");
    snprintf   (its.msg, 190, "STEP %2.2d.%3.3d.%2.2d at %5d, %s", a_scrp, a_cond, a_step, a_line, a_desc);
@@ -82,7 +82,7 @@ yLOG_unitstep (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc)
 void
 yLOG_unitdone (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc)
 {
-   if (its.quiet) return;
+   if (RUN_QUIET)  return;
    fprintf (its.logger, "unit--- --- ------ [t] %s%s\n", its.prefix,
          "---------------------------------------------------------");
    snprintf   (its.msg, 190, "STEP %2.2d.%3.3d.%2.2d at %5d, %s", a_scrp, a_cond, a_step, a_line, a_desc);

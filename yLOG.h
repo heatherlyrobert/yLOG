@@ -223,7 +223,10 @@ typedef   const int    cint;
 
 
 /*===[[ MACROS ]]=========================================*/
-#define   yLOG_WARN(FMT,...)  yLOG_warnx (__FILE__, __LINE__, FMT, __VA_ARGS__)
+#define   yLOG_HINTx(FMT,...)   ylog_errors ("HINT"   , 'w', __FILE__, __LINE__, FMT, __VA_ARGS__)
+#define   yLOG_WARNx(FMT,...)   ylog_errors ("WARNING", 'w', __FILE__, __LINE__, FMT, __VA_ARGS__)
+#define   yLOG_ERRORx(FMT,...)  ylog_errors ("ERROR"  , 'e', __FILE__, __LINE__, FMT, __VA_ARGS__)
+#define   yLOG_FATALx(FMT,...)  ylog_errors ("FATAL"  , 'g', __FILE__, __LINE__, FMT, __VA_ARGS__)
 
 
 
@@ -268,15 +271,13 @@ void        yLOG_shex          (const long  a_value);
 void        yLOG_schar         (const char  a_char);
 void        yLOG_spoint        (const void *a_pointer);
 void        yLOG_svalue        (const char *a_subject, const int   a_value);
-/*---(warnings (3))---------*/
-void        yLOG_warn          (const char *a_item,    const char *a_issue);
-void        yLOG_error         (const char *a_item,    const char *a_issue);
-void        yLOG_fatal         (const char *a_item,    const char *a_issue);
-/*---(extended (4))---------*/
-void        yLOG_hintx         (cchar *a_file, cint a_line, char *a_reason, cchar *a_format, ...);
-void        yLOG_warnx         (cchar *a_file, cint a_line, char *a_reason, cchar *a_format, ...);
-void        yLOG_errorx        (cchar *a_file, cint a_line, char *a_reason, cchar *a_format, ...);
-void        yLOG_fatalx        (cchar *a_file, cint a_line, char *a_reason, cchar *a_format, ...);
+/*---(warnings (4))---------*/
+void        yLOG_warn          (const char *a_issue);
+void        yLOG_error         (const char *a_issue);
+void        yLOG_fatal         (const char *a_issue);
+void        yLOG_boom          (const char *a_issue);
+void        yLOG_signal        (const int   a_signal);
+void        yLOG_errors        (cchar *a_desc, cchar a_type, cchar *a_file, cint a_line, cchar *a_format, ...);
 /*---(done)-----------------*/
 
 

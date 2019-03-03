@@ -23,8 +23,8 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2t"
-#define     P_VERTXT    "all shorts unit tested and fixed up, more defensive"
+#define     P_VERNUM    "1.2u"
+#define     P_VERTXT    "all error messages unit tested and fixed up, more defensive"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -99,6 +99,7 @@
 #include  <stdarg.h>                   /* va_arg                              */
 #include  <ySTR.h>
 #include  <yURG.h>
+#include  "signal.h"
 
 /*-> to support the 'uname' call to get machine and system names  */
 #include  <sys/utsname.h>
@@ -117,7 +118,7 @@
 #define           LVL_END         '<'    /* exdent, end of function           */
 /*---(mortal, dangerous)----------------*/
 #define           TYPE_NUCLEAR    'n'    /* fatal, non-graceful, system-wide  */
-#define           TYPE_CLUMSY     'c'    /* fatal, non-graceful, local        */     */
+#define           TYPE_CLUMSY     'c'    /* fatal, non-graceful, local        */
 #define           TYPE_GRACEFUL   'g'    /* fatal, graceful, handlable        */
 /*---(debugging)------------------------*/
 #define           TYPE_ERROR      'e'    /* difficult, but recoverable        */
@@ -142,9 +143,12 @@
 
 typedef struct tm   tTIME;
 
+#define           RUN_QUIET      its.loud != 'y'
 
 typedef    struct  cITS  tITS;
 struct cITS {
+   char        loud;  
+   char        quiet;
    char        prog        [LEN_TITLE];     /* calling program name           */
    FILE       *logger;                      /* file to receive messages       */
    char        full        [LEN_RECD];      /* full message to be written     */
@@ -155,7 +159,6 @@ struct cITS {
    char        prefix      [LEN_HUND];      /* actual indent text (of spaces) */
    char        msg         [LEN_PATH];      /* full message to log            */
    char        single      [LEN_PATH];      /* short form cum message         */
-   char        quiet;
    int         nsyncs;                      /* count of sync calls            */
    char        filename    [LEN_PATH];
    char        version     [LEN_HUND];

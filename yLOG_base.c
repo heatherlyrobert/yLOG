@@ -160,9 +160,9 @@ yLOG_begin         (cchar *a_program, cchar a_location, cchar a_quiet)
    its.indent = 0;
    strcpy (its.prefix, "");
    /*---(defense)------------------------*/
-   if (a_quiet == yLOG_QUIET) its.quiet = 1;
-   else                       its.quiet = 0;
-   if (its.quiet) return 1;
+   if (a_quiet == yLOG_NOISE) its.loud  = 'y';
+   else                       its.loud  = '-';
+   if (RUN_QUIET)  return 1;
    /*---(get the date)-------------------*/
    time_date = time(NULL);
    curr_time = localtime(&time_date);
@@ -254,7 +254,7 @@ yLOG_end      (void)
    fprintf(its.logger, "   duration   : %2ldh, %2ldm, %2lds\n", _hrs, _min, _sec);
    fprintf(its.logger, "==========================================================================end===\n");
    fclose (its.logger);
-   its.quiet = 1;
+   its.loud  = '-';
    return;
 }
 
