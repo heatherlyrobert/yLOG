@@ -16,13 +16,17 @@ and early issue detection in my custom programs.
 .B #include  <yLOG.h> and link to either the -lyLOG or -lyLOG_debug
 
 .R  ---program level-------------------------------
-.BI "char     yLOG_begin   (cchar *" "a_program" ", cchar " "a_location" ", cchar " "a_quiet" ");"
-.BI "void     yLOG_end     (void);"
+.BI "char     yLOGS_begin   (cchar *" "a_program" ", cchar " "a_location" ", cchar " "a_quiet" ");"
+.BI "void     yLOGS_end     (void);"
 
 .R  ---support-------------------------------------
-.BI "char*    yLOG_version (void);"
-.BI "int      yLOG_lognum  (void);"
-.BI "llong    yLOG_time    (void);"
+.BI "char*    yLOGS_version (void);"
+.BI "int      yLOGS_lognum  (void);"
+.BI "llong    yLOGS_time    (void);"
+.BI "char*    yLOGS_path    (void);"
+.BI "char*    yLOGS_filename(void);"
+.BI "char     yLOGS_verify  (cchar *" "a_program" ", cchar " "a_location" ");"
+.BI "char     yLOGS_remove  (cchar *" "a_program" ", cchar " "a_location" ");"
 
 .R  ---structure (long form)-----------------------
 .BI "void     yLOG_enter   (cchar *" "a_func   " ");"
@@ -91,10 +95,13 @@ command line and while running.
 .SH PROGRAM LEVEL FUNCTIONS
 two simple functions begin and end logging.
 
-.B yLOG_begin,
+.B yLOGS_begin,
 prepares the log file, writes a header, and initializes globals.  it requires
 three pieces of data to complete its job.  any attempts to write data before
 using this function will silently fail.
+
+program level functions are prefixed with yLOGS_ (not yLOG_) in order to help
+strip debugging from programs.
 
 .RS 3
 .B program name
@@ -107,7 +114,7 @@ using this function will silently fail.
 , either yLOG_QUIET or yLOG_NOISE
 
 .B example
-, yLOG_begin  ("khronos", yLOG_SYSTEM, yLOG_NOISE);
+, yLOGS_begin  ("khronos", yLOG_SYSTEM, yLOG_NOISE);
 .RE
 
 the header for a file looks something like this...
@@ -119,11 +126,10 @@ the header for a file looks something like this...
       start date : Mon May 23 21:03:52 2016
       start (ms) : 27517
       log file   : /var/log/yLOG/16.05.23.21.03.52.hestia___
-      log core   : false
    =========================================================
    secs---.-ms -step- lvl ---comment------------------------
 
-.B yLOG_end,
+.B yLOGS_end,
 writes a footer, closes the log, and frees resources.  any attemps to write
 data after using this function will silently fail.
 
@@ -139,14 +145,29 @@ the footer for a file looks something like this...
 .SH SUPPORT FUNCTIONS
 these functions are helpful, but not necessary to normal use.
 
-.B yLOG_version,
+support level functions are prefixed with yLOGS_ (not yLOG_) in order to help
+strip debugging from programs.
+
+.B yLOGS_version,
 returns current version number and version description.
 
-.B yLOG_lognum,
+.B yLOGS_lognum,
 returns the fd used by the log file.
 
-.B yLOG_time,
+.B yLOGS_time,
 returns the current timestamp used in milli-seconds.
+
+.B yLOGS_path,
+returns the path of the log file.
+
+.B yLOGS_filename,
+returns the full file name of the log.
+
+.B yLOGS_verify,
+finds the log file and verifies it exists.
+
+.B yLOGS_remove,
+finds the log file and removes it/them.
 
 .SH STRUCTURE FUNCTIONS (long form)
 these functions allow clear program tracing by logging entry and exit
@@ -158,6 +179,7 @@ here is an example log file entry for structure [s] and data [i]
     ... [s] Ï  ENTERING (str_move)                    yLOG_enter
     ... [i] Ï··Ï  x_len     : 12
     ... [i] Ï··Ï  x_str     : string contents
+    ... [i] Ï··Ï  x_str2    : [another   ]
     ... [i] Ï··Ï  a note written to help...
     ... [i] Ï··Ï  x_hex     : 0x0FA126CD
     ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
@@ -190,6 +212,7 @@ here is an example log file entry for structure [s] and data [i]
     ... [s] Ï  ENTERING (str_move)
     ... [i] Ï··Ï  x_len     : 12                      yLOG_value
     ... [i] Ï··Ï  x_str     : string contents         yLOG_info
+    ... [i] Ï··Ï  x_str2    : [another   ]            yLOG_delim
     ... [i] Ï··Ï  a note written to help...           yLOG_note
     ... [i] Ï··Ï  x_hex     : 0x0FA126CD              yLOG_hex
     ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2          yLOG_point
@@ -205,6 +228,9 @@ logs a message.
 
 .B yLOG_info  (<title>, <string>)
 logs a string value.
+
+.B yLOG_delim (<title>, <string>)
+helps with invisible chars in string.
 
 .B yLOG_char  (<title>, <char>)
 logs a character.
@@ -238,7 +264,9 @@ concatinated and written when yLOG_exit is called.
 here is an example log file entry for structure [s] and data [i]
     ... [s] ENTERING (main)
     ... [s] Ï  ENTERING (str_move)
+    ... [i] Ï··Ï  x_len     : 12
     ... [i] Ï··Ï  x_str     : string contents
+    ... [i] Ï··Ï  x_str2    : [another   ]
     ... [i] Ï··Ï  a note written to help...
     ... [i] Ï··Ï  x_hex     : 0x0FA126CD
     ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
@@ -270,7 +298,9 @@ functions are concatinated and written when yLOG_exit is called.
 here is an example log file entry for structure [s] and data [i]
     ... [s] ENTERING (main)
     ... [s] Ï  ENTERING (str_move)
+    ... [i] Ï··Ï  x_len     : 12
     ... [i] Ï··Ï  x_str     : string contents
+    ... [i] Ï··Ï  x_str2    : [another   ]
     ... [i] Ï··Ï  a note written to help...
     ... [i] Ï··Ï  x_hex     : 0x0FA126CD
     ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
@@ -323,6 +353,7 @@ here is an example log file entry for structure [s] and data [i]
     ... [s] Ï  ENTERING (str_move)
     ... [i] Ï··Ï  x_len     : 12
     ... [i] Ï··Ï  x_str     : string contents
+    ... [i] Ï··Ï  x_str2    : [another   ]
     ... [i] Ï··Ï  a note written to help...
     ... [i] Ï··Ï  x_hex     : 0x0FA126CD
     ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
@@ -354,6 +385,7 @@ here is an example log file entry for structure [s] and data [i]
     ... [s] Ï  ENTERING (str_move)
     ... [i] Ï··Ï  x_len     : 12
     ... [i] Ï··Ï  x_str     : string contents
+    ... [i] Ï··Ï  x_str2    : [another   ]
     ... [i] Ï··Ï  a note written to help...
     ... [i] Ï··Ï  x_hex     : 0x0FA126CD
     ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
@@ -369,7 +401,7 @@ logs an async signal.
 
 .SH FILES
 yLOG uses several locations for storing output depending on the setting used
-when yLOG_begin is called.
+when yLOGS_begin is called.
    1) yLOG_STDOUT           stdout                    screen/pipe
    2) yLOG_SYSTEM           /var/log/yLOG/            ram disk
    3) yLOG_HISTORICAL       /var/log/yLOG.historical/ normal disk
@@ -393,6 +425,6 @@ this documentation is layered to provide easier navigation.
 heatherlyrobert ata gmail dotta com
 
 .SH COLOPHON
-this page is part of a documentation package mean to make the use of the
+this page is part of a documentation package meant to make the use of the
 heatherly tools easier and faster
 

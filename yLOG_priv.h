@@ -22,8 +22,8 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2y"
-#define     P_VERTXT    "added testing to check actual creation of log file in various places"
+#define     P_VERNUM    "1.2z"
+#define     P_VERTXT    "broke-out and unit tested parts of yLOGS_begin to make it clearer"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -65,7 +65,7 @@
 #define     P_SUMMARY   \
  "yLOG is a simple, direct, consistent, and clean shared library to enable¦" \
  "process execution logging and encourge monitoring, process flow¦" \
- "understanding, and early issue detection in my custom programs.¦
+ "understanding, and early issue detection in my custom programs.¦"
 #define     P_OBJECTIVE \
  "a) allow programs to be observed without significantly altering them¦" \
  "b) provide a forensic trail for programs to aid reproduction of issues¦" \
@@ -121,7 +121,7 @@
 #define           USBDIR     "/mnt/usb1/"
 
 
-/*===[[ STANDARDS ]]===============================================#
+/*===[[ STANDARDS ]]===============================================#*/
 /*---(indentation)----------------------*/
 #define           LVL_BEG         '>'    /* indent, beg of function           */
 #define           LVL_SAME        '-'    /* level stays the same, content     */
@@ -166,7 +166,7 @@ typedef struct dirent    tDIRENT;
 typedef    struct  cITS  tITS;
 struct cITS {
    char        loud;  
-   char        prog        [LEN_TITLE];     /* calling program name           */
+   char        prog        [LEN_LABEL];     /* calling program name           */
    FILE       *logger;                      /* file to receive messages       */
    char        full        [LEN_RECD];      /* full message to be written     */
    char        core;                        /* log core heatherly libraries   */
@@ -177,8 +177,10 @@ struct cITS {
    char        msg         [LEN_PATH];      /* full message to log            */
    char        single      [LEN_PATH];      /* short form cum message         */
    int         nsyncs;                      /* count of sync calls            */
-   char        filename    [LEN_PATH];
-   char        version     [LEN_HUND];
+   char        timestamp   [LEN_LABEL];     /* log file timestamp             */
+   char        filename    [LEN_PATH];      /* log file name                  */
+   char        path        [LEN_PATH];      /* path to log file               */
+   char        version     [LEN_HUND];      /* ylog version string            */
    char        title       [LEN_FULL];      /* title for messages             */
    char        data        [LEN_FULL];      /* string for messages            */
    char        temp        [LEN_FULL];      /* string for short working area  */
@@ -189,6 +191,9 @@ extern  tITS  its;
 llong       ylog__timestamp         (void);
 char        ylog__prefix            (void);
 void        ylog__main              (char a_change, char a_level, char *a_message);
+
+char        ylogs__progname         (cchar *a_prog);
+char*       ylogs__logname          (cchar *a_prog, cchar a_loc);
 
 char*       ylog_title              (const char *a_title);
 char*       ylog_data               (const char *a_data);

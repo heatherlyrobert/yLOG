@@ -5,20 +5,17 @@
 
 
 /*===[[ CONSTANTS ]]======================================*/
-#define   yLOG_NONE         '-'
-#define   yLOG_SYSTEM       's'
-#define   yLOG_SYS          's'
-#define   yLOG_HISTORICAL   'h'
-#define   yLOG_HIST         'h'
-#define   yLOG_PERSONAL     'p'
-#define   yLOG_PERS         'p'
-#define   yLOG_STDOUT       'o'
-#define   yLOG_ROOT         'r'
-#define   yLOG_USB          'u'
-#define   yLOG_NULL         '0'
+#define   YLOG_NONE         '-'
+#define   YLOG_SYS          's'
+#define   YLOG_HIST         'h'
+#define   YLOG_STDOUT       'o'
+#define   YLOG_ROOT         'r'
+#define   YLOG_USB          'u'
+#define   YLOG_NULL         '0'
+#define   YLOG_VALIDS       "-shoru0"
 
-#define   yLOG_NOISE        'N'
-#define   yLOG_QUIET        'Q'
+#define   YLOG_NOISE        'N'
+#define   YLOG_QUIET        'Q'
 
 
 
@@ -37,14 +34,23 @@ typedef   const int    cint;
 
 
 
-/*===[[ PUBLIC FUNCTIONS ]]===============================*/
+/*===[[ PUBLIC FUNCTIONS (non-strip) ]]===================*/
 /*---(program)--------------*/
-char        yLOG_begin         (const char *a_program, const char a_location, const char a_quiet);
-void        yLOG_end           (void);
+char        yLOGS_begin        (const char *a_program, const char a_location, const char a_quiet);
+void        yLOGS_end          (void);
 /*---(support)--------------*/
-char       *yLOG_version       (void);
-int         yLOG_lognum        (void);
-long long   yLOG_time          (void);
+char       *yLOGS_version      (void);
+int         yLOGS_lognum       (void);
+long long   yLOGS_time         (void);
+char       *yLOGS_path         (void);
+char       *yLOGS_filename     (void);
+/*---(testing support)------*/
+char        yLOGS_verify       (cchar *a_name, cchar a_log);
+char        yLOGS_remove       (cchar *a_name, cchar a_log);
+
+
+
+/*===[[ PUBLIC FUNCTIONS (stripped) ]]====================*/
 /*---(function (2))---------*/
 void        yLOG_enter         (const char *a_func);
 void        yLOG_exit          (const char *a_func);
@@ -87,9 +93,6 @@ void        yLOG_boom          (const char *a_issue);
 void        yLOG_signal        (const int   a_signal);
 void        yLOG_errors        (cchar *a_desc, cchar a_type, cchar *a_file, cint a_line, cchar *a_format, ...);
 /*---(done)-----------------*/
-
-char        yLOG_verify        (cchar *a_name, cchar a_log);
-char        yLOG_remove        (cchar *a_name, cchar a_log);
 
 
 #endif
