@@ -22,12 +22,12 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2x"
-#define     P_VERTXT    "integrated best strategy comments into new-style header"
+#define     P_VERNUM    "1.2y"
+#define     P_VERTXT    "added testing to check actual creation of log file in various places"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
-#define     P_REMINDER  "i know there are many better options, but i *own* this one"
+#define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
 
 #define     P_GREEK     \
  "clio is one of the nine greek muses (mousai) who are the goddesses of art¦" \
@@ -108,7 +108,8 @@
 #include  <stdarg.h>                   /* va_arg                              */
 #include  <ySTR.h>
 #include  <yURG.h>
-#include  "signal.h"
+#include  <signal.h>
+#include  <dirent.h>
 
 /*-> to support the 'uname' call to get machine and system names  */
 #include  <sys/utsname.h>
@@ -148,11 +149,19 @@
 #define           LVL_UNKNOWN     '?'
 #define           TYPE_UNKNOWN    '?'
 /*---(done)-----------------------------*/
+#define           LOG_FD          99
+#define           RUN_QUIET       its.loud != 'y'
 
 
-typedef struct tm   tTIME;
 
-#define           RUN_QUIET      its.loud != 'y'
+typedef struct tm        tTIME;
+typedef struct stat      tSTAT;
+typedef struct dirent    tDIRENT;
+
+
+
+
+
 
 typedef    struct  cITS  tITS;
 struct cITS {

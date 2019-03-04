@@ -4,14 +4,14 @@
 
 
 
-#define   LOG_FD     99
-
-
 /*===[[ CONSTANTS ]]======================================*/
 #define   yLOG_NONE         '-'
 #define   yLOG_SYSTEM       's'
+#define   yLOG_SYS          's'
 #define   yLOG_HISTORICAL   'h'
+#define   yLOG_HIST         'h'
 #define   yLOG_PERSONAL     'p'
+#define   yLOG_PERS         'p'
 #define   yLOG_STDOUT       'o'
 #define   yLOG_ROOT         'r'
 #define   yLOG_USB          'u'
@@ -88,6 +88,8 @@ void        yLOG_signal        (const int   a_signal);
 void        yLOG_errors        (cchar *a_desc, cchar a_type, cchar *a_file, cint a_line, cchar *a_format, ...);
 /*---(done)-----------------*/
 
+char        yLOG_verify        (cchar *a_name, cchar a_log);
+char        yLOG_remove        (cchar *a_name, cchar a_log);
 
 
 #endif

@@ -312,5 +312,184 @@ ylog_base__unit         (char *a_question, int a_num)
    return unit_answer;
 }
 
+char
+yLOG_verify            (cchar *a_name, cchar a_log)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         rc          =    0;
+   char        x_path      [LEN_PATH];
+   DIR        *x_dir       = NULL;
+   tDIRENT    *x_file      = NULL;
+   char        x_name      [LEN_PATH];
+   int         x_len       =    0;
+   char       *p           = NULL;
+   tSTAT       s;
+   char        c           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YLOGS  yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_YLOGS  yLOG_point   ("a_name"    , a_name);
+   --rce;  if (a_name == NULL) {
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YLOGS  yLOG_info    ("a_name"    , a_name);
+   /*---(location)-----------------------*/
+   DEBUG_YLOGS  yLOG_char    ("a_log"     , a_log);
+   --rce;  switch (a_log) {
+   case yLOG_SYS  : strcpy (x_path, LOGDIR); break;
+   case yLOG_HIST : strcpy (x_path, HISDIR); break;
+   case yLOG_ROOT : strcpy (x_path, ROOTDIR); break;
+   case yLOG_USB  : strcpy (x_path, USBDIR); break;
+   default        :
+                    DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+                    return rce;
+                    break;
+   }
+   DEBUG_YLOGS  yLOG_info    ("x_path"    , x_path);
+   /*---(open dir)-----------------------*/
+   DEBUG_INPT   yLOG_info    ("f_path"    , x_path);
+   x_dir = opendir (x_path);
+   DEBUG_INPT   yLOG_point   ("x_dir"     , x_dir);
+   --rce;  if (x_dir == NULL) {
+      DEBUG_INPT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(walk)---------------------------*/
+   while (1) {
+      /*---(pick file)-------------------*/
+      x_file = readdir (x_dir);
+      DEBUG_INPT   yLOG_point   ("x_file"    , x_file);
+      if (x_file == NULL)  break;
+      DEBUG_INPT   yLOG_info    ("name"      , x_file->d_name);
+      /*---(filter by name)--------------*/
+      x_len = strlen (x_file->d_name);
+      DEBUG_INPT   yLOG_value   ("x_len"     , x_len);
+      if (x_len < 20)  continue;
+      DEBUG_INPT   yLOG_info    ("suffix"    , x_file->d_name + x_len - 5);
+      rc = strcmp (x_file->d_name  + x_len - 5, ".ulog");
+      DEBUG_INPT   yLOG_value   ("match"     , rc);
+      if (rc != 0)  continue;
+      DEBUG_INPT   yLOG_info    ("potential" , x_file->d_name + 18);
+      p  = strstr (x_file->d_name + 18, a_name);
+      DEBUG_INPT   yLOG_point   ("p"         , p);
+      if (p == NULL)  continue;
+      /*---(found it)--------------------*/
+      ++c;
+      sprintf (x_name, "%s%s", x_path, x_file->d_name);
+      /*---(done)------------------------*/
+   }
+   /*---(close)--------------------------*/
+   rc = closedir (x_dir);
+   DEBUG_INPT   yLOG_point   ("close"     , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_INPT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(check good result)--------------*/
+   DEBUG_INPT   yLOG_value   ("c"         , c);
+   --rce;  if (c != 1) {
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+      return c;
+   }
+   /*---(check on crontab file)----------*/
+   rc = stat (x_name, &s);
+   DEBUG_YLOGS  yLOG_value   ("stat"      , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   --rce;  if (!S_ISREG (s.st_mode))  {
+      DEBUG_YLOGS  yLOG_note    ("can only use regular files");
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YLOGS  yLOG_exit    (__FUNCTION__);
+   return 1;
+}
+
+char
+yLOG_remove            (cchar *a_name, cchar a_log)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         rc          =    0;
+   char        x_path      [LEN_PATH];
+   DIR        *x_dir       = NULL;
+   tDIRENT    *x_file      = NULL;
+   char        x_name      [LEN_PATH];
+   int         x_len       =    0;
+   char       *p           = NULL;
+   tSTAT       s;
+   char        c           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YLOGS  yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_YLOGS  yLOG_point   ("a_name"    , a_name);
+   --rce;  if (a_name == NULL) {
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YLOGS  yLOG_info    ("a_name"    , a_name);
+   /*---(location)-----------------------*/
+   DEBUG_YLOGS  yLOG_char    ("a_log"     , a_log);
+   --rce;  switch (a_log) {
+   case yLOG_SYS  : strcpy (x_path, LOGDIR); break;
+   case yLOG_HIST : strcpy (x_path, HISDIR); break;
+   case yLOG_ROOT : strcpy (x_path, ROOTDIR); break;
+   case yLOG_USB  : strcpy (x_path, USBDIR); break;
+   default        :
+                    DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+                    return rce;
+                    break;
+   }
+   DEBUG_YLOGS  yLOG_info    ("x_path"    , x_path);
+   /*---(open dir)-----------------------*/
+   DEBUG_INPT   yLOG_info    ("f_path"    , x_path);
+   x_dir = opendir (x_path);
+   DEBUG_INPT   yLOG_point   ("x_dir"     , x_dir);
+   --rce;  if (x_dir == NULL) {
+      DEBUG_INPT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(walk)---------------------------*/
+   while (1) {
+      /*---(pick file)-------------------*/
+      x_file = readdir (x_dir);
+      DEBUG_INPT   yLOG_point   ("x_file"    , x_file);
+      if (x_file == NULL)  break;
+      DEBUG_INPT   yLOG_info    ("name"      , x_file->d_name);
+      /*---(filter by name)--------------*/
+      x_len = strlen (x_file->d_name);
+      DEBUG_INPT   yLOG_value   ("x_len"     , x_len);
+      if (x_len < 20)  continue;
+      DEBUG_INPT   yLOG_info    ("suffix"    , x_file->d_name + x_len - 5);
+      rc = strcmp (x_file->d_name  + x_len - 5, ".ulog");
+      DEBUG_INPT   yLOG_value   ("match"     , rc);
+      if (rc != 0)  continue;
+      DEBUG_INPT   yLOG_info    ("potential" , x_file->d_name + 18);
+      p  = strstr (x_file->d_name + 18, a_name);
+      DEBUG_INPT   yLOG_point   ("p"         , p);
+      if (p == NULL)  continue;
+      /*---(found it)--------------------*/
+      ++c;
+      sprintf (x_name, "%s%s", x_path, x_file->d_name);
+      remove (x_name);
+      /*---(done)------------------------*/
+   }
+   /*---(close)--------------------------*/
+   rc = closedir (x_dir);
+   DEBUG_INPT   yLOG_point   ("close"     , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_INPT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YLOGS  yLOG_exit    (__FUNCTION__);
+   return c;
+}
+
 
 /*===[[ END ]]================================================================*/
