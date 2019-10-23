@@ -5,18 +5,20 @@
 
 
 /*===[[ CONSTANTS ]]======================================*/
-#define   YLOG_NONE         '-'
 #define   YLOG_SYS          's'
 #define   YLOG_HIST         'h'
 #define   YLOG_STDOUT       'o'
 #define   YLOG_ROOT         'r'
 #define   YLOG_USB          'u'
 #define   YLOG_NULL         '0'
-#define   YLOG_VALIDS       "-shoru0"
+#define   YLOG_VALIDS       "shoru0"
 
 #define   YLOG_NOISE        'N'
 #define   YLOG_QUIET        'Q'
 
+#define   YLOG_ONENTER      'e'
+#define   YLOG_ONEXIT       'x'
+#define   YLOG_ONBOTH       'b'
 
 
 /*===[[ TYPES ]]==========================================*/
@@ -51,6 +53,11 @@ char        yLOGS_remove       (cchar *a_name, cchar a_log);
 
 
 /*===[[ PUBLIC FUNCTIONS (stripped) ]]====================*/
+/*---(general)--------------*/
+void        yLOG_mute          (void);
+void        yLOG_unmute        (void);
+char        yLOG_track         (const char *a_func, const char a_type);
+char        yLOG_untrack       (const char *a_func);
 /*---(function (2))---------*/
 void        yLOG_enter         (const char *a_func);
 void        yLOG_exit          (const char *a_func);

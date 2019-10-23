@@ -60,10 +60,11 @@ static void      o___UNITTEST________________o (void) {;}
 void
 yLOG_unitcond (int a_scrp, int a_cond, int a_line, char *a_desc)
 {
+   /*> printf ("unit cond %2.2d.%3.3d.-- at %5d, %s\n", a_scrp, a_cond, a_line, a_desc);   <*/
    if (RUN_QUIET)  return;
    fprintf (its.logger, "unit=== === ====== [t] %s%s\n", its.prefix,
          "=========================================================");
-   snprintf   (its.msg, 190, "COND %2.2d.%3.3d.-- at %5d, %s", a_scrp, a_cond, a_line, a_desc);
+   snprintf   (its.msg, LEN_PATH, "COND %2.2d.%3.3d.-- at %5d, %s", a_scrp, a_cond, a_line, a_desc);
    ylog__main (LVL_SAME, TYPE_UNITTEST, its.msg);
    return;
 }
@@ -74,7 +75,7 @@ yLOG_unitstep (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc)
    if (RUN_QUIET)  return;
    fprintf (its.logger, "unit--- --- ------ [t] %s%s\n", its.prefix,
          "---------------------------------------------------------");
-   snprintf   (its.msg, 190, "STEP %2.2d.%3.3d.%2.2d at %5d, %s", a_scrp, a_cond, a_step, a_line, a_desc);
+   snprintf   (its.msg, LEN_PATH, "STEP %2.2d.%3.3d.%2.2d at %5d, %s", a_scrp, a_cond, a_step, a_line, a_desc);
    ylog__main (LVL_SAME, TYPE_UNITTEST, its.msg);
    return;
 }
@@ -85,7 +86,7 @@ yLOG_unitdone (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc)
    if (RUN_QUIET)  return;
    fprintf (its.logger, "unit--- --- ------ [t] %s%s\n", its.prefix,
          "---------------------------------------------------------");
-   snprintf   (its.msg, 190, "STEP %2.2d.%3.3d.%2.2d at %5d, %s", a_scrp, a_cond, a_step, a_line, a_desc);
+   snprintf   (its.msg, LEN_PATH, "STEP %2.2d.%3.3d.%2.2d at %5d, %s", a_scrp, a_cond, a_step, a_line, a_desc);
    ylog__main (LVL_SAME, TYPE_UNITTEST, its.msg);
    return;
 }

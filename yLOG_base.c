@@ -549,6 +549,9 @@ ylog_base__unit         (char *a_question, int a_num)
       sprintf (t, "[%s]", its.prog);
       snprintf (unit_answer, LEN_RECD, "BASE prog        : %2d%s", strlen (its.prog), t);
    }
+   else if (strcmp (a_question, "loud"       ) == 0) {
+      snprintf (unit_answer, LEN_RECD, "BASE loud        : %c", its.loud);
+   }
    /*---(complete)-----------------------*/
    return unit_answer;
 }

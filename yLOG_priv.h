@@ -22,8 +22,10 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "ySTR"
 
-#define     P_VERNUM    "1.2z"
-#define     P_VERTXT    "broke-out and unit tested parts of yLOGS_begin to make it clearer"
+#define     P_VERMAJOR  "1.--, working and advancing"
+#define     P_VERMINOR  "1.3-, continue to refine while useing"
+#define     P_VERNUM    "1.3a"
+#define     P_VERTXT    "added mute and unmute, track and untrack, with unit testing"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -187,6 +189,10 @@ struct cITS {
 };
 extern  tITS  its;
 
+
+
+extern char unit_answer [LEN_RECD];
+
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 llong       ylog__timestamp         (void);
 char        ylog__prefix            (void);
@@ -194,6 +200,8 @@ void        ylog__main              (char a_change, char a_level, char *a_messag
 
 char        ylogs__progname         (cchar *a_prog);
 char*       ylogs__logname          (cchar *a_prog, cchar a_loc);
+
+char        ylog_check              (const char *a_func);
 
 char*       ylog_title              (const char *a_title);
 char*       ylog_data               (const char *a_data);
