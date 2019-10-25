@@ -225,6 +225,7 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    its.nsyncs = 0;
    its.count  = 0;
    its.indent = 0;
+   ylog_vol_init ();
    strcpy (its.prefix, "");
    /*---(defense)------------------------*/
    if (a_quiet == YLOG_NOISE) its.loud  = 'y';
@@ -550,7 +551,7 @@ ylog_base__unit         (char *a_question, int a_num)
       snprintf (unit_answer, LEN_RECD, "BASE prog        : %2d%s", strlen (its.prog), t);
    }
    else if (strcmp (a_question, "loud"       ) == 0) {
-      snprintf (unit_answer, LEN_RECD, "BASE loud        : %c", its.loud);
+      snprintf (unit_answer, LEN_RECD, "BASE loud        : %c  %2d", its.loud, its.count);
    }
    /*---(complete)-----------------------*/
    return unit_answer;

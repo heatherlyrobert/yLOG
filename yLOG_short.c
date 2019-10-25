@@ -12,6 +12,7 @@ static void      o___ENDS____________________o (void) {;}
 void
 yLOG_senter   (const char *a_func)
 {
+   ylog_check_enter (a_func);
    if (RUN_QUIET)  return;
    snprintf (its.temp, LEN_FULL, "%.30s>>", ylog_title (a_func));
    strlcpy  (its.single, its.temp, LEN_FULL);
@@ -24,6 +25,7 @@ yLOG_sexit    (const char *a_func)
    if (RUN_QUIET)  return;
    strlcat  (its.single, ";;", LEN_FULL);
    ylog__main (LVL_SAME, TYPE_STRUCT, its.single);
+   ylog_check_exit  (a_func);
    return;
 }
 
@@ -34,6 +36,7 @@ yLOG_sexitr   (const char *a_func, const int a_rce)
    snprintf (its.temp, LEN_FULL, ", WARN %d;;", a_rce);
    strlcat  (its.single, its.temp, LEN_FULL);
    ylog__main (LVL_SAME, TYPE_WARNING, its.single);
+   ylog_check_exit  (a_func);
    return;
 }
 

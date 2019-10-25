@@ -46,7 +46,7 @@ static void      o___STRUCTURE_______________o (void) {;}
 void
 yLOG_enter    (const char *a_func)
 {
-   if (ylog_check (a_func) >= 0)  yLOG_unmute ();
+   ylog_check_enter (a_func);
    if (RUN_QUIET)  return;
    snprintf (its.msg, LEN_PATH, "ENTERING (%.30s)", ylog_title (a_func));
    ylog__main (LVL_BEG , TYPE_STRUCT, its.msg);
@@ -59,7 +59,7 @@ yLOG_exit     (const char *a_func)
    if (RUN_QUIET)  return;
    snprintf (its.msg, LEN_PATH, "EXITING  (%.30s)", ylog_title (a_func));
    ylog__main (LVL_END , TYPE_STRUCT, its.msg);
-   if (ylog_check (a_func) >= 0)  yLOG_mute ();
+   ylog_check_exit (a_func);
    return;
 }
 
@@ -71,7 +71,7 @@ yLOG_exitr    (const char *a_func, const int a_rce)
    ylog__main (LVL_SAME, TYPE_WARNING, its.msg);
    snprintf (its.msg, LEN_PATH, "EXITING  (%.30s)", ylog_title (a_func));
    ylog__main (LVL_END , TYPE_STRUCT, its.msg);
-   if (ylog_check (a_func) >= 0)  yLOG_mute ();
+   ylog_check_exit (a_func);
    return;
 }
 
