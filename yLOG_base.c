@@ -66,7 +66,7 @@ ylog__prefix            (void)
    if (its.indent > 30)  its.indent = 30;
    /*---(standard prefix)----------------*/
    strlcpy (its.prefix, "", LEN_HUND);
-   for (i = 0; i <  its.indent; ++i   )  strlcat (its.prefix, "Ï··", LEN_HUND);
+   for (i = 0; i <  its.indent; ++i   )  strlcat (its.prefix, "´··", LEN_HUND);
    /*---(add marks every third)----------*/
    for (i = 2; i <  its.indent; i += 3)  its.prefix [i * 3] = '+';
    /*---(clear just before entry)--------*/
