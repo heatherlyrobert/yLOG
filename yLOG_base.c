@@ -61,18 +61,20 @@ ylog__prefix            (void)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;
+   int         x_indent    =    0;
    /*---(rational limits)----------------*/
-   if (its.indent <  0)  its.indent = 0;
-   if (its.indent > 30)  its.indent = 30;
+   x_indent = its.indent;
+   if (x_indent <  0)  x_indent = 0;
+   if (x_indent > 30)  x_indent = 30;
    /*---(standard prefix)----------------*/
    strlcpy (its.prefix, "", LEN_HUND);
-   for (i = 0; i <  its.indent; ++i   )  strlcat (its.prefix, "´··", LEN_HUND);
+   for (i = 0; i <  x_indent; ++i   )  strlcat (its.prefix, "´··", LEN_HUND);
    /*---(add marks every third)----------*/
-   for (i = 2; i <  its.indent; i += 3)  its.prefix [i * 3] = '+';
+   for (i = 2; i <  x_indent; i += 3)  its.prefix [i * 3] = '+';
    /*---(clear just before entry)--------*/
-   if (its.indent > 0) {
-      its.prefix [its.indent * 3 - 1] = ' ';
-      its.prefix [its.indent * 3 - 2] = ' ';
+   if (x_indent > 0) {
+      its.prefix [x_indent * 3 - 1] = ' ';
+      its.prefix [x_indent * 3 - 2] = ' ';
    }
    /*---(complete)-----------------------*/
    return 0;

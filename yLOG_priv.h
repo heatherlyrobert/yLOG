@@ -24,8 +24,8 @@
 
 #define     P_VERMAJOR  "1.--, working and advancing"
 #define     P_VERMINOR  "1.3-, continue to refine while useing"
-#define     P_VERNUM    "1.3c"
-#define     P_VERTXT    "tiny change based on strike.txt change to spacer/dots"
+#define     P_VERNUM    "1.3d"
+#define     P_VERTXT    "fix indenting to gracefully handle/recover from passing max"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
