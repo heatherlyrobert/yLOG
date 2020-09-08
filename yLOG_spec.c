@@ -7,6 +7,67 @@
 /*====================------------------------------------====================*/
 /*===----                        separators                            ----===*/
 /*====================------------------------------------====================*/
+static void      o___STAGES__________________o (void) {;}
+
+static char  s_on = '-';
+
+/*> void                                                                              <* 
+ *> ylog_stage_init  (void)                                                           <* 
+ *> {                                                                                 <* 
+ *>    /+---(big stages)---------------------+/                                       <* 
+ *>    if (yURG_debug.init      == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.main_loop == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.wrap      == 'y')     s_on = 'y';                               <* 
+ *>    /+---(little stages)------------------+/                                       <* 
+ *>    if (yURG_debug.stage1    == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.stage2    == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.stage3    == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.stage4    == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.stage5    == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.stage6    == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.stage7    == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.stage8    == 'y')     s_on = 'y';                               <* 
+ *>    if (yURG_debug.stage9    == 'y')     s_on = 'y';                               <* 
+ *>    /+---(react)--------------------------+/                                       <* 
+ *>    if (s_on == 'y' && yURG_debug.init != 'y')  yLOG_mute ();                      <* 
+ *>    /+---(complete)-----------------------+/                                       <* 
+ *>    return;                                                                        <* 
+ *> }                                                                                 <*/
+
+/*> void                                                                              <* 
+ *> yLOG_stage     (cchar a_stage)                                                    <* 
+ *> {                                                                                 <* 
+ *>    if (a_stage == 'i')  ylog_stage_init ();                                       <* 
+ *>    /+---(defense)------------------------+/                                       <* 
+ *>    if (s_on != 'y')  return;                                                      <* 
+ *>    /+---(handle)-------------------------+/                                       <* 
+ *>    yLOG_mute ();                                                                  <* 
+ *>    switch (a_stage) {                                                             <* 
+ *>    case 'i' :  if (yURG_debug.init      == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case 'm' :  if (yURG_debug.main_loop == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case 'w' :  if (yURG_debug.wrap      == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '1' :  if (yURG_debug.stage1    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '2' :  if (yURG_debug.stage2    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '3' :  if (yURG_debug.stage3    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '4' :  if (yURG_debug.stage4    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '5' :  if (yURG_debug.stage5    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '6' :  if (yURG_debug.stage6    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '7' :  if (yURG_debug.stage7    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '8' :  if (yURG_debug.stage8    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    case '9' :  if (yURG_debug.stage9    == 'y')   yLOG_unmute ();  break;         <* 
+ *>    }                                                                              <* 
+ *>    /+---(helpful breaks)-----------------+/                                       <* 
+ *>    if (yURG_debug.main_loop == 'y')   yLOG_break  ();                             <* 
+ *>    if (yURG_debug.wrap      == 'y')   yLOG_break  ();                             <* 
+ *>    /+---(complete)-----------------------+/                                       <* 
+ *>    return 0;                                                                      <* 
+ *> }                                                                                 <*/
+
+
+
+/*====================------------------------------------====================*/
+/*===----                        separators                            ----===*/
+/*====================------------------------------------====================*/
 static void      o___SEPARATORS______________o (void) {;}
 
 void

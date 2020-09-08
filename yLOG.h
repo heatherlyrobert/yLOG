@@ -54,10 +54,11 @@ char        yLOGS_remove       (cchar *a_name, cchar a_log);
 
 /*===[[ PUBLIC FUNCTIONS (stripped) ]]====================*/
 /*---(general)--------------*/
-void        yLOG_mute          (void);
-void        yLOG_unmute        (void);
-char        yLOG_track         (const char *a_func, const char a_type);
-char        yLOG_untrack       (const char *a_func);
+void        yLOGS_mute         (void);
+void        yLOGS_unmute       (void);
+char        yLOGS_mute_check   (void);
+char        yLOGS_track        (const char *a_func, const char a_type);
+char        yLOGS_untrack      (const char *a_func);
 /*---(function (2))---------*/
 void        yLOG_enter         (const char *a_func);
 void        yLOG_exit          (const char *a_func);

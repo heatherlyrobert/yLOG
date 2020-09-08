@@ -24,8 +24,8 @@
 
 #define     P_VERMAJOR  "1.--, working and advancing"
 #define     P_VERMINOR  "1.3-, continue to refine while useing"
-#define     P_VERNUM    "1.3d"
-#define     P_VERTXT    "fix indenting to gracefully handle/recover from passing max"
+#define     P_VERNUM    "1.3e"
+#define     P_VERTXT    "added mute checking and change a couple function names to help unit test yURG"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -214,5 +214,8 @@ char        ylog__unit_quiet        (void);
 char        ylog__unit_loud         (void);
 char        ylog__unit_end          (void);
 char*       ylog_base__unit         (char *a_question, int a_num);
+
+void        ylog_stage_init         (void);
+
 
 #endif

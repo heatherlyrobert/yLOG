@@ -35,7 +35,7 @@ ylog_vol_init           (void)
 static void      o___MUTING__________________o (void) {;}
 
 void
-yLOG_mute     (void)
+yLOGS_mute     (void)
 {
    its.loud  = '-';
    strlcpy (its.msg , "", LEN_PATH);
@@ -44,12 +44,19 @@ yLOG_mute     (void)
 }
 
 void
-yLOG_unmute   (void)
+yLOGS_unmute   (void)
 {
    its.loud  = 'y';
    strlcpy (its.msg , "", LEN_PATH);
    strlcpy (its.full, "", LEN_PATH);
    return;
+}
+
+char
+yLOGS_mute_check (void)
+{
+   if (its.loud == 'y') return 1;
+   else                 return 0;
 }
 
 
@@ -98,7 +105,7 @@ ylog_check_enter (const char *a_func)
    n = ylog__find (a_func);
    --rce;  if (n < 0)  return rce;
    if (strchr ("eb" , s_tracks [n].type) == NULL)  return 0;
-   yLOG_unmute ();
+   yLOGS_unmute ();
    return 0;
 }
 
@@ -111,12 +118,12 @@ ylog_check_exit  (const char *a_func)
    n = ylog__find (a_func);
    --rce;  if (n < 0)  return rce;
    if (strchr ("xb" , s_tracks [n].type) == NULL)  return 0;
-   yLOG_mute   ();
+   yLOGS_mute   ();
    return 0;
 }
 
 char
-yLOG_track    (const char *a_func, const char a_type)
+yLOGS_track    (const char *a_func, const char a_type)
 {
    char        rce         =  -10;
    int         x_len       =    0;
@@ -140,7 +147,7 @@ yLOG_track    (const char *a_func, const char a_type)
 }
 
 char
-yLOG_untrack  (const char *a_func)
+yLOGS_untrack  (const char *a_func)
 {
    char        rce         =  -10;
    int         x_len       =    0;
