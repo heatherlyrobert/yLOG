@@ -4,15 +4,24 @@
 
 
 
-/*===[[ BEG_HEADER ]]=========================================================*/
+/*===[[ ONE_LINERS ]]=========================================================*/
+/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
 
 #define     P_FOCUS     "SA (system administration)"
 #define     P_NICHE     "pm (process monitoring)"
 #define     P_PURPOSE   "simple, automated, consistent process execution logging"
 
+#define     P_EXECUTE   "libyLOG.so"
+#define     P_FULLPATH  "/usr/local/lib64/libyLOG.so"
+#define     P_ONELINE   "clio-chrysafenios (flowering) process execution logging"
+
+#define     P_SUFFIX    "ulog"
+#define     P_CONTENT   "process logging journal"
+
 #define     P_NAMESAKE  "clio-chrysafenios (flowering)"
 #define     P_HERITAGE  "greek muse of written and oral history, song, and poetry"
-#define     P_IMAGERY   "golden young woman holding a scroll, seated by a chest of books"
+#define     P_IMAGERY   "golden young woman holding a scroll, by a chest of books"
+#define     P_REASON    "greek muse of beautiful, poetic, historical writings"
 
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
@@ -24,12 +33,16 @@
 
 #define     P_VERMAJOR  "1.--, working and advancing"
 #define     P_VERMINOR  "1.3-, continue to refine while useing"
-#define     P_VERNUM    "1.3e"
-#define     P_VERTXT    "added mute checking and change a couple function names to help unit test yURG"
+#define     P_VERNUM    "1.3f"
+#define     P_VERTXT    "cleaned and changed global accessor variable"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
+
+
+
+/*===[[ REASONING ]]==========================================================*/
 
 #define     P_GREEK     \
  "clio is one of the nine greek muses (mousai) who are the goddesses of art¦" \
@@ -92,10 +105,9 @@
  "h) drives a single method of thinking (myopia requires self-review)¦"
 
 /*===[[ END_HEADER ]]=========================================================*/
-
-
-
 #include  "yLOG.h"
+
+
 
 #include  <stdio.h>
 #include  <stdlib.h>                  /* getenv()                            */
@@ -108,13 +120,14 @@
 #include  <fcntl.h>             /* open */
 #include  <sys/unistd.h>        /* gethostname, getpid, getppid               */
 #include  <stdarg.h>                   /* va_arg                              */
-#include  <ySTR.h>
-#include  <yURG.h>
 #include  <signal.h>
 #include  <dirent.h>
-
 /*-> to support the 'uname' call to get machine and system names  */
 #include  <sys/utsname.h>
+
+#include  <ySTR.h>
+#include  <yURG.h>
+
 
 
 #define           LOGDIR     "/var/log/yLOG/"
@@ -152,7 +165,9 @@
 #define           TYPE_UNKNOWN    '?'
 /*---(done)-----------------------------*/
 #define           LOG_FD          99
-#define           RUN_QUIET       its.loud != 'y'
+#define           IF_QUIET        if (myLOG.loud != 'y')
+#define           IF_LOGGER       if (myLOG.logger != NULL)
+#define           IF_NOTUNIT      if (myURG.use    != 'u' )
 
 
 
@@ -187,7 +202,7 @@ struct cITS {
    char        data        [LEN_FULL];      /* string for messages            */
    char        temp        [LEN_FULL];      /* string for short working area  */
 };
-extern  tITS  its;
+extern  tITS  myLOG;
 
 
 

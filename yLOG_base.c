@@ -2,7 +2,7 @@
 #include    "yLOG.h"
 #include    "yLOG_priv.h"
 
-tITS        its;
+tITS        myLOG;
 
 
 
@@ -29,8 +29,8 @@ yLOGS_version           (void)
 #else
    strlcpy (t, "[unknown    ]", 15);
 #endif
-   snprintf (its.version, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
-   return its.version;
+   snprintf (myLOG.version, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
+   return myLOG.version;
 }
 
 
@@ -63,18 +63,18 @@ ylog__prefix            (void)
    int         i           =    0;
    int         x_indent    =    0;
    /*---(rational limits)----------------*/
-   x_indent = its.indent;
-   if (x_indent <  0)  x_indent = 0;
+   x_indent = myLOG.indent;
+   if (x_indent <  0)  { myLOG.indent = x_indent = 0; }
    if (x_indent > 30)  x_indent = 30;
    /*---(standard prefix)----------------*/
-   strlcpy (its.prefix, "", LEN_HUND);
-   for (i = 0; i <  x_indent; ++i   )  strlcat (its.prefix, "´··", LEN_HUND);
+   strlcpy (myLOG.prefix, "", LEN_HUND);
+   for (i = 0; i <  x_indent; ++i   )  strlcat (myLOG.prefix, "´··", LEN_HUND);
    /*---(add marks every third)----------*/
-   for (i = 2; i <  x_indent; i += 3)  its.prefix [i * 3] = '+';
+   for (i = 2; i <  x_indent; i += 3)  myLOG.prefix [i * 3] = '+';
    /*---(clear just before entry)--------*/
    if (x_indent > 0) {
-      its.prefix [x_indent * 3 - 1] = ' ';
-      its.prefix [x_indent * 3 - 2] = ' ';
+      myLOG.prefix [x_indent * 3 - 1] = ' ';
+      myLOG.prefix [x_indent * 3 - 2] = ' ';
    }
    /*---(complete)-----------------------*/
    return 0;
@@ -99,26 +99,26 @@ ylog__main(
    if (a_change == 0 || strchr (LVL_VALID , a_change) == NULL)   a_change = LVL_UNKNOWN;
    if (a_level  == 0 || strchr (TYPE_VALID, a_level ) == NULL)   a_level  = TYPE_UNKNOWN;
    /*---(exdent, if needed)--------------*/
-   if (a_change == '<' && its.indent > 0) {
-      its.indent--;
+   if (a_change == '<' && myLOG.indent > 0) {
+      myLOG.indent--;
       ylog__prefix ();
    }
    /*---(get wall time)----------------*/
-   x_wall  = ylog__timestamp() - its.wall_start;
+   x_wall  = ylog__timestamp() - myLOG.wall_start;
    /*---(update count)-------------------*/
-   its.count++;
+   myLOG.count++;
    /*---(message)------------------------*/
-   sprintf (its.full, "%7lld.%03lld %6d [%c] %s%s",
+   sprintf (myLOG.full, "%7lld.%03lld %6d [%c] %s%s",
          (x_wall / 1000) % 10000000, x_wall % 1000,
-         its.count % 1000000, a_level, its.prefix, a_message);
+         myLOG.count % 1000000, a_level, myLOG.prefix, a_message);
    /*---(log)----------------------------*/
-   if (its.logger != NULL) {
-      fprintf (its.logger, "%s\n", its.full);
-      fflush  (its.logger);
+   if (myLOG.logger != NULL) {
+      IF_LOGGER  fprintf (myLOG.logger, "%s\n", myLOG.full);
+      IF_LOGGER  fflush  (myLOG.logger);
    }
    /*---(indent, if needed)--------------*/
    if (a_change == '>') {
-      its.indent++;
+      myLOG.indent++;
       ylog__prefix ();
    }
    /*---(complete)-----------------------*/
@@ -132,13 +132,13 @@ ylog__main(
 /*====================------------------------------------====================*/
 static void      o___ACCESSORS_______________o (void) {;}
 
-int   yLOGS_lognum   (void) { return fileno (its.logger); }
+int   yLOGS_lognum   (void) { return fileno (myLOG.logger); }
 
 llong yLOGS_time     (void) { return ylog__timestamp(); }
 
-char *yLOGS_path     (void) { return its.path; };
+char *yLOGS_path     (void) { return myLOG.path; };
 
-char *yLOGS_filename (void) { return its.filename; };
+char *yLOGS_filename (void) { return myLOG.filename; };
 
 
 
@@ -152,14 +152,14 @@ ylogs__progname      (cchar *a_prog)
 {
    int         i           =    0;
    char       *x_valid     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-   strcpy (its.prog, "");
+   strcpy (myLOG.prog, "");
    if (a_prog == NULL)  return -1;
    for (i = 0; i < LEN_LABEL; ++i) {
       if (a_prog [i] == '\0') break;
-      if (strchr (x_valid, a_prog [i]) != NULL)   its.prog [i] = a_prog [i];
-      else                                        its.prog [i] = '_';
+      if (strchr (x_valid, a_prog [i]) != NULL)   myLOG.prog [i] = a_prog [i];
+      else                                        myLOG.prog [i] = '_';
    }
-   its.prog [i] = '\0';
+   myLOG.prog [i] = '\0';
    return 0;
 }
 
@@ -171,39 +171,39 @@ ylogs__logname       (cchar *a_prog, cchar a_loc)
    tTIME      *curr_time   = NULL;
    char        t           [LEN_HUND];
    /*---(initialize)---------------------*/
-   strcpy (its.filename, "/dev/null");
-   strcpy (its.path    , "");
+   strcpy (myLOG.filename, "/dev/null");
+   strcpy (myLOG.path    , "");
    if (a_prog == NULL)  return -1;
    /*---(get the date)-------------------*/
    time_date = time (NULL);
    curr_time = localtime (&time_date);
-   strftime (its.timestamp, LEN_LABEL, "%y.%m.%d.%H.%M.%S", curr_time);
+   strftime (myLOG.timestamp, LEN_LABEL, "%y.%m.%d.%H.%M.%S", curr_time);
    /*---(program name)-------------------*/
    sprintf (t, "%s_____________________________________________________", a_prog);
    /*---(create the file name)-----------*/
    switch (a_loc) {
    case YLOG_STDOUT:
-      strcpy   (its.filename, "stdout");
+      strcpy   (myLOG.filename, "stdout");
       break;
    case YLOG_SYS   :
-      snprintf (its.filename, LEN_PATH, "%s%s.%-25.25s.ulog", LOGDIR , its.timestamp, t);
-      strcpy   (its.path, LOGDIR);
+      snprintf (myLOG.filename, LEN_PATH, "%s%s.%-25.25s.ulog", LOGDIR , myLOG.timestamp, t);
+      strcpy   (myLOG.path, LOGDIR);
       break;
    case YLOG_HIST  :
-      snprintf (its.filename, LEN_PATH, "%s%s.%-25.25s.ulog", HISDIR , its.timestamp, t);
-      strcpy   (its.path, HISDIR);
+      snprintf (myLOG.filename, LEN_PATH, "%s%s.%-25.25s.ulog", HISDIR , myLOG.timestamp, t);
+      strcpy   (myLOG.path, HISDIR);
       break;
    case YLOG_ROOT  :
-      snprintf (its.filename, LEN_PATH, "%s%s.%-25.25s.ulog", ROOTDIR, its.timestamp, t);
-      strcpy   (its.path, ROOTDIR);
+      snprintf (myLOG.filename, LEN_PATH, "%s%s.%-25.25s.ulog", ROOTDIR, myLOG.timestamp, t);
+      strcpy   (myLOG.path, ROOTDIR);
       break;
    case YLOG_USB   :
-      snprintf (its.filename, LEN_PATH, "%s%s.%-25.25s.ulog", USBDIR , its.timestamp, t);
-      strcpy   (its.path, USBDIR);
+      snprintf (myLOG.filename, LEN_PATH, "%s%s.%-25.25s.ulog", USBDIR , myLOG.timestamp, t);
+      strcpy   (myLOG.path, USBDIR);
       break;
    case YLOG_NULL  :
    default         :
-      strcpy   (its.filename, "/dev/null");
+      strcpy   (myLOG.filename, "/dev/null");
       return -2;
       break;
    }
@@ -222,65 +222,65 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    time_t      time_date = time(NULL);
    struct tm*  curr_time = localtime(&time_date);
    /*---(initialize class variables)-----*/
-   strcpy (its.filename, "stdout");
-   its.logger = NULL;
-   its.nsyncs = 0;
-   its.count  = 0;
-   its.indent = 0;
+   strcpy (myLOG.filename, "stdout");
+   myLOG.logger = NULL;
+   myLOG.nsyncs = 0;
+   myLOG.count  = 0;
+   myLOG.indent = 0;
    ylog_vol_init ();
-   strcpy (its.prefix, "");
+   strcpy (myLOG.prefix, "");
    /*---(defense)------------------------*/
-   if (a_quiet == YLOG_NOISE) its.loud  = 'y';
-   else                       its.loud  = '-';
-   if (RUN_QUIET)  return 0;
+   if (a_quiet == YLOG_NOISE) myLOG.loud  = 'y';
+   else                       myLOG.loud  = '-';
+   IF_QUIET  return 0;
    /*---(open the log file)--------------*/
    if (a_loc == YLOG_STDOUT) {
-      its.logger = stdout;
+      myLOG.logger = stdout;
    } else {
       /*---(clean prog name)-------------*/
       rc = ylogs__progname (a_program);
       /*---(create file name)------------*/
-      rc = ylogs__logname  (its.prog, a_loc);
+      rc = ylogs__logname  (myLOG.prog, a_loc);
       if (rc < 0) {
-         its.loud  = '-';
+         myLOG.loud  = '-';
          printf ("FATAL, can not name log file\n");
          return -1;
       }
       /*---(open log)--------------------*/
-      x_fd    = open  (its.filename, O_WRONLY | O_CREAT | O_TRUNC);
+      x_fd    = open  (myLOG.filename, O_WRONLY | O_CREAT | O_TRUNC);
       if (x_fd < 0) {
-         its.loud  = '-';
+         myLOG.loud  = '-';
          printf ("FATAL, can not open logger\n");
          return -2;
       }
       /*---(move to std fd)--------------*/
       dup2 (x_fd, LOG_FD);
       close (x_fd);
-      its.logger = fdopen (LOG_FD, "w");
-      if (its.logger == NULL) {
-         its.loud  = '-';
+      myLOG.logger = fdopen (LOG_FD, "w");
+      if (myLOG.logger == NULL) {
+         myLOG.loud  = '-';
          printf ("FATAL, can not open logger\n");
          return -3;
       }
       /*---(done)------------------------*/
    }
-   strlcpy (its.prog, a_program, 29);
+   strlcpy (myLOG.prog, a_program, 29);
    /*---(get wall time)------------------*/
-   its.wall_start = ylog__timestamp();
+   myLOG.wall_start = ylog__timestamp();
    /*---(display)------------------------*/
-   fprintf(its.logger, "heatherly program logger================================================begin===\n");
-   gethostname(t, LEN_DESC);
-   fprintf(its.logger, "   host       : %s\n",    t);
-   getlogin_r(t, LEN_DESC);
-   fprintf(its.logger, "   user       : %s\n",    t);
-   fprintf(its.logger, "   program    : %s\n",    a_program);
-   fprintf(its.logger, "   pid        : %06i\n",  getpid());
-   fprintf(its.logger, "   start date : %s",      asctime(curr_time));
-   fprintf(its.logger, "   start (ms) : %lld\n",  its.wall_start);
-   fprintf(its.logger, "   log file   : %s\n",    its.filename);
-   fprintf(its.logger, "================================================================================\n");
-   fprintf(its.logger, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
-   yLOG_note("logger loaded");
+   IF_LOGGER  fprintf (myLOG.logger, "heatherly program logger================================================begin===\n");
+   gethostname (t, LEN_DESC);
+   IF_LOGGER  fprintf (myLOG.logger, "   host       : %s\n",    t);
+   getlogin_r (t, LEN_DESC);
+   IF_LOGGER  fprintf (myLOG.logger, "   user       : %s\n",    t);
+   IF_LOGGER  fprintf (myLOG.logger, "   program    : %s\n",    a_program);
+   IF_LOGGER  fprintf (myLOG.logger, "   pid        : %06i\n",  getpid());
+   IF_LOGGER  fprintf (myLOG.logger, "   start date : %s",      asctime(curr_time));
+   IF_LOGGER  fprintf (myLOG.logger, "   start (ms) : %lld\n",  myLOG.wall_start);
+   IF_LOGGER  fprintf (myLOG.logger, "   log file   : %s\n",    myLOG.filename);
+   IF_LOGGER  fprintf (myLOG.logger, "================================================================================\n");
+   IF_LOGGER  fprintf (myLOG.logger, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
+   IF_LOGGER  yLOG_note ("logger loaded");
    /*---(complete)-----------------------*/
    return 0;
 }
@@ -288,29 +288,29 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
 void                    /* PURPOSE : log footer and close logger              */
 yLOGS_end      (void)
 {
-   if (its.logger == NULL) return;
+   if (myLOG.logger == NULL) return;
    /*---(get the date)---------------------------*/
    time_t      time_date = time(NULL);
    struct tm*  curr_time = localtime(&time_date);
    /*---(get wall time)----------------*/
    llong _wall = ylog__timestamp();
-   long  _elap = _wall - its.wall_start;
+   long  _elap = _wall - myLOG.wall_start;
    long  _sec  = _elap / 1000;
    long  _hrs  = _sec / 3600;
    _sec -= _hrs * 3600;
    long  _min  = _sec / 60;
    _sec -= _min * 60;
    /*---(display end)------------------*/
-   yLOG_note("logger stopped");
-   fprintf(its.logger, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
-   fprintf(its.logger, "================================================================================\n");
-   fprintf(its.logger, "   end date   : %s",      asctime(curr_time));
-   fprintf(its.logger, "   end (ms)   : %lld\n",  _wall);
-   fprintf(its.logger, "   dur (ms)   : %lld\n",  _wall - its.wall_start);
-   fprintf(its.logger, "   duration   : %2ldh, %2ldm, %2lds\n", _hrs, _min, _sec);
-   fprintf(its.logger, "==========================================================================end===\n");
-   fclose (its.logger);
-   its.loud  = '-';
+   IF_LOGGER  yLOG_note("logger stopped");
+   IF_LOGGER  fprintf(myLOG.logger, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
+   IF_LOGGER  fprintf(myLOG.logger, "================================================================================\n");
+   IF_LOGGER  fprintf(myLOG.logger, "   end date   : %s",      asctime(curr_time));
+   IF_LOGGER  fprintf(myLOG.logger, "   end (ms)   : %lld\n",  _wall);
+   IF_LOGGER  fprintf(myLOG.logger, "   dur (ms)   : %lld\n",  _wall - myLOG.wall_start);
+   IF_LOGGER  fprintf(myLOG.logger, "   duration   : %2ldh, %2ldm, %2lds\n", _hrs, _min, _sec);
+   IF_LOGGER  fprintf(myLOG.logger, "==========================================================================end===\n");
+   IF_LOGGER  fclose (myLOG.logger);
+   myLOG.loud  = '-';
    return;
 }
 
@@ -512,15 +512,16 @@ char          unit_answer [LEN_RECD];
 char       /*----: set up program urgents/debugging --------------------------*/
 ylog__unit_quiet       (void)
 {
-   yLOGS_begin ("yLOG", YLOG_SYS, YLOG_QUIET);
+   yLOGS_begin ("yLOG_unit", YLOG_SYS, YLOG_QUIET);
+   myURG.use   = 'u';
    return 0;
 }
 
 char       /*----: set up program urgents/debugging --------------------------*/
 ylog__unit_loud        (void)
 {
-   yLOGS_begin   ("yLOG_unit", YLOG_SYS, YLOG_NOISE);
-   /*> DEBUG_YLOGS  yLOG_info     ("yLOG"      , yLOG_version   ());                  <*/
+   yLOGS_begin ("yLOG_unit", YLOG_SYS, YLOG_NOISE);
+   myURG.use   = 'u';
    return 0;
 }
 
@@ -541,19 +542,19 @@ ylog_base__unit         (char *a_question, int a_num)
    strncpy  (unit_answer, "BASE             : question not understood", LEN_RECD);
    /*---(crontab name)-------------------*/
    if      (strcmp (a_question, "prefix"     ) == 0) {
-      sprintf (t, "[%s]", its.prefix);
-      snprintf (unit_answer, LEN_RECD, "BASE prefix      : %2d  %2d%s", its.indent, strlen (its.prefix), t);
+      sprintf (t, "[%s]", myLOG.prefix);
+      snprintf (unit_answer, LEN_RECD, "BASE prefix      : %2d  %2d%s", myLOG.indent, strlen (myLOG.prefix), t);
    }
    else if (strcmp (a_question, "full"       ) == 0) {
-      sprintf (t, "[%s]", its.full);
-      snprintf (unit_answer, LEN_RECD, "BASE full        : %2d%s", strlen (its.full), t);
+      sprintf (t, "[%s]", myLOG.full);
+      snprintf (unit_answer, LEN_RECD, "BASE full        : %2d%s", strlen (myLOG.full), t);
    }
    else if (strcmp (a_question, "prog"       ) == 0) {
-      sprintf (t, "[%s]", its.prog);
-      snprintf (unit_answer, LEN_RECD, "BASE prog        : %2d%s", strlen (its.prog), t);
+      sprintf (t, "[%s]", myLOG.prog);
+      snprintf (unit_answer, LEN_RECD, "BASE prog        : %2d%s", strlen (myLOG.prog), t);
    }
    else if (strcmp (a_question, "loud"       ) == 0) {
-      snprintf (unit_answer, LEN_RECD, "BASE loud        : %c  %2d", its.loud, its.count);
+      snprintf (unit_answer, LEN_RECD, "BASE loud        : %c  %2d", myLOG.loud, myLOG.count);
    }
    /*---(complete)-----------------------*/
    return unit_answer;
