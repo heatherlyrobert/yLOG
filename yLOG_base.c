@@ -21,13 +21,13 @@ yLOGS_version           (void)
 {
    char    t [20] = "";
 #if    __TINYC__ > 0
-   strlcpy (t, "[tcc built  ]", 15);
+   strncpy (t, "[tcc built  ]", 15);
 #elif  __GNUC__  > 0
-   strlcpy (t, "[gnu gcc    ]", 15);
+   strncpy (t, "[gnu gcc    ]", 15);
 #elif  __HEPH__  > 0
-   strlcpy (t, "[hephaestus ]", 18);
+   strncpy (t, "[hephaestus ]", 18);
 #else
-   strlcpy (t, "[unknown    ]", 15);
+   strncpy (t, "[unknown    ]", 15);
 #endif
    snprintf (myLOG.version, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
    return myLOG.version;
@@ -67,8 +67,8 @@ ylog__prefix            (void)
    if (x_indent <  0)  { myLOG.indent = x_indent = 0; }
    if (x_indent > 30)  x_indent = 30;
    /*---(standard prefix)----------------*/
-   strlcpy (myLOG.prefix, "", LEN_HUND);
-   for (i = 0; i <  x_indent; ++i   )  strlcat (myLOG.prefix, "´··", LEN_HUND);
+   strncpy (myLOG.prefix, "", LEN_HUND);
+   for (i = 0; i <  x_indent; ++i   )  strncat (myLOG.prefix, "´··", LEN_HUND);
    /*---(add marks every third)----------*/
    for (i = 2; i <  x_indent; i += 3)  myLOG.prefix [i * 3] = '+';
    /*---(clear just before entry)--------*/
@@ -218,6 +218,9 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    int         i           =    0;
    int         x_fd        =    0;
    char        t           [LEN_DESC];
+   int         x_len       = 0;
+   char       *p           = NULL;
+   char        x_progname  [LEN_FULL] = "";
    /*---(get the date)---------------------------*/
    time_t      time_date = time(NULL);
    struct tm*  curr_time = localtime(&time_date);
@@ -233,6 +236,16 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    if (a_quiet == YLOG_NOISE) myLOG.loud  = 'y';
    else                       myLOG.loud  = '-';
    IF_QUIET  return 0;
+   /*---(test for normal version)--------*/
+   p = strrchr (a_program, '/');
+   if (p == NULL)  strlcpy (x_progname, a_program, LEN_FULL);
+   else            strlcpy (x_progname, p + 1    , LEN_FULL);
+   x_len  = strllen (x_progname, LEN_LABEL);
+   myLOG.use    = '-';
+   if (x_len >= 6) {
+      if (strstr (x_progname, "_debug") != 0)  myLOG.use  = 'd';
+      if (strstr (x_progname, "_unit" ) != 0)  myLOG.use  = 'u';
+   }
    /*---(open the log file)--------------*/
    if (a_loc == YLOG_STDOUT) {
       myLOG.logger = stdout;
@@ -264,7 +277,7 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
       }
       /*---(done)------------------------*/
    }
-   strlcpy (myLOG.prog, a_program, 29);
+   strncpy (myLOG.prog, a_program, 29);
    /*---(get wall time)------------------*/
    myLOG.wall_start = ylog__timestamp();
    /*---(display)------------------------*/
@@ -358,31 +371,31 @@ yLOGS_verify            (cchar *a_name, cchar a_log)
    }
    DEBUG_YLOGS  yLOG_info    ("x_path"    , x_path);
    /*---(open dir)-----------------------*/
-   DEBUG_INPT   yLOG_info    ("f_path"    , x_path);
+   DEBUG_YLOGS  yLOG_info    ("f_path"    , x_path);
    x_dir = opendir (x_path);
-   DEBUG_INPT   yLOG_point   ("x_dir"     , x_dir);
+   DEBUG_YLOGS  yLOG_point   ("x_dir"     , x_dir);
    --rce;  if (x_dir == NULL) {
-      DEBUG_INPT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(walk)---------------------------*/
    while (1) {
       /*---(pick file)-------------------*/
       x_file = readdir (x_dir);
-      DEBUG_INPT   yLOG_point   ("x_file"    , x_file);
+      DEBUG_YLOGS  yLOG_point   ("x_file"    , x_file);
       if (x_file == NULL)  break;
-      DEBUG_INPT   yLOG_info    ("name"      , x_file->d_name);
+      DEBUG_YLOGS  yLOG_info    ("name"      , x_file->d_name);
       /*---(filter by name)--------------*/
       x_len = strlen (x_file->d_name);
-      DEBUG_INPT   yLOG_value   ("x_len"     , x_len);
+      DEBUG_YLOGS  yLOG_value   ("x_len"     , x_len);
       if (x_len < 20)  continue;
-      DEBUG_INPT   yLOG_info    ("suffix"    , x_file->d_name + x_len - 5);
+      DEBUG_YLOGS  yLOG_info    ("suffix"    , x_file->d_name + x_len - 5);
       rc = strcmp (x_file->d_name  + x_len - 5, ".ulog");
-      DEBUG_INPT   yLOG_value   ("match"     , rc);
+      DEBUG_YLOGS  yLOG_value   ("match"     , rc);
       if (rc != 0)  continue;
-      DEBUG_INPT   yLOG_info    ("potential" , x_file->d_name + 18);
+      DEBUG_YLOGS  yLOG_info    ("potential" , x_file->d_name + 18);
       p  = strstr (x_file->d_name + 18, a_name);
-      DEBUG_INPT   yLOG_point   ("p"         , p);
+      DEBUG_YLOGS  yLOG_point   ("p"         , p);
       if (p == NULL)  continue;
       /*---(found it)--------------------*/
       ++c;
@@ -391,13 +404,13 @@ yLOGS_verify            (cchar *a_name, cchar a_log)
    }
    /*---(close)--------------------------*/
    rc = closedir (x_dir);
-   DEBUG_INPT   yLOG_point   ("close"     , rc);
+   DEBUG_YLOGS  yLOG_point   ("close"     , rc);
    --rce;  if (rc < 0) {
-      DEBUG_INPT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(check good result)--------------*/
-   DEBUG_INPT   yLOG_value   ("c"         , c);
+   DEBUG_YLOGS  yLOG_value   ("c"         , c);
    --rce;  if (c != 1) {
       DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
       return c;
@@ -456,31 +469,31 @@ yLOGS_remove            (cchar *a_name, cchar a_log)
    }
    DEBUG_YLOGS  yLOG_info    ("x_path"    , x_path);
    /*---(open dir)-----------------------*/
-   DEBUG_INPT   yLOG_info    ("f_path"    , x_path);
+   DEBUG_YLOGS  yLOG_info    ("f_path"    , x_path);
    x_dir = opendir (x_path);
-   DEBUG_INPT   yLOG_point   ("x_dir"     , x_dir);
+   DEBUG_YLOGS  yLOG_point   ("x_dir"     , x_dir);
    --rce;  if (x_dir == NULL) {
-      DEBUG_INPT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(walk)---------------------------*/
    while (1) {
       /*---(pick file)-------------------*/
       x_file = readdir (x_dir);
-      DEBUG_INPT   yLOG_point   ("x_file"    , x_file);
+      DEBUG_YLOGS  yLOG_point   ("x_file"    , x_file);
       if (x_file == NULL)  break;
-      DEBUG_INPT   yLOG_info    ("name"      , x_file->d_name);
+      DEBUG_YLOGS  yLOG_info    ("name"      , x_file->d_name);
       /*---(filter by name)--------------*/
       x_len = strlen (x_file->d_name);
-      DEBUG_INPT   yLOG_value   ("x_len"     , x_len);
+      DEBUG_YLOGS  yLOG_value   ("x_len"     , x_len);
       if (x_len < 20)  continue;
-      DEBUG_INPT   yLOG_info    ("suffix"    , x_file->d_name + x_len - 5);
+      DEBUG_YLOGS  yLOG_info    ("suffix"    , x_file->d_name + x_len - 5);
       rc = strcmp (x_file->d_name  + x_len - 5, ".ulog");
-      DEBUG_INPT   yLOG_value   ("match"     , rc);
+      DEBUG_YLOGS  yLOG_value   ("match"     , rc);
       if (rc != 0)  continue;
-      DEBUG_INPT   yLOG_info    ("potential" , x_file->d_name + 18);
+      DEBUG_YLOGS  yLOG_info    ("potential" , x_file->d_name + 18);
       p  = strstr (x_file->d_name + 18, a_name);
-      DEBUG_INPT   yLOG_point   ("p"         , p);
+      DEBUG_YLOGS  yLOG_point   ("p"         , p);
       if (p == NULL)  continue;
       /*---(found it)--------------------*/
       ++c;
@@ -490,9 +503,9 @@ yLOGS_remove            (cchar *a_name, cchar a_log)
    }
    /*---(close)--------------------------*/
    rc = closedir (x_dir);
-   DEBUG_INPT   yLOG_point   ("close"     , rc);
+   DEBUG_YLOGS  yLOG_point   ("close"     , rc);
    --rce;  if (rc < 0) {
-      DEBUG_INPT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(complete)-----------------------*/
@@ -513,7 +526,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ylog__unit_quiet       (void)
 {
    yLOGS_begin ("yLOG_unit", YLOG_SYS, YLOG_QUIET);
-   myURG.use   = 'u';
+   myLOG.use   = 'u';
    return 0;
 }
 
@@ -521,7 +534,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ylog__unit_loud        (void)
 {
    yLOGS_begin ("yLOG_unit", YLOG_SYS, YLOG_NOISE);
-   myURG.use   = 'u';
+   myLOG.use   = 'u';
    return 0;
 }
 

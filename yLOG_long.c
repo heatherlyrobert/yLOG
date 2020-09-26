@@ -12,27 +12,27 @@ static void      o___HELPERS_________________o (void) {;}
 char*        /*--> defense for bad titles in longs ---------------------------*/
 ylog_title         (const char *a_title)
 {
-   if (a_title == NULL)              strlcpy (myLOG.title, "¢null?"  , LEN_FULL);
-   else if (strlen (a_title) <= 0)   strlcpy (myLOG.title, "¢empty?" , LEN_FULL);
-   else                              strlcpy (myLOG.title, a_title   , LEN_FULL);
+   if (a_title == NULL)              strncpy (myLOG.title, "¢null?"  , LEN_FULL);
+   else if (strlen (a_title) <= 0)   strncpy (myLOG.title, "¢empty?" , LEN_FULL);
+   else                              strncpy (myLOG.title, a_title   , LEN_FULL);
    return myLOG.title;
 }
 
 char*        /*--> defense for bad data in longs -----------------------------*/
 ylog_data          (const char *a_data)
 {
-   if (a_data == NULL)               strlcpy (myLOG.data , "¢ data was null ?" , LEN_FULL);
-   else if (strlen (a_data) <= 0)    strlcpy (myLOG.data , "¢ data was empty ?", LEN_FULL);
-   else                              strlcpy (myLOG.data , a_data              , LEN_FULL);
+   if (a_data == NULL)               strncpy (myLOG.data , "¢ data was null ?" , LEN_FULL);
+   else if (strlen (a_data) <= 0)    strncpy (myLOG.data , "¢ data was empty ?", LEN_FULL);
+   else                              strncpy (myLOG.data , a_data              , LEN_FULL);
    return myLOG.data;
 }
 
 char*        /*--> defense for bad data in shorts ----------------------------*/
 ylog_terse         (const char *a_data)
 {
-   if (a_data == NULL)               strlcpy (myLOG.data , "¢null?"  , LEN_FULL);
-   else if (strlen (a_data) <= 0)    strlcpy (myLOG.data , "¢empty?" , LEN_FULL);
-   else                              strlcpy (myLOG.data , a_data   , LEN_FULL);
+   if (a_data == NULL)               strncpy (myLOG.data , "¢null?"  , LEN_FULL);
+   else if (strlen (a_data) <= 0)    strncpy (myLOG.data , "¢empty?" , LEN_FULL);
+   else                              strncpy (myLOG.data , a_data   , LEN_FULL);
    return myLOG.data;
 }
 

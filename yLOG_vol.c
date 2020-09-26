@@ -38,8 +38,8 @@ void
 yLOGS_mute     (void)
 {
    myLOG.loud  = '-';
-   strlcpy (myLOG.msg , "", LEN_PATH);
-   strlcpy (myLOG.full, "", LEN_PATH);
+   strncpy (myLOG.msg , "", LEN_PATH);
+   strncpy (myLOG.full, "", LEN_PATH);
    return;
 }
 
@@ -47,8 +47,8 @@ void
 yLOGS_unmute   (void)
 {
    myLOG.loud  = 'y';
-   strlcpy (myLOG.msg , "", LEN_PATH);
-   strlcpy (myLOG.full, "", LEN_PATH);
+   strncpy (myLOG.msg , "", LEN_PATH);
+   strncpy (myLOG.full, "", LEN_PATH);
    return;
 }
 
@@ -137,7 +137,7 @@ yLOGS_track    (const char *a_func, const char a_type)
    n = ylog__find (a_func);
    if (n < 0) {
       s_tracks [s_ntrack].type = a_type;
-      strlcpy (s_tracks [s_ntrack].name, a_func, LEN_LABEL);
+      strncpy (s_tracks [s_ntrack].name, a_func, LEN_LABEL);
       s_tracks [s_ntrack].len = x_len;
       ++s_ntrack;
    } else {

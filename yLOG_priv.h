@@ -29,12 +29,12 @@
 
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2008-07"
-#define     P_DEPENDS   "ySTR"
+#define     P_DEPENDS   "none"
 
 #define     P_VERMAJOR  "1.--, working and advancing"
 #define     P_VERMINOR  "1.3-, continue to refine while useing"
-#define     P_VERNUM    "1.3f"
-#define     P_VERTXT    "cleaned and changed global accessor variable"
+#define     P_VERNUM    "1.3g"
+#define     P_VERTXT    "dependencies between libraries became circular >:o  fixed"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -125,9 +125,22 @@
 /*-> to support the 'uname' call to get machine and system names  */
 #include  <sys/utsname.h>
 
-#include  <ySTR.h>
-#include  <yURG.h>
 
+
+/*===[[ ySTR CLIPPING ]]======================================================*/
+#define     LEN_HUGE        10000       /* special cases only                 */
+#define     LEN_RECD         2000       /* longer likely means hacker         */
+#define     LEN_PATH          300       /* large, but not crazy length        */
+#define     LEN_FULL          200       /* large string length                */
+#define     LEN_HUND          100       /* conservative field/arg length      */
+#define     LEN_LONG           75       /* long descrition                    */
+#define     LEN_DESC           50       /* no one reads long descriptions     */
+#define     LEN_TITLE          30       /* for organizing                     */
+#define     LEN_LABEL          20       /* names and labels                   */
+#define     LEN_USER           12       /* user names                         */
+#define     LEN_HEX            10       /* hex codes                          */
+#define     LEN_TERSE          10       /* terse string                       */
+#define     LEN_SHORT           5       /* for small needs                    */
 
 
 #define           LOGDIR     "/var/log/yLOG/"
@@ -165,9 +178,11 @@
 #define           TYPE_UNKNOWN    '?'
 /*---(done)-----------------------------*/
 #define           LOG_FD          99
-#define           IF_QUIET        if (myLOG.loud != 'y')
+#define           IF_QUIET        if (myLOG.loud   != 'y' )
 #define           IF_LOGGER       if (myLOG.logger != NULL)
-#define           IF_NOTUNIT      if (myURG.use    != 'u' )
+#define           IF_NOTUNIT      if (myLOG.use    != 'u' )
+#define           DEBUG_YLOGS     if (myLOG.use    == 'd' )
+#define           DEBUG_TOPS      if (myLOG.use    == 'd' )
 
 
 
@@ -183,6 +198,7 @@ typedef struct dirent    tDIRENT;
 typedef    struct  cITS  tITS;
 struct cITS {
    char        loud;  
+   char        use;                    /* (-) normal, (d)ebug, or (u)nit      */
    char        prog        [LEN_LABEL];     /* calling program name           */
    FILE       *logger;                      /* file to receive messages       */
    char        full        [LEN_RECD];      /* full message to be written     */
