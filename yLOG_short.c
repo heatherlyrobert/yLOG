@@ -95,10 +95,22 @@ yLOG_spoint   (const void *a_pointer)
 }
 
 void
-yLOG_schar    (const char a_char)
+yLOG_schar    (const unsigned char a_char)
 {
+   unsigned char c  = 'Ï';
    IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, ", %c", (unsigned char) chrvisible (a_char));
+   if (a_char >   32 && a_char <  127)  c = a_char;
+   if (a_char >  160)                   c = a_char;
+   switch (a_char) {
+   case   0 : c = '£';  break;   /* null   */
+   case  10 : c = '¦';  break;   /* return */
+   case  13 : c = '¦';  break;   /* enter  */
+   case  27 : c = '¥';  break;   /* escape */
+   case  29 : c = '¨';  break;   /* group  */
+   case  31 : c = '§';  break;   /* escape */
+   case  32 : c = '·';  break;   /* space  */
+   }
+   snprintf (myLOG.temp, LEN_FULL, ", %c", c);
    strncat  (myLOG.single, myLOG.temp, LEN_FULL);
    return;
 }

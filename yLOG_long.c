@@ -110,10 +110,22 @@ yLOG_delim         (const char *a_subject, const char *a_info)
 }
 
 void
-yLOG_char          (const char *a_subject, const char a_char)
+yLOG_char          (const char *a_subject, const unsigned char a_char)
 {
+   unsigned char c  = 'Ï';
    IF_QUIET  return;
-   sprintf(myLOG.msg, "%-10.10s: %c", ylog_title (a_subject), (unsigned char) chrvisible (a_char));
+   if (a_char >   32 && a_char <  127)  c = a_char;
+   if (a_char >  160)                   c = a_char;
+   switch (a_char) {
+   case   0 : c = '£';  break;   /* null   */
+   case  10 : c = '¦';  break;   /* return */
+   case  13 : c = '¦';  break;   /* enter  */
+   case  27 : c = '¥';  break;   /* escape */
+   case  29 : c = '¨';  break;   /* group  */
+   case  31 : c = '§';  break;   /* escape */
+   case  32 : c = '·';  break;   /* space  */
+   }
+   sprintf (myLOG.msg, "%-10.10s: %c", ylog_title (a_subject), c);
    ylog__main (LVL_SAME, TYPE_INFO, myLOG.msg);
    return;
 }

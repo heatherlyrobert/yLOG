@@ -11,7 +11,8 @@
 #define   YLOG_ROOT         'r'
 #define   YLOG_USB          'u'
 #define   YLOG_NULL         '0'
-#define   YLOG_VALIDS       "shoru0"
+#define   YLOG_TMP          't'
+#define   YLOG_VALIDS       "shoru0t"
 
 #define   YLOG_NOISE        'N'
 #define   YLOG_QUIET        'Q'
@@ -47,7 +48,7 @@ long long   yLOGS_time         (void);
 char       *yLOGS_path         (void);
 char       *yLOGS_filename     (void);
 /*---(testing support)------*/
-char        yLOGS_verify       (cchar *a_name, cchar a_log);
+char        yLOGS_verify       (cchar *a_name, cchar a_log, cchar a_line);
 char        yLOGS_remove       (cchar *a_name, cchar a_log);
 
 
@@ -71,7 +72,7 @@ void        yLOG_value         (const char *a_subject, const int      a_value);
 void        yLOG_llong         (const char *a_subject, const llong    a_value);
 void        yLOG_hex           (const char *a_subject, const long     a_value);
 void        yLOG_double        (const char *a_subject, const double   a_value);
-void        yLOG_char          (const char *a_subject, const char     a_char);
+void        yLOG_char          (const char *a_subject, const unsigned char     a_char);
 void        yLOG_point         (const char *a_subject, const void    *a_value);
 void        yLOG_bullet        (const int   a_num,     const char    *a_info);
 void        yLOG_pair          (const int   a_num,     const int      a_value);
@@ -90,7 +91,7 @@ void        yLOG_sinfo         (const char *a_subject, const char *a_info);
 void        yLOG_sint          (const int   a_value);
 void        yLOG_sdouble       (const double  a_value);
 void        yLOG_shex          (const long  a_value);
-void        yLOG_schar         (const char  a_char);
+void        yLOG_schar         (const unsigned char  a_char);
 void        yLOG_spoint        (const void *a_pointer);
 void        yLOG_svalue        (const char *a_subject, const int   a_value);
 /*---(warnings (4))---------*/

@@ -9,19 +9,20 @@
 
 #define     P_FOCUS     "SA (system administration)"
 #define     P_NICHE     "pm (process monitoring)"
+#define     P_SUBJECT   "process execution logging"
 #define     P_PURPOSE   "simple, automated, consistent process execution logging"
-
-#define     P_EXECUTE   "libyLOG.so"
-#define     P_FULLPATH  "/usr/local/lib64/libyLOG.so"
-#define     P_ONELINE   "clio-chrysafenios (flowering) process execution logging"
-
-#define     P_SUFFIX    "ulog"
-#define     P_CONTENT   "process logging journal"
 
 #define     P_NAMESAKE  "clio-chrysafenios (flowering)"
 #define     P_HERITAGE  "greek muse of written and oral history, song, and poetry"
 #define     P_IMAGERY   "golden young woman holding a scroll, by a chest of books"
 #define     P_REASON    "greek muse of beautiful, poetic, historical writings"
+
+#define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
+
+#define     P_BASENAME  "yLOG"
+#define     P_FULLPATH  "/usr/local/lib64/libyLOG.so"
+#define     P_SUFFIX    "ulog"
+#define     P_CONTENT   "process logging journal"
 
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
@@ -29,16 +30,19 @@
 
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2008-07"
-#define     P_DEPENDS   "none"
+#define     P_DEPENDS   "n/a"
 
 #define     P_VERMAJOR  "1.--, working and advancing"
-#define     P_VERMINOR  "1.3-, continue to refine while useing"
-#define     P_VERNUM    "1.3g"
-#define     P_VERTXT    "dependencies between libraries became circular >:o  fixed"
+#define     P_VERMINOR  "1.3-, continue to refine while using"
+#define     P_VERNUM    "1.3h"
+#define     P_VERTXT    "trouble with output lines, resolved and added to unit test"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
+
+/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
+/*===[[ END ONE_LINERS ]]=====================================================*/
 
 
 
@@ -147,6 +151,7 @@
 #define           HISDIR     "/var/log/yLOG.historical/"
 #define           ROOTDIR    "/"
 #define           USBDIR     "/mnt/usb1/"
+#define           TMPDIR     "/tmp/"
 
 
 /*===[[ STANDARDS ]]===============================================#*/
@@ -199,7 +204,7 @@ typedef    struct  cITS  tITS;
 struct cITS {
    char        loud;  
    char        use;                    /* (-) normal, (d)ebug, or (u)nit      */
-   char        prog        [LEN_LABEL];     /* calling program name           */
+   char        prog        [LEN_TITLE];     /* calling program name           */
    FILE       *logger;                      /* file to receive messages       */
    char        full        [LEN_RECD];      /* full message to be written     */
    char        core;                        /* log core heatherly libraries   */

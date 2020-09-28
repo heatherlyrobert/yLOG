@@ -3,6 +3,7 @@
 #include    "yLOG_priv.h"
 
 tITS        myLOG;
+static int  s_lines  = 0;
 
 
 
@@ -112,9 +113,10 @@ ylog__main(
          (x_wall / 1000) % 10000000, x_wall % 1000,
          myLOG.count % 1000000, a_level, myLOG.prefix, a_message);
    /*---(log)----------------------------*/
-   if (myLOG.logger != NULL) {
-      IF_LOGGER  fprintf (myLOG.logger, "%s\n", myLOG.full);
-      IF_LOGGER  fflush  (myLOG.logger);
+   /*> printf ("ylog__main (%p) %c %2d %s\n", myLOG.logger, a_change, a_level, a_message);   <*/
+   IF_LOGGER {
+      fprintf (myLOG.logger, "%s\n", myLOG.full);
+      fflush  (myLOG.logger);
    }
    /*---(indent, if needed)--------------*/
    if (a_change == '>') {
@@ -201,6 +203,10 @@ ylogs__logname       (cchar *a_prog, cchar a_loc)
       snprintf (myLOG.filename, LEN_PATH, "%s%s.%-25.25s.ulog", USBDIR , myLOG.timestamp, t);
       strcpy   (myLOG.path, USBDIR);
       break;
+   case YLOG_TMP   :
+      snprintf (myLOG.filename, LEN_PATH, "%s%s.%-25.25s.ulog", TMPDIR , myLOG.timestamp, t);
+      strcpy   (myLOG.path, TMPDIR);
+      break;
    case YLOG_NULL  :
    default         :
       strcpy   (myLOG.filename, "/dev/null");
@@ -238,14 +244,16 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    IF_QUIET  return 0;
    /*---(test for normal version)--------*/
    p = strrchr (a_program, '/');
-   if (p == NULL)  strlcpy (x_progname, a_program, LEN_FULL);
-   else            strlcpy (x_progname, p + 1    , LEN_FULL);
-   x_len  = strllen (x_progname, LEN_LABEL);
+   if (p == NULL)  strncpy (x_progname, a_program, LEN_FULL);
+   else            strncpy (x_progname, p + 1    , LEN_FULL);
+   x_len  = strlen (x_progname);
    myLOG.use    = '-';
    if (x_len >= 6) {
       if (strstr (x_progname, "_debug") != 0)  myLOG.use  = 'd';
       if (strstr (x_progname, "_unit" ) != 0)  myLOG.use  = 'u';
    }
+   /*> printf ("myLOG.loud = %c\n", myLOG.loud);                                      <*/
+   /*> printf ("myLOG.use  = %c\n", myLOG.use);                                       <*/
    /*---(open the log file)--------------*/
    if (a_loc == YLOG_STDOUT) {
       myLOG.logger = stdout;
@@ -277,6 +285,7 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
       }
       /*---(done)------------------------*/
    }
+   /*> printf ("myLOG.logger = %p\n", myLOG.logger);                                  <*/
    strncpy (myLOG.prog, a_program, 29);
    /*---(get wall time)------------------*/
    myLOG.wall_start = ylog__timestamp();
@@ -293,7 +302,9 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    IF_LOGGER  fprintf (myLOG.logger, "   log file   : %s\n",    myLOG.filename);
    IF_LOGGER  fprintf (myLOG.logger, "================================================================================\n");
    IF_LOGGER  fprintf (myLOG.logger, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
+   /*> printf ("myLOG.logger = %p\n", myLOG.logger);                                  <*/
    IF_LOGGER  yLOG_note ("logger loaded");
+   /*> printf ("myLOG.logger = %p\n", myLOG.logger);                                  <*/
    /*---(complete)-----------------------*/
    return 0;
 }
@@ -335,7 +346,7 @@ yLOGS_end      (void)
 static void      o___SPECIALTY_______________o (void) {;};
 
 char
-yLOGS_verify            (cchar *a_name, cchar a_log)
+yLOGS_verify            (cchar *a_name, cchar a_log, cchar a_line)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -348,6 +359,8 @@ yLOGS_verify            (cchar *a_name, cchar a_log)
    char       *p           = NULL;
    tSTAT       s;
    char        c           =    0;
+   FILE       *f           = NULL;
+   char        x_recd      [LEN_RECD] = "";
    /*---(header)-------------------------*/
    DEBUG_YLOGS  yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
@@ -364,6 +377,7 @@ yLOGS_verify            (cchar *a_name, cchar a_log)
    case YLOG_HIST : strcpy (x_path, HISDIR); break;
    case YLOG_ROOT : strcpy (x_path, ROOTDIR); break;
    case YLOG_USB  : strcpy (x_path, USBDIR); break;
+   case YLOG_TMP  : strcpy (x_path, TMPDIR); break;
    default        :
                     DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
                     return rce;
@@ -427,6 +441,28 @@ yLOGS_verify            (cchar *a_name, cchar a_log)
       DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
+   /*---(get a line)------------------*/
+   s_lines = 0;
+   --rce;  if (a_line >= 0) {
+      strncpy (myLOG.full, "-", LEN_PATH);
+      f = fopen (x_name, "rt");
+      if (rc < 0) {
+         DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+      while (1) {
+         fgets (x_recd, LEN_RECD, f);
+         if (feof (f))   break;
+         x_len = strlen (x_recd);
+         if (x_recd [x_len - 1] == '\n') x_recd [--x_len] = '\0';
+         if (s_lines == a_line) strncpy (myLOG.full, x_recd, LEN_PATH);
+         ++s_lines;
+      }
+      if (myLOG.full [0] == '-') {
+         DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+   }
    /*---(complete)-----------------------*/
    DEBUG_YLOGS  yLOG_exit    (__FUNCTION__);
    return 1;
@@ -462,6 +498,7 @@ yLOGS_remove            (cchar *a_name, cchar a_log)
    case YLOG_HIST : strcpy (x_path, HISDIR); break;
    case YLOG_ROOT : strcpy (x_path, ROOTDIR); break;
    case YLOG_USB  : strcpy (x_path, USBDIR); break;
+   case YLOG_TMP  : strcpy (x_path, TMPDIR); break;
    default        :
                     DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
                     return rce;
@@ -568,6 +605,9 @@ ylog_base__unit         (char *a_question, int a_num)
    }
    else if (strcmp (a_question, "loud"       ) == 0) {
       snprintf (unit_answer, LEN_RECD, "BASE loud        : %c  %2d", myLOG.loud, myLOG.count);
+   }
+   else if (strcmp (a_question, "lines"      ) == 0) {
+      snprintf (unit_answer, LEN_RECD, "BASE lines       : %2d", s_lines);
    }
    /*---(complete)-----------------------*/
    return unit_answer;
