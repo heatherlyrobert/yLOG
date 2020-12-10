@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, working and advancing"
 #define     P_VERMINOR  "1.3-, continue to refine while using"
-#define     P_VERNUM    "1.3h"
-#define     P_VERTXT    "trouble with output lines, resolved and added to unit test"
+#define     P_VERNUM    "1.3i"
+#define     P_VERTXT    "fixed a little yLOGS_lognum issue to help yEXEC/hearth"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

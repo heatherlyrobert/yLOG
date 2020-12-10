@@ -134,7 +134,7 @@ ylog__main(
 /*====================------------------------------------====================*/
 static void      o___ACCESSORS_______________o (void) {;}
 
-int   yLOGS_lognum   (void) { return fileno (myLOG.logger); }
+int   yLOGS_lognum   (void) { if (myLOG.logger == NULL) return -1; else return fileno (myLOG.logger); }
 
 llong yLOGS_time     (void) { return ylog__timestamp(); }
 
