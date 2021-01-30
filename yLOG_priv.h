@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, working and advancing"
 #define     P_VERMINOR  "1.3-, continue to refine while using"
-#define     P_VERNUM    "1.3i"
-#define     P_VERTXT    "fixed a little yLOGS_lognum issue to help yEXEC/hearth"
+#define     P_VERNUM    "1.3j"
+#define     P_VERTXT    "aligned log file timestamp with yEXEC format"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -215,7 +215,7 @@ struct cITS {
    char        msg         [LEN_PATH];      /* full message to log            */
    char        single      [LEN_PATH];      /* short form cum message         */
    int         nsyncs;                      /* count of sync calls            */
-   char        timestamp   [LEN_LABEL];     /* log file timestamp             */
+   char        timestamp   [LEN_TITLE];     /* log file timestamp             */
    char        filename    [LEN_PATH];      /* log file name                  */
    char        path        [LEN_PATH];      /* path to log file               */
    char        version     [LEN_HUND];      /* ylog version string            */

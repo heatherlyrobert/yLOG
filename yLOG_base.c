@@ -179,7 +179,7 @@ ylogs__logname       (cchar *a_prog, cchar a_loc)
    /*---(get the date)-------------------*/
    time_date = time (NULL);
    curr_time = localtime (&time_date);
-   strftime (myLOG.timestamp, LEN_LABEL, "%y.%m.%d.%H.%M.%S", curr_time);
+   strftime (myLOG.timestamp, LEN_TITLE, "%y.%m.%d.%H.%M.%S.%u.%W.%j", curr_time);
    /*---(program name)-------------------*/
    sprintf (t, "%s_____________________________________________________", a_prog);
    /*---(create the file name)-----------*/
