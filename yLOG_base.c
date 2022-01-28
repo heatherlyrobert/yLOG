@@ -109,9 +109,9 @@ ylog__main(
    /*---(update count)-------------------*/
    myLOG.count++;
    /*---(message)------------------------*/
-   sprintf (myLOG.full, "%7lld.%03lld %6d [%c] %s%s",
+   sprintf (myLOG.full, "%7lld.%03lld %6d %c %c %c  %s%s",
          (x_wall / 1000) % 10000000, x_wall % 1000,
-         myLOG.count % 1000000, a_level, myLOG.prefix, a_message);
+         myLOG.count % 1000000, myLOG.stage, myLOG.urg, a_level, myLOG.prefix, a_message);
    /*---(log)----------------------------*/
    /*> printf ("ylog__main (%p) %c %2d %s\n", myLOG.logger, a_change, a_level, a_message);   <*/
    IF_LOGGER {
@@ -238,6 +238,8 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    myLOG.indent = 0;
    ylog_vol_init ();
    strcpy (myLOG.prefix, "");
+   myLOG.stage  = '·';
+   myLOG.urg    = '·';
    /*---(defense)------------------------*/
    if (a_quiet == YLOG_NOISE) myLOG.loud  = 'y';
    else                       myLOG.loud  = '-';
@@ -290,7 +292,7 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    /*---(get wall time)------------------*/
    myLOG.wall_start = ylog__timestamp();
    /*---(display)------------------------*/
-   IF_LOGGER  fprintf (myLOG.logger, "heatherly program logger================================================begin===\n");
+   IF_LOGGER  fprintf (myLOG.logger, "heatherly program logger==================================================begin===\n");
    gethostname (t, LEN_DESC);
    IF_LOGGER  fprintf (myLOG.logger, "   host       : %s\n",    t);
    getlogin_r (t, LEN_DESC);
@@ -300,8 +302,8 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    IF_LOGGER  fprintf (myLOG.logger, "   start date : %s",      asctime(curr_time));
    IF_LOGGER  fprintf (myLOG.logger, "   start (ms) : %lld\n",  myLOG.wall_start);
    IF_LOGGER  fprintf (myLOG.logger, "   log file   : %s\n",    myLOG.filename);
-   IF_LOGGER  fprintf (myLOG.logger, "================================================================================\n");
-   IF_LOGGER  fprintf (myLOG.logger, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
+   IF_LOGGER  fprintf (myLOG.logger, "==================================================================================\n");
+   IF_LOGGER  fprintf (myLOG.logger, "secs---.-ms -step- parse ---comment-----------------------------------------------\n");
    /*> printf ("myLOG.logger = %p\n", myLOG.logger);                                  <*/
    IF_LOGGER  yLOG_note ("logger loaded");
    /*> printf ("myLOG.logger = %p\n", myLOG.logger);                                  <*/
@@ -326,13 +328,13 @@ yLOGS_end      (void)
    _sec -= _min * 60;
    /*---(display end)------------------*/
    IF_LOGGER  yLOG_note("logger stopped");
-   IF_LOGGER  fprintf(myLOG.logger, "secs---.-ms -step- lvl ---comment-----------------------------------------------\n");
-   IF_LOGGER  fprintf(myLOG.logger, "================================================================================\n");
+   IF_LOGGER  fprintf(myLOG.logger, "secs---.-ms -step- parse ---comment-----------------------------------------------\n");
+   IF_LOGGER  fprintf(myLOG.logger, "==================================================================================\n");
    IF_LOGGER  fprintf(myLOG.logger, "   end date   : %s",      asctime(curr_time));
    IF_LOGGER  fprintf(myLOG.logger, "   end (ms)   : %lld\n",  _wall);
    IF_LOGGER  fprintf(myLOG.logger, "   dur (ms)   : %lld\n",  _wall - myLOG.wall_start);
    IF_LOGGER  fprintf(myLOG.logger, "   duration   : %2ldh, %2ldm, %2lds\n", _hrs, _min, _sec);
-   IF_LOGGER  fprintf(myLOG.logger, "==========================================================================end===\n");
+   IF_LOGGER  fprintf(myLOG.logger, "============================================================================end===\n");
    IF_LOGGER  fclose (myLOG.logger);
    myLOG.loud  = '-';
    return;
@@ -344,6 +346,16 @@ yLOGS_end      (void)
 /*===----                   specialty testing support                  ----===*/
 /*====================------------------------------------====================*/
 static void      o___SPECIALTY_______________o (void) {;};
+
+void
+yLOG_curr               (uchar a_stage, uchar a_urg)
+{
+   myLOG.stage  = a_stage;
+   myLOG.urg    = a_urg;
+   if (a_stage <= 32 || (a_stage >= 127 && a_stage <= 159))  myLOG.stage = '·';
+   if (a_urg   <= 32 || (a_urg   >= 127 && a_urg   <= 159))  myLOG.urg    = '·';
+   return 0;
+}
 
 char
 yLOGS_verify            (cchar *a_name, cchar a_log, cchar a_line)
@@ -596,8 +608,10 @@ ylog_base__unit         (char *a_question, int a_num)
       snprintf (unit_answer, LEN_RECD, "BASE prefix      : %2d  %2d%s", myLOG.indent, strlen (myLOG.prefix), t);
    }
    else if (strcmp (a_question, "full"       ) == 0) {
+      c = strlen (myLOG.full);
+      if (c > 99)  c = 99;
       sprintf (t, "[%s]", myLOG.full);
-      snprintf (unit_answer, LEN_RECD, "BASE full        : %2d%s", strlen (myLOG.full), t);
+      snprintf (unit_answer, LEN_RECD, "BASE full        : %2d%s", c, t);
    }
    else if (strcmp (a_question, "prog"       ) == 0) {
       sprintf (t, "[%s]", myLOG.prog);

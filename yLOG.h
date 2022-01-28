@@ -23,9 +23,10 @@
 
 
 /*===[[ TYPES ]]==========================================*/
-typedef   const char   cchar;
-typedef   long long    llong;
-typedef   const int    cint;
+typedef   unsigned char   uchar;
+typedef   const char      cchar;
+typedef   long long       llong;
+typedef   const int       cint;
 
 
 
@@ -54,6 +55,8 @@ char        yLOGS_remove       (cchar *a_name, cchar a_log);
 
 
 /*===[[ PUBLIC FUNCTIONS (stripped) ]]====================*/
+/*---(tracking)-------------*/
+void        yLOG_curr          (uchar a_stage, uchar a_urg);
 /*---(general)--------------*/
 void        yLOGS_mute         (void);
 void        yLOGS_unmute       (void);

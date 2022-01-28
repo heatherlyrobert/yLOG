@@ -32,10 +32,10 @@
 #define     P_CREATED   "2008-07"
 #define     P_DEPENDS   "n/a"
 
-#define     P_VERMAJOR  "1.--, working and advancing"
-#define     P_VERMINOR  "1.3-, continue to refine while using"
-#define     P_VERNUM    "1.3j"
-#define     P_VERTXT    "aligned log file timestamp with yEXEC format"
+#define     P_VERMAJOR  "2.--, stable in production"
+#define     P_VERMINOR  "2.0-, move to large scale support"
+#define     P_VERNUM    "2.0a"
+#define     P_VERTXT    "changed log line to support stage and urgent.  a big deal."
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -191,6 +191,7 @@
 
 
 
+typedef unsigned char    uchar;
 typedef struct tm        tTIME;
 typedef struct stat      tSTAT;
 typedef struct dirent    tDIRENT;
@@ -222,6 +223,8 @@ struct cITS {
    char        title       [LEN_FULL];      /* title for messages             */
    char        data        [LEN_FULL];      /* string for messages            */
    char        temp        [LEN_FULL];      /* string for short working area  */
+   uchar       urg;                         /* called by which urgent         */
+   uchar       stage;                       /* called in which stage          */
 };
 extern  tITS  myLOG;
 

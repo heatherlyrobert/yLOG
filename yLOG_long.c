@@ -67,8 +67,10 @@ void
 yLOG_exitr    (const char *a_func, const int a_rce)
 {
    IF_QUIET  return;
-   snprintf (myLOG.msg, LEN_PATH, "WARNING, rce (%d)", a_rce);
-   ylog__main (LVL_SAME, TYPE_WARNING, myLOG.msg);
+   if (a_rce < 0) {
+      snprintf (myLOG.msg, LEN_PATH, "WARNING, rce (%d)", a_rce);
+      ylog__main (LVL_SAME, TYPE_WARNING, myLOG.msg);
+   }
    snprintf (myLOG.msg, LEN_PATH, "EXITING  (%.30s)", ylog_title (a_func));
    ylog__main (LVL_END , TYPE_STRUCT, myLOG.msg);
    ylog_check_exit (a_func);
