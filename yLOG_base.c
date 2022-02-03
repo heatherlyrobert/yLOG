@@ -109,7 +109,7 @@ ylog__main(
    /*---(update count)-------------------*/
    myLOG.count++;
    /*---(message)------------------------*/
-   sprintf (myLOG.full, "%7lld.%03lld %6d %c %c %c  %s%s",
+   sprintf (myLOG.full, "%7lld.%03lld %6d %c%c%c %s%s",
          (x_wall / 1000) % 10000000, x_wall % 1000,
          myLOG.count % 1000000, myLOG.stage, myLOG.urg, a_level, myLOG.prefix, a_message);
    /*---(log)----------------------------*/
@@ -292,7 +292,7 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    /*---(get wall time)------------------*/
    myLOG.wall_start = ylog__timestamp();
    /*---(display)------------------------*/
-   IF_LOGGER  fprintf (myLOG.logger, "heatherly program logger==================================================begin===\n");
+   IF_LOGGER  fprintf (myLOG.logger, "heatherly program logger=================================================begin===\n");
    gethostname (t, LEN_DESC);
    IF_LOGGER  fprintf (myLOG.logger, "   host       : %s\n",    t);
    getlogin_r (t, LEN_DESC);
@@ -302,8 +302,8 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    IF_LOGGER  fprintf (myLOG.logger, "   start date : %s",      asctime(curr_time));
    IF_LOGGER  fprintf (myLOG.logger, "   start (ms) : %lld\n",  myLOG.wall_start);
    IF_LOGGER  fprintf (myLOG.logger, "   log file   : %s\n",    myLOG.filename);
-   IF_LOGGER  fprintf (myLOG.logger, "==================================================================================\n");
-   IF_LOGGER  fprintf (myLOG.logger, "secs---.-ms -step- parse ---comment-----------------------------------------------\n");
+   IF_LOGGER  fprintf (myLOG.logger, "=================================================================================\n");
+   IF_LOGGER  fprintf (myLOG.logger, "secs---.-ms -step- cat ---comment------------------------------------------------\n");
    /*> printf ("myLOG.logger = %p\n", myLOG.logger);                                  <*/
    IF_LOGGER  yLOG_note ("logger loaded");
    /*> printf ("myLOG.logger = %p\n", myLOG.logger);                                  <*/
@@ -328,13 +328,13 @@ yLOGS_end      (void)
    _sec -= _min * 60;
    /*---(display end)------------------*/
    IF_LOGGER  yLOG_note("logger stopped");
-   IF_LOGGER  fprintf(myLOG.logger, "secs---.-ms -step- parse ---comment-----------------------------------------------\n");
-   IF_LOGGER  fprintf(myLOG.logger, "==================================================================================\n");
+   IF_LOGGER  fprintf(myLOG.logger, "secs---.-ms -step- cat ---comment------------------------------------------------\n");
+   IF_LOGGER  fprintf(myLOG.logger, "=================================================================================\n");
    IF_LOGGER  fprintf(myLOG.logger, "   end date   : %s",      asctime(curr_time));
    IF_LOGGER  fprintf(myLOG.logger, "   end (ms)   : %lld\n",  _wall);
    IF_LOGGER  fprintf(myLOG.logger, "   dur (ms)   : %lld\n",  _wall - myLOG.wall_start);
    IF_LOGGER  fprintf(myLOG.logger, "   duration   : %2ldh, %2ldm, %2lds\n", _hrs, _min, _sec);
-   IF_LOGGER  fprintf(myLOG.logger, "============================================================================end===\n");
+   IF_LOGGER  fprintf(myLOG.logger, "===========================================================================end===\n");
    IF_LOGGER  fclose (myLOG.logger);
    myLOG.loud  = '-';
    return;
