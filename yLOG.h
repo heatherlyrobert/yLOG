@@ -75,6 +75,7 @@ void        yLOG_value         (const char *a_subject, const int      a_value);
 void        yLOG_llong         (const char *a_subject, const llong    a_value);
 void        yLOG_hex           (const char *a_subject, const long     a_value);
 void        yLOG_double        (const char *a_subject, const double   a_value);
+void        yLOG_real          (const char *a_subject, const double   a_value);
 void        yLOG_char          (const char *a_subject, const unsigned char     a_char);
 void        yLOG_point         (const char *a_subject, const void    *a_value);
 void        yLOG_bullet        (const int   a_num,     const char    *a_info);

@@ -171,6 +171,8 @@ yLOG_double        (const char *a_subject, const double a_value)
    return;
 }
 
+void yLOG_real  (const char *a_subject, const double a_value) { return yLOG_double (a_subject, a_value); }
+
 void
 yLOG_point         (const char *a_subject, const void *a_value)
 {
