@@ -44,7 +44,7 @@ void
 yLOG_break    (void)
 {
    IF_QUIET  return;
-   IF_LOGGER  fprintf (myLOG.logger, "------- --- ------ ---- %s%s\n", myLOG.prefix, "---------------------------------------------------------");
+   IF_LOGGER  fprintf (myLOG.logger, "------- --- ------ --- %s%s\n", myLOG.prefix, "---------------------------------------------------------");
    return;
 }
 

@@ -109,14 +109,15 @@ ylog__main(
    /*---(update count)-------------------*/
    myLOG.count++;
    /*---(message)------------------------*/
-   sprintf (myLOG.full, "%7lld.%03lld %6d %c%c%c %s%s",
-         (x_wall / 1000) % 10000000, x_wall % 1000,
-         myLOG.count % 1000000, myLOG.stage, myLOG.urg, a_level, myLOG.prefix, a_message);
-   /*---(log)----------------------------*/
-   /*> printf ("ylog__main (%p) %c %2d %s\n", myLOG.logger, a_change, a_level, a_message);   <*/
-   IF_LOGGER {
-      fprintf (myLOG.logger, "%s\n", myLOG.full);
-      fflush  (myLOG.logger);
+   if (myLOG.loud   == 'y' ) {
+      sprintf (myLOG.full, "%7lld.%03lld %6d %c%c%c %s%s",
+            (x_wall / 1000) % 10000000, x_wall % 1000,
+            myLOG.count % 1000000, myLOG.stage, myLOG.urg, a_level, myLOG.prefix, a_message);
+      /*---(log)----------------------------*/
+      IF_LOGGER {
+         fprintf (myLOG.logger, "%s\n", myLOG.full);
+         fflush  (myLOG.logger);
+      }
    }
    /*---(indent, if needed)--------------*/
    if (a_change == '>') {
@@ -243,7 +244,7 @@ yLOGS_begin         (cchar *a_program, cchar a_loc, cchar a_quiet)
    /*---(defense)------------------------*/
    if (a_quiet == YLOG_NOISE) myLOG.loud  = 'y';
    else                       myLOG.loud  = '-';
-   IF_QUIET  return 0;
+   /*> IF_QUIET  return 0;                                                            <*/
    /*---(test for normal version)--------*/
    p = strrchr (a_program, '/');
    if (p == NULL)  strncpy (x_progname, a_program, LEN_FULL);

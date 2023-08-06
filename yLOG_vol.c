@@ -56,7 +56,7 @@ char
 yLOGS_mute_check (void)
 {
    if (myLOG.loud == 'y') return 1;
-   else                 return 0;
+   else                   return 0;
 }
 
 
@@ -101,7 +101,7 @@ ylog_check_enter (const char *a_func)
 {
    char        rce         =  -10;
    int         n           =   -1;
-   if (myLOG.loud == 'y')  return 0;
+   /*> if (myLOG.loud == 'y')  return 0;                                              <*/
    n = ylog__find (a_func);
    --rce;  if (n < 0)  return rce;
    if (strchr ("eb" , s_tracks [n].type) == NULL)  return 0;
@@ -114,7 +114,7 @@ ylog_check_exit  (const char *a_func)
 {
    char        rce         =  -10;
    int         n           =   -1;
-   if (myLOG.loud == '-')  return 0;
+   /*> if (myLOG.loud == '-')  return 0;                                              <*/
    n = ylog__find (a_func);
    --rce;  if (n < 0)  return rce;
    if (strchr ("xb" , s_tracks [n].type) == NULL)  return 0;

@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.0-, move to large scale support"
-#define     P_VERNUM    "2.0b"
-#define     P_VERTXT    "cleaned up format based on real-world usage.  updated unit tests"
+#define     P_VERNUM    "2.0c"
+#define     P_VERTXT    "updated with yLOG_sreal"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

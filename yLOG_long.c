@@ -47,7 +47,7 @@ void
 yLOG_enter    (const char *a_func)
 {
    ylog_check_enter (a_func);
-   IF_QUIET  return;
+   /*> IF_QUIET  return;                                                              <*/
    snprintf (myLOG.msg, LEN_PATH, "ENTERING (%.30s)", ylog_title (a_func));
    ylog__main (LVL_BEG , TYPE_STRUCT, myLOG.msg);
    return;
@@ -56,7 +56,7 @@ yLOG_enter    (const char *a_func)
 void
 yLOG_exit     (const char *a_func)
 {
-   IF_QUIET  return;
+   /*> IF_QUIET  return;                                                              <*/
    snprintf (myLOG.msg, LEN_PATH, "EXITING  (%.30s)", ylog_title (a_func));
    ylog__main (LVL_END , TYPE_STRUCT, myLOG.msg);
    ylog_check_exit (a_func);
@@ -66,7 +66,7 @@ yLOG_exit     (const char *a_func)
 void
 yLOG_exitr    (const char *a_func, const int a_rce)
 {
-   IF_QUIET  return;
+   /*> IF_QUIET  return;                                                              <*/
    if (a_rce < 0) {
       snprintf (myLOG.msg, LEN_PATH, "WARNING, rce (%d)", a_rce);
       ylog__main (LVL_SAME, TYPE_WARNING, myLOG.msg);
@@ -116,8 +116,7 @@ yLOG_char          (const char *a_subject, const unsigned char a_char)
 {
    unsigned char c  = 'Ï';
    IF_QUIET  return;
-   if (a_char >   32 && a_char <  127)  c = a_char;
-   if (a_char >  160)                   c = a_char;
+   if (a_char >   32 && a_char != 127)  c = a_char;
    switch (a_char) {
    case   0 : c = '£';  break;   /* null   */
    case  10 : c = '¦';  break;   /* return */

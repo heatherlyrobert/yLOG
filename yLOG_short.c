@@ -74,6 +74,8 @@ yLOG_sdouble  (const double  a_value)
    return;
 }
 
+void yLOG_sreal (const double  a_value)  { return yLOG_sdouble (a_value); }
+
 void
 yLOG_shex     (const long  a_value)
 {

@@ -93,6 +93,7 @@ void        yLOG_snote         (const char *a_info);
 void        yLOG_sinfo         (const char *a_subject, const char *a_info);
 void        yLOG_sint          (const int   a_value);
 void        yLOG_sdouble       (const double  a_value);
+void        yLOG_sreal         (const double  a_value);
 void        yLOG_shex          (const long  a_value);
 void        yLOG_schar         (const unsigned char  a_char);
 void        yLOG_spoint        (const void *a_pointer);
