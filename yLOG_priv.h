@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.0-, move to large scale support"
-#define     P_VERNUM    "2.0d"
-#define     P_VERTXT    "updated with yLOG_real also"
+#define     P_VERNUM    "2.0e"
+#define     P_VERTXT    "minor update for library changes"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -131,6 +131,7 @@
 
 
 
+
 /*===[[ ySTR CLIPPING ]]======================================================*/
 #define     LEN_HUGE        10000       /* special cases only                 */
 #define     LEN_RECD         2000       /* longer likely means hacker         */
@@ -187,6 +188,7 @@
 #define           IF_LOGGER       if (myLOG.logger != NULL)
 #define           IF_NOTUNIT      if (myLOG.use    != 'u' )
 #define           DEBUG_YLOGS     if (myLOG.use    == 'd' )
+#define           DEBUG_PROG      if (myLOG.use    == 'd' )
 #define           DEBUG_TOPS      if (myLOG.use    == 'd' )
 
 
