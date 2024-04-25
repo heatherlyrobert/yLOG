@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.0-, move to large scale support"
-#define     P_VERNUM    "2.0f"
-#define     P_VERTXT    "small update to handle YLOG_NULL logs properly"
+#define     P_VERNUM    "2.0g"
+#define     P_VERTXT    "updates to clear up unit testing"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -242,10 +242,6 @@ void        ylog__main              (char a_change, char a_level, char *a_messag
 char        ylogs__progname         (cchar *a_prog);
 char*       ylogs__logname          (cchar *a_prog, cchar a_loc);
 
-char        ylog_vol_init           (void);
-char        ylog_check              (const char *a_func);
-char        ylog_check_enter        (const char *a_func);
-char        ylog_check_exit         (const char *a_func);
 
 char*       ylog_title              (const char *a_title);
 char*       ylog_data               (const char *a_data);
@@ -258,5 +254,12 @@ char*       ylog_base__unit         (char *a_question, int a_num);
 
 void        ylog_stage_init         (void);
 
+
+char        ylog_vol_init           (void);
+char        ylog__find              (const char *a_func);
+char        ylog_check              (const char *a_func);
+char        ylog_check_enter        (const char *a_func);
+char        ylog_check_exit         (const char *a_func);
+char*       ylog_vol__unit          (char *a_question, int a_num);
 
 #endif

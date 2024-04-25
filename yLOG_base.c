@@ -96,6 +96,8 @@ ylog__main(
     *=========================================================================*/
    /*---(locals)-----------+-----+-----+-*/
    llong       x_wall;                            /* timestamp                 */
+   /*---(filter)-------------------------*/
+   if (myLOG.loud != 'y')  return;
    /*---(first, defense)-----------------*/
    if (a_change == 0 || strchr (LVL_VALID , a_change) == NULL)   a_change = LVL_UNKNOWN;
    if (a_level  == 0 || strchr (TYPE_VALID, a_level ) == NULL)   a_level  = TYPE_UNKNOWN;
@@ -109,15 +111,13 @@ ylog__main(
    /*---(update count)-------------------*/
    myLOG.count++;
    /*---(message)------------------------*/
-   if (myLOG.loud   == 'y' ) {
-      sprintf (myLOG.full, "%7lld.%03lld %6d %c%c%c %s%s",
-            (x_wall / 1000) % 10000000, x_wall % 1000,
-            myLOG.count % 1000000, myLOG.stage, myLOG.urg, a_level, myLOG.prefix, a_message);
-      /*---(log)----------------------------*/
-      IF_LOGGER {
-         fprintf (myLOG.logger, "%s\n", myLOG.full);
-         fflush  (myLOG.logger);
-      }
+   sprintf (myLOG.full, "%7lld.%03lld %6d %c%c%c %s%s",
+         (x_wall / 1000) % 10000000, x_wall % 1000,
+         myLOG.count % 1000000, myLOG.stage, myLOG.urg, a_level, myLOG.prefix, a_message);
+   /*---(log)----------------------------*/
+   IF_LOGGER {
+      fprintf (myLOG.logger, "%s\n", myLOG.full);
+      fflush  (myLOG.logger);
    }
    /*---(indent, if needed)--------------*/
    if (a_change == '>') {

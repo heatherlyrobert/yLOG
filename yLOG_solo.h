@@ -1,8 +1,9 @@
 /*
  *  pre-yLOG installation micro-logging services
  *     - same calling structure/args
+ *     - less controls and defense
  *     - more limited, but core selection
- *     - straight to stdout
+ *     - straight to stdout only
  *     - used as a header inclusion (not a library)
  *
  */
