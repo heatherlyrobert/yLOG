@@ -209,11 +209,14 @@ ylogs__logname       (cchar *a_prog, cchar a_loc)
       strcpy   (myLOG.path, TMPDIR);
       break;
    case YLOG_NULL  :
+      strcpy   (myLOG.filename, "/dev/null");
+      break;
    default         :
       strcpy   (myLOG.filename, "/dev/null");
       return -2;
       break;
    }
+   /*> printf ("%-20.20s  %c  %s\n", a_prog, a_loc, myLOG.filename);                  <*/
    return 0;
 }
 
@@ -548,7 +551,7 @@ yLOGS_remove            (cchar *a_name, cchar a_log)
       /*---(found it)--------------------*/
       ++c;
       sprintf (x_name, "%s%s", x_path, x_file->d_name);
-      remove (x_name);
+      unlink  (x_name);
       /*---(done)------------------------*/
    }
    /*---(close)--------------------------*/
