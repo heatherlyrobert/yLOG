@@ -10,7 +10,7 @@
 static void      o___ENDS____________________o (void) {;}
 
 void
-yLOG_senter   (const char *a_func)
+yLOG_senter   (cchar a_func [LEN_TITLE])
 {
    ylog_check_enter (a_func);
    IF_QUIET  return;
@@ -20,7 +20,7 @@ yLOG_senter   (const char *a_func)
 }
 
 void
-yLOG_sexit    (const char *a_func)
+yLOG_sexit    (cchar a_func [LEN_TITLE])
 {
    IF_QUIET  return;
    strncat  (myLOG.single, ";;", LEN_FULL);
@@ -30,7 +30,7 @@ yLOG_sexit    (const char *a_func)
 }
 
 void
-yLOG_sexitr   (const char *a_func, const int a_rce)
+yLOG_sexitr   (cchar a_func [LEN_TITLE], cint a_rce)
 {
    IF_QUIET  return;
    snprintf (myLOG.temp, LEN_FULL, ", WARN %d;;", a_rce);
@@ -48,7 +48,7 @@ yLOG_sexitr   (const char *a_func, const int a_rce)
 static void      o___CONTENT_________________o (void) {;}
 
 void
-yLOG_snote    (const char *a_info)
+yLOG_snote    (cchar a_info [LEN_FULL])
 {
    IF_QUIET  return;
    snprintf (myLOG.temp, LEN_FULL, ", %s", ylog_title (a_info));
@@ -57,7 +57,7 @@ yLOG_snote    (const char *a_info)
 }
 
 void
-yLOG_sint     (const int  a_value)
+yLOG_sint     (cint  a_value)
 {
    IF_QUIET  return;
    snprintf (myLOG.temp, LEN_FULL, ", %d", a_value);
@@ -88,7 +88,7 @@ yLOG_shex     (const long  a_value)
 }
 
 void
-yLOG_spoint   (const void *a_pointer)
+yLOG_spoint   (cvoid *a_pointer)
 {
    IF_QUIET  return;
    snprintf (myLOG.temp, LEN_FULL, ", %p", a_pointer);
@@ -125,7 +125,7 @@ yLOG_schar    (const unsigned char a_char)
 static void      o___LABELED_________________o (void) {;}
 
 void
-yLOG_sinfo    (const char *a_subject, const char *a_info)
+yLOG_sinfo    (cchar a_subject [LEN_LABEL], cchar a_info [LEN_FULL])
 {
    IF_QUIET  return;
    snprintf (myLOG.temp, LEN_FULL, ", %s=%s", ylog_title (a_subject), ylog_terse (a_info));
@@ -134,7 +134,7 @@ yLOG_sinfo    (const char *a_subject, const char *a_info)
 }
 
 void
-yLOG_svalue   (const char *a_subject, const int  a_value)
+yLOG_svalue   (cchar a_subject [LEN_LABEL], cint  a_value)
 {
    IF_QUIET  return;
    snprintf (myLOG.temp, LEN_FULL, ", %s=%d", ylog_title (a_subject), a_value);

@@ -5,43 +5,57 @@
 
 
 /*===[[ ONE_LINERS ]]=========================================================*/
-/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
-
+/*                      ´·········1·········2·········3·········4·········5·········6·········7*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*········· ··········· ´·····························´········································*/
 #define     P_FOCUS     "SA (system administration)"
 #define     P_NICHE     "pm (process monitoring)"
 #define     P_SUBJECT   "process execution logging"
 #define     P_PURPOSE   "simple, automated, consistent process execution logging"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_NAMESAKE  "clio-chrysafenios (flowering)"
+#define     P_PRONOUNCE ""
 #define     P_HERITAGE  "greek muse of written and oral history, song, and poetry"
+#define     P_BRIEFLY   ""
 #define     P_IMAGERY   "golden young woman holding a scroll, by a chest of books"
 #define     P_REASON    "greek muse of beautiful, poetic, historical writings"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
-
+/*········· ··········· ´·····························´········································*/
+#define     P_HOMEDIR   "/home/system/yLOG.exec_logger"
 #define     P_BASENAME  "yLOG"
 #define     P_FULLPATH  "/usr/local/lib64/libyLOG.so"
 #define     P_SUFFIX    "ulog"
 #define     P_CONTENT   "process logging journal"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
+#define     P_COMPILER  "gcc 5.3.0"
 #define     P_CODESIZE  "small       (appoximately 1,000 slocl)"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2008-07"
-#define     P_DEPENDS   "n/a"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.0-, move to large scale support"
-#define     P_VERNUM    "2.0g"
-#define     P_VERTXT    "updates to clear up unit testing"
-
+#define     P_VERNUM    "2.0j"
+#define     P_VERTXT    "some improvements to yLOG_uver for test support"
+/*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
-
-/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
+/*········· ··········· ´·····························´········································*/
+#define     P_DEPANSI   ""
+#define     P_DEPPOSIX  ""
+#define     P_DEPCORE   "ySTR"
+#define     P_DEPVIKEY  ""
+#define     P_DEPGRAPH  ""
+#define     P_DEPOTHER  "ySORT,yJOBS,yEXEC"
+#define     P_DEPSOLO   ""
+#define     P_DEPALIEN  ""
+/*········· ··········· ´·····························´········································*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*                      ´·········1·········2·········3·········4·········5·········6·········7*/
 /*===[[ END ONE_LINERS ]]=====================================================*/
 
 

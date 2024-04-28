@@ -10,7 +10,7 @@
 static void      o___HELPERS_________________o (void) {;}
 
 char*        /*--> defense for bad titles in longs ---------------------------*/
-ylog_title         (const char *a_title)
+ylog_title         (cchar *a_title)
 {
    if (a_title == NULL)              strncpy (myLOG.title, "¢null?"  , LEN_FULL);
    else if (strlen (a_title) <= 0)   strncpy (myLOG.title, "¢empty?" , LEN_FULL);
@@ -19,7 +19,7 @@ ylog_title         (const char *a_title)
 }
 
 char*        /*--> defense for bad data in longs -----------------------------*/
-ylog_data          (const char *a_data)
+ylog_data          (cchar *a_data)
 {
    if (a_data == NULL)               strncpy (myLOG.data , "¢ data was null ?" , LEN_FULL);
    else if (strlen (a_data) <= 0)    strncpy (myLOG.data , "¢ data was empty ?", LEN_FULL);
@@ -28,7 +28,7 @@ ylog_data          (const char *a_data)
 }
 
 char*        /*--> defense for bad data in shorts ----------------------------*/
-ylog_terse         (const char *a_data)
+ylog_terse         (cchar *a_data)
 {
    if (a_data == NULL)               strncpy (myLOG.data , "¢null?"  , LEN_FULL);
    else if (strlen (a_data) <= 0)    strncpy (myLOG.data , "¢empty?" , LEN_FULL);
@@ -44,7 +44,7 @@ ylog_terse         (const char *a_data)
 static void      o___STRUCTURE_______________o (void) {;}
 
 void
-yLOG_enter    (const char *a_func)
+yLOG_enter    (cchar a_func [LEN_TITLE])
 {
    ylog_check_enter (a_func);
    /*> IF_QUIET  return;                                                              <*/
@@ -54,7 +54,7 @@ yLOG_enter    (const char *a_func)
 }
 
 void
-yLOG_exit     (const char *a_func)
+yLOG_exit     (cchar a_func [LEN_TITLE])
 {
    /*> IF_QUIET  return;                                                              <*/
    snprintf (myLOG.msg, LEN_PATH, "EXITING  (%.30s)", ylog_title (a_func));
@@ -64,7 +64,7 @@ yLOG_exit     (const char *a_func)
 }
 
 void
-yLOG_exitr    (const char *a_func, const int a_rce)
+yLOG_exitr    (cchar a_func [LEN_TITLE], cint a_rce)
 {
    /*> IF_QUIET  return;                                                              <*/
    if (a_rce < 0) {
@@ -88,7 +88,7 @@ yLOG_exitr    (const char *a_func, const int a_rce)
 static void      o___MESSAGES________________o (void) {;}
 
 void
-yLOG_note          (const char *a_info)
+yLOG_note          (cchar a_info [LEN_FULL])
 {
    IF_QUIET  return;
    snprintf (myLOG.msg, LEN_FULL, "%.150s...", ylog_data (a_info));
@@ -97,7 +97,7 @@ yLOG_note          (const char *a_info)
 }
 
 void
-yLOG_info          (const char *a_subject, const char *a_info)
+yLOG_info          (cchar a_subject [LEN_LABEL], cchar a_info [LEN_FULL])
 {
    IF_QUIET  return;
    snprintf (myLOG.msg, LEN_FULL, "%-10.10s: %.150s", ylog_title (a_subject), ylog_data (a_info));
@@ -106,7 +106,7 @@ yLOG_info          (const char *a_subject, const char *a_info)
 }
 
 void
-yLOG_delim         (const char *a_subject, const char *a_info)
+yLOG_delim         (cchar a_subject [LEN_LABEL], cchar a_info [LEN_FULL])
 {
    IF_QUIET  return;
    snprintf (myLOG.msg, LEN_FULL, "%-10.10s: [%.50s]", ylog_title (a_subject), ylog_data (a_info));
@@ -115,7 +115,7 @@ yLOG_delim         (const char *a_subject, const char *a_info)
 }
 
 void
-yLOG_char          (const char *a_subject, const unsigned char a_char)
+yLOG_char          (cchar a_subject [LEN_LABEL], const unsigned char a_char)
 {
    unsigned char c  = 'Ï';
    IF_QUIET  return;
@@ -135,7 +135,7 @@ yLOG_char          (const char *a_subject, const unsigned char a_char)
 }
 
 void
-yLOG_value         (const char *a_subject, const int a_value)
+yLOG_value         (cchar a_subject [LEN_LABEL], cint a_value)
 {
    IF_QUIET  return;
    sprintf(myLOG.msg, "%-10.10s: %d", ylog_title (a_subject), a_value);
@@ -144,7 +144,7 @@ yLOG_value         (const char *a_subject, const int a_value)
 }
 
 void
-yLOG_hex           (const char *a_subject, const long a_value)
+yLOG_hex           (cchar a_subject [LEN_LABEL], const long a_value)
 {
    /* used 08 format so the hex lines up top-to-bottom in lines  */
    IF_QUIET  return;
@@ -156,7 +156,7 @@ yLOG_hex           (const char *a_subject, const long a_value)
 }
 
 void
-yLOG_llong         (const char *a_subject, const long long a_value)
+yLOG_llong         (cchar a_subject [LEN_LABEL], const long long a_value)
 {
    IF_QUIET  return;
    sprintf(myLOG.msg, "%-10.10s: %lld", ylog_title (a_subject), a_value);
@@ -165,7 +165,7 @@ yLOG_llong         (const char *a_subject, const long long a_value)
 }
 
 void
-yLOG_double        (const char *a_subject, const double a_value)
+yLOG_double        (cchar a_subject [LEN_LABEL], const double a_value)
 {
    /* used 20.6 format so the decimals line up top-to-bottom in lines  */
    IF_QUIET  return;
@@ -174,10 +174,10 @@ yLOG_double        (const char *a_subject, const double a_value)
    return;
 }
 
-void yLOG_real  (const char *a_subject, const double a_value) { return yLOG_double (a_subject, a_value); }
+void yLOG_real  (cchar a_subject [LEN_LABEL], const double a_value) { return yLOG_double (a_subject, a_value); }
 
 void
-yLOG_point         (const char *a_subject, const void *a_value)
+yLOG_point         (cchar a_subject [LEN_LABEL], cvoid *a_value)
 {
    IF_QUIET  return;
    sprintf (myLOG.msg, "%-10.10s: %p", ylog_title (a_subject), a_value);
@@ -193,7 +193,7 @@ yLOG_point         (const char *a_subject, const void *a_value)
 static void      o___SPECIALTY_______________o (void) {;}
 
 void
-yLOG_bullet        (const int   a_num,     const char *a_info)
+yLOG_bullet        (cint   a_num,     cchar a_info [LEN_FULL])
 {
    IF_QUIET  return;
    sprintf(myLOG.msg, "#%-9d: %.150s", a_num, ylog_data (a_info));
@@ -202,7 +202,7 @@ yLOG_bullet        (const int   a_num,     const char *a_info)
 }
 
 void
-yLOG_pair          (const int   a_num,     const int  a_value)
+yLOG_pair          (cint   a_num,     cint  a_value)
 {
    IF_QUIET  return;
    sprintf(myLOG.msg, "#%-9d: %d", a_num, a_value);
@@ -218,7 +218,7 @@ yLOG_pair          (const int   a_num,     const int  a_value)
 static void      o___VARARG__________________o (void) {;}
 
 void
-yLOG_complex       (const char *a_subject, cchar *a_format, ...)
+yLOG_complex       (cchar a_subject [LEN_LABEL], cchar *a_format, ...)
 {
    IF_QUIET  return;
    /*---(locals)---------+-------------+-*/
@@ -227,11 +227,14 @@ yLOG_complex       (const char *a_subject, cchar *a_format, ...)
    /*---(to console)---------------------*/
    va_start  (args, a_format);
    vsnprintf (x_format, LEN_FULL, a_format, args);
-   sprintf   (myLOG.msg, "%-10.10s: %.150s", ylog_title (a_subject), x_format);
+   if (a_subject != NULL && strcmp (a_subject, "ERROR") == 0) {
+      sprintf   (myLOG.msg, "%s", x_format);
+   } else {
+      sprintf   (myLOG.msg, "%-10.10s: %.150s", ylog_title (a_subject), x_format);
+   }
    ylog__main (LVL_SAME, TYPE_INFO, myLOG.msg);
    va_end    (args);
    /*---(complete)-----------------------*/
    return;
 }
-
 

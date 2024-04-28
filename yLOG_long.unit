@@ -362,4 +362,35 @@ SCRP          (LONG) verify specialty messages                                 
 
 
 
+#23456789-12  123456789-123456789-123456789-12345  123456789-123456789-123456  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-123456789- 
+#==(verb)===  ===========(description)===========  =====(function)===========  ========================(arguments)=================================================================  ==(test)==  ==========================(results)=================================================================  ========(var)======= 
+SCRP          (LONG) verify variadic messages                                     0s  variadic        yLOG_complex                                                                 ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     initialize the system                ylog__unit_quiet                                                                                                                  i_equal     0                                                                                                    
+     code     manually set the quiet off           - - - - - - - - - - - - -   myLOG.loud  = 'y';                                                                                                                                                                                                         
+     code     manually set system to unit test     - - - - - - - - - - - - -   myLOG.use   = '-';                                                                                                                                                                                                         
+
+   COND       verify quick success                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.005))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call variadic                        yLOG_complex                "input"                , "%s"                 , "simple"                                              v_null      0                                                                                                    
+     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i input     : simple]                                    
+
+   COND       verify two variables                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.005))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call variadic                        yLOG_complex                "input"                , "%2d %s"             , 15, "bigger stuff"                                    v_null      0                                                                                                    
+     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i input     : 15 bigger stuff]                                    
+
+   COND       verify lots of input                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.005))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call variadic                        yLOG_complex                "input"       , "%s:%d:%d: errors: %s illegal char '%c' (%s)", "koios", 123, 5, "SCRP", 'j', "abcde"   v_null      0                                                                                                    
+     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i input     : koios:123:5: errors: SCRP illegal char 'j' (abcde)]                 
+
+   COND       verify compilier error-like                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.005))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call variadic                        yLOG_complex                "ERROR"       , "%s:%d:%d: errors: %s illegal char '%c' (%s)", "koios", 123, 5, "SCRP", 'j', "abcde"   v_null      0                                                                                                    
+     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i koios:123:5: errors: SCRP illegal char 'j' (abcde)]                 
+
+   COND       wrap up testing                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.011))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     wrap up                              ylog__unit_end                                                                                                                    i_equal     0                                                                                                    
+
+
+
+
 # end-of-file.  done, finito, completare, whimper [Ï´···
