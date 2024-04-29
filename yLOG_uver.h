@@ -14,14 +14,23 @@ static char   s_print   [200] = "";
 
 
 /*====================------------------------------------====================*/
-/*===----                           helpers                            ----===*/
+/*===----                         specialty                            ----===*/
 /*====================------------------------------------====================*/
-static void      o___UTILITY_______o (void) {;}
+static void      o___SPECIAL_______o (void) {;}
 
-FILE* yLOG_ufile   (char *a_file)  { s_logger = fopen (a_file, "wt");  s_level = 0; strcpy (s_prefix, "");  return s_logger;  }
-void  yLOG_udest   (FILE *a_dest)  { s_level =  0;  strcpy (s_prefix, "");  s_logger = a_dest;  return 0; }
+void  yLOGS_ufile  (char *a_file)  { s_logger = fopen (a_file, "wt");  s_level = 0; strcpy (s_prefix, "");  return;  }
+void  yLOGS_udest  (FILE *a_dest)  { s_level =  0;  strcpy (s_prefix, "");  s_logger = a_dest;  return; }
+void  yLOGS_uend   (void)          { if (s_logger == stdout || s_logger == stderr) return 0;  fclose (s_logger); return;  }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                       debugging functions                    ----===*/
+/*====================------------------------------------====================*/
+static void      o___DEBUG_________o (void) {;}
+
 char *yLOG_ulast   (void)          { return s_print; }
-char  yLOG_uclear  (void)          { strcpy (s_print, ""); return 0;  }
+void  yLOG_uclear  (void)          { strcpy (s_print, ""); return;  }
 
 
 
@@ -34,6 +43,7 @@ void
 yLOG_uenter   (char *a_func)
 {
    int         i           =    0;
+   if (s_logger == NULL) yLOGS_udest (stderr);
    sprintf (s_print , "%sENTERING (%.30s)", s_prefix, a_func);
    fprintf (s_logger, "%s\n", s_print);
    if (s_level < 10)  ++s_level;
@@ -49,6 +59,7 @@ void
 yLOG_uexit    (char *a_func)
 {
    int         i           =    0;
+   if (s_logger == NULL) yLOGS_udest (stderr);
    if (s_level >  0)  --s_level;
    strcpy (s_prefix, "");
    for (i = 0; i < s_level; ++i) {
@@ -63,6 +74,7 @@ yLOG_uexit    (char *a_func)
 void
 yLOG_uexitr    (char *a_func, int a_rce)
 {
+   if (s_logger == NULL) yLOGS_udest (stderr);
    sprintf (s_print , "%sWARNING, rce (%d)", s_prefix, a_rce);
    fprintf (s_logger, "%s\n", s_print);
    return yLOG_uexit (a_func);
@@ -78,6 +90,7 @@ static void      o___MESSAGES______o (void) {;}
 void
 yLOG_unote    (char *a_info)
 {
+   if (s_logger == NULL) yLOGS_udest (stderr);
    sprintf (s_print , "%s%s", s_prefix, a_info);
    fprintf (s_logger, "%s\n", s_print);
    return;
@@ -86,6 +99,7 @@ yLOG_unote    (char *a_info)
 void
 yLOG_uinfo    (char *a_subject, char *a_info)
 {
+   if (s_logger == NULL) yLOGS_udest (stderr);
    sprintf (s_print , "%s%-10.10s: %s", s_prefix, a_subject, a_info);
    fprintf (s_logger, "%s\n", s_print);
    return;
@@ -95,6 +109,7 @@ void
 yLOG_uchar         (char *a_subject, uchar a_char)
 {
    uchar c  = 'Ï';
+   if (s_logger == NULL) yLOGS_udest (stderr);
    if (a_char >   32 && a_char != 127)  c = a_char;
    switch (a_char) {
    case   0 : c = '£';  break;   /* null   */
@@ -113,6 +128,7 @@ yLOG_uchar         (char *a_subject, uchar a_char)
 void
 yLOG_uvalue        (char *a_subject, int a_value)
 {
+   if (s_logger == NULL) yLOGS_udest (stderr);
    sprintf (s_print , "%s%-10.10s: %d", s_prefix, a_subject, a_value);
    fprintf (s_logger, "%s\n", s_print);
    return;
@@ -121,6 +137,7 @@ yLOG_uvalue        (char *a_subject, int a_value)
 void
 yLOG_upoint        (char *a_subject, void *a_value)
 {
+   if (s_logger == NULL) yLOGS_udest (stderr);
    sprintf (s_print , "%s%-10.10s: %p", s_prefix, a_subject, a_value);
    fprintf (s_logger, "%s\n", s_print);
    return;
@@ -138,6 +155,7 @@ yLOG_ucomplex      (char *a_subject, char *a_format, ...)
 {
    char        x_format  [200] = "";
    va_list     args;
+   if (s_logger == NULL) yLOGS_udest (stderr);
    va_start  (args, a_format);
    vsnprintf (x_format, 200, a_format, args);
    sprintf   (s_print , "%s%-10.10s: %s", s_prefix, a_subject, x_format);
@@ -151,6 +169,7 @@ yLOGS_err          (char *a_format, ...)
 {
    char        x_format  [200] = "";
    va_list     args;
+   if (s_logger == NULL) yLOGS_udest (stderr);
    va_start  (args, a_format);
    vsnprintf (x_format, 200, a_format, args);
    sprintf   (s_print , "%s", x_format);

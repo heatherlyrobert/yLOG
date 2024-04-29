@@ -22,8 +22,6 @@ typedef unsigned char uchar;
 
 
 /*---(micro log functions)---------------*/
-FILE*       yLOG_ufile         (char *a_file);
-void        yLOG_udest         (FILE *a_dest);
 void        yLOG_uenter        (char *a_func);
 void        yLOG_uexit         (char *a_func);
 void        yLOG_uexitr        (char *a_func, int a_rce);
@@ -33,9 +31,16 @@ void        yLOG_uchar         (char *a_subject, uchar a_char);
 void        yLOG_uvalue        (char *a_subject, int a_value);
 void        yLOG_upoint        (char *a_subject, void *a_value);
 void        yLOG_ucomplex      (char *a_subject, char *a_format, ...);
+
+/*---(specialty functions)---------------*/
+void        yLOGS_ufile        (char *a_file);
+void        yLOGS_udest        (FILE *a_dest);
 void        yLOGS_err          (char *a_format, ...);
+void        yLOGS_uend         (void);
+
+/*---(debugging)-------------------------*/
 char       *yLOG_ulast         (void);
-char        yLOG_uclear        (void);
+void        yLOG_uclear        (void);
 
 
 #endif
