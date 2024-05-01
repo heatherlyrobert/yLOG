@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.0-, move to large scale support"
-#define     P_VERNUM    "2.0k"
-#define     P_VERTXT    "had to make yLOG_uver a little more defensive"
+#define     P_VERNUM    "2.0l"
+#define     P_VERTXT    "added yLOGS_uend and yLOGS_err to flush out solo/uver"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
