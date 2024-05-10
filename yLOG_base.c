@@ -351,14 +351,27 @@ yLOGS_end      (void)
 /*====================------------------------------------====================*/
 static void      o___SPECIALTY_______________o (void) {;};
 
+static char s_ylog_curr [LEN_TERSE] = "";
+
 void
-yLOG_curr               (uchar a_stage, uchar a_urg)
+yLOGS_curr              (uchar a_stage, uchar a_urg)
 {
+   /*> printf ("specific area\n");                                                    <*/
+   /*> printf ("start %c %c, orig   %c %c\n", a_stage, a_urg, myLOG.stage, myLOG.urg);   <*/
    myLOG.stage  = a_stage;
    myLOG.urg    = a_urg;
    if (a_stage <= 32 || (a_stage >= 127 && a_stage <= 159))  myLOG.stage = '·';
-   if (a_urg   <= 32 || (a_urg   >= 127 && a_urg   <= 159))  myLOG.urg    = '·';
+   if (a_urg   <= 32 || (a_urg   >= 127 && a_urg   <= 159))  myLOG.urg   = '·';
+   /*> printf ("given %c %c, set to %c %c\n", a_stage, a_urg, myLOG.stage, myLOG.urg);   <*/
    return 0;
+}
+
+char*
+yLOG_curr_show          (void)
+{
+   sprintf (s_ylog_curr, "%c %c", myLOG.stage, myLOG.urg);
+   /*> printf ("yLOG_curr_show å%sæ   (%c)   (%c)\n", s_ylog_curr, myLOG.stage, myLOG.urg);   <*/
+   return s_ylog_curr;
 }
 
 char
