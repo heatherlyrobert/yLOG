@@ -340,7 +340,10 @@ yLOGS_end      (void)
    IF_LOGGER  fprintf(myLOG.logger, "   duration   : %2ldh, %2ldm, %2lds\n", _hrs, _min, _sec);
    IF_LOGGER  fprintf(myLOG.logger, "===========================================================================end===\n");
    IF_LOGGER  fclose (myLOG.logger);
-   myLOG.loud  = '-';
+   myLOG.loud   = '-';
+   myLOG.use    = '-';
+   myLOG.logger = NULL;
+   strcpy (myLOG.prog, "");
    return;
 }
 
