@@ -1,0 +1,94 @@
+.TH yLOG_vol· 3 2008-jul "linux" "interfacing with full library version"
+
+.SH NAME
+yLOG \- simple, consistent, and useful process execution debugging
+
+.SH PATRON
+clio-chrysafenios (flowering) greek muse of written and oral history
+
+.SH IMAGERY
+golden young woman holding a scroll, by a chest full of books
+
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore, much more quickly fix trouble.
+
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
+.nf
+yLOG (3)           interfacing with yLOG in general
+yLOG_long (3)      interfacing with full library, long version
+yLOG_short (3)     interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+yLOG_spec (3)      interfacing with full library, specialty
+.B yLOG_vol (3)´´´´´´´interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+yLOG_uver (3)      interfacing with micro, code-inclusion version
+yLOG (6)           interactive usage and navigation of log files
+yLOG (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) synopsis        function overview
+c) muting          functions for muting and unmuting
+d) tracking        functions for muting and unmuting
+
+.SH A) OVERVIEW
+yLOG can generate quiet a lot of output for complex programs.  these functions
+support yURG in managing this volume.  they shoud be very uncommonly used
+for ordinary programmers.
+
+.SH B) SYNOPSIS
+.nf
+---muting--------------------------------------
+·  char     yLOG_mute       (void);
+·  char     yLOG_unmute     (void);
+·  char     yLOG_mute_check (void);
+
+---tracking------------------------------------
+·  char     yLOG_track      (char* <func>);
+·  char     yLOG_untrack    (char* <func>);
+·  char     yLOG_hide       (char* <func>);
+
+.SH C) MUTING
+these three functions support turning logging temporarily off and on in
+support of yURG library.
+
+.SS char  yLOG_mute (void)
+turns off logging temporarily
+
+.SS char  yLOG_unmute (void)
+turns logging back on
+
+.SS char  yLOG_mute_check (void)
+returns 1 if muted/logging off, 0 if unmuted/logging on
+
+.SH D) TRACKING
+these two functions support muting around specific function names to support
+of yURG library.
+
+this capability creates a table of tracked functions and monitors all yLOG_enter
+and yLOG_exit calls to switch mute on and off.
+
+.SS char  yLOG_track (<function>)
+track in and below a specific function
+
+.SS char  yLOG_untrack (<function>)
+turns off tracking on that function
+
+.SS char  yLOG_hide (<function>)
+hide logging in and below a specific function
+
+.SH BUGS
+yLOG is incredibly stable for me, but if anyone else used it it might explode
+and take the universe with it.
+
+.SH COLOPHON
+this page is part of a documentation package meant to make the use of the
+heatherly tools easier and faster

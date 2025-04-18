@@ -1,0 +1,192 @@
+.TH yLOG· 6 2008-jul "linux" "interactive usage and navigation of log files"
+
+.SH NAME
+yLOG \- simple, consistent, and useful process execution debugging
+
+.SH PATRON (see HERITAGE at bottom for more)
+clio-chrysafenios (flowering) greek muse of written and oral history
+
+.SH IMAGERY
+golden young woman holding a scroll, by a chest full of books
+
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore, much more quickly fix trouble.
+
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
+.nf
+yLOG (3)           interfacing with yLOG in general
+yLOG_long (3)      interfacing with full library, long version
+yLOG_short (3)     interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+yLOG_spec (3)      interfacing with full library, specialty
+yLOG_vol (3)       interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+yLOG_uver (3)      interfacing with micro, code-inclusion version
+.B yLOG (6)´´´´´´´´´´´interactive usage and navigation of log files
+yLOG (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) example         log example to aid with discussion
+c) header          log file header (yLOG only)
+d) footer          log file footer (yLOG only)
+e) structure       entering and exiting functions
+f) data            data content lines
+g) short form      single line versions
+h) signals         signal notifications
+i) errors          error notifications
+
+.SH A) OVERVIEW
+yLOG and yLOG_uver produce very similar results -- a standardized, structured,
+indented, and time-stamped log of process execution.  it is critical that
+this file is quickly scanable and easy to read.
+
+.SH B) SAMPLE
+below is a very short example of a logger file from yLOG.  the first critical
+element is indentation which also uses spacers to allow the eye to scan
+between lines.  this format will continue to evolve, but stay similar.
+
+see yURG (6) to understand how the volume of data can be managed since serious
+programs can produce a million lines easily ;)
+
+   heatherly program logger=================================
+      host       : siquei
+      user       : root
+      program    : hestia
+      pid        : 001607
+      start date : Mon May 23 21:03:52 2016
+      start (ms) : 27517
+      log file   : /var/log/yLOG/16.05.23.21.03.52.hestia___
+   =========================================================
+   secs---.-ms -step- lvl ---comment------------------------
+   ··········· ······ [s] ENTERING (main)
+   ··········· ······ [s] ´  ENTERING (str_move)
+   ··········· ······ [i] ´··´  x_len     : 12
+   ··········· ······ [i] ´··´  x_str     : string contents
+   ··········· ······ [i] ´··´  x_str2    : [another   ]
+   ··········· ······ [i] ´··´  a note written to help...
+   ··········· ······ [i] ´··´  x_hex     : 0x0FA126CD
+   ··········· ······ [i] ´··´  x_point   : 0x86fe970ab6c2
+   ··········· ······ [i] ´··´  func>>, 12, testing, c, x=361;;
+   ··········· ······ [x] ´··´  SIGALRM   : 14 preset alarm requested
+   ··········· ······ [g] ´··´  FATAL     : pointer was not grounded
+   ··········· ······ [s] ´  EXITING  (str_move)
+   ··········· ······ [s] EXITING  (main)
+   secs---.-ms -step- lvl ---comment------------------------
+   =========================================================
+      end date   : Thu May 26 07:15:56 2016
+      end (ms)   : 209551847
+      dur (ms)   : 2097
+      duration   :  0h,  0m,  2s
+   =========================================================
+
+please note, the logger takes advantage of my 256 character shrike font using
+various spacers.  editor macros and/or scripts can easly remove these.
+
+timing is only down to the milli-second, but its really only used to find
+stalls and such.  this can be very useful in daemons or programs that set
+alarms or use signals.
+
+step numbers are useful to me, but not required.
+
+.SH C) HEADER
+yLOG, but not yLOG_uver, produces a log header with useful run-time data.
+
+   heatherly program logger=================================
+      host       : siquei
+      user       : root
+      program    : hestia
+      pid        : 001607
+      start date : Mon May 23 21:03:52 2016
+      start (ms) : 27517
+      log file   : /var/log/yLOG/16.05.23.21.03.52.hestia___
+   =========================================================
+   secs---.-ms -step- lvl ---comment------------------------
+
+.SH D) FOOTER
+yLOG, but not yLOG_uver, produces a log footer to summarize run-time.
+
+   secs---.-ms -step- lvl ---comment------------------------
+   =========================================================
+      end date   : Thu May 26 07:15:56 2016
+      end (ms)   : 209551847
+      dur (ms)   : 2097
+      duration   :  0h,  0m,  2s
+   =========================================================
+
+.SH E) STRUCTURE
+second critical point, i needed function entry and exit to be easy to search
+and obvious to the naked eye.
+
+   secs---.-ms -step- lvl ---comment------------------------
+   ··········· ······ [s] ENTERING (main)
+   ··········· ······ [s] ´  ENTERING (str_move)
+   ··········· ······ [s] ´  EXITING  (str_move)
+   ··········· ······ [s] EXITING  (main)
+   secs---.-ms -step- lvl ---comment------------------------
+
+yLOG_enter and yLOG_exit are typically called with __FUNCTION__ macro to
+ensure the actual function names are used.  there can be reasons to use
+alternate names, but that"s a topic for another time.
+
+structure lines can be isolated by the "[s]" in the level column.
+
+.SH F) DATA LINES
+data lines are almost all preceded by a ten character label to add context
+with the actual data following.
+
+   secs---.-ms -step- lvl ---comment------------------------
+   ··········· ······ [i] ´··´  x_len     : 12
+   ··········· ······ [i] ´··´  x_str     : string contents
+   ··········· ······ [i] ´··´  x_str2    : [another   ]
+   ··········· ······ [i] ´··´  a note written to help...
+   ··········· ······ [i] ´··´  x_hex     : 0x0FA126CD
+   ··········· ······ [i] ´··´  x_point   : 0x86fe970ab6c2
+   ··········· ······ [x] ´··´  SIGALRM   : 14 preset alarm requested
+   ··········· ······ [g] ´··´  FATAL     : pointer was not grounded
+   secs---.-ms -step- lvl ---comment------------------------
+
+data lines can be isolated by the "[i]" in the level column.
+
+.SH G) SHORT FORM
+yLOG, but not yLOG_uver, have short versions to allow all the data from a
+function to appear on a single line.  this is very useful for small utility
+functions.
+
+   secs---.-ms -step- lvl ---comment------------------------
+   ··········· ······ [i] ´··´  func>>, 12, testing, c, x=361;;
+   secs---.-ms -step- lvl ---comment------------------------
+
+the line begins with the function name and ends with ";;".
+
+.SH H) SIGNALS
+signal lines are preceded by their phonetic name.
+
+   secs---.-ms -step- lvl ---comment------------------------
+   ··········· ······ [x] ´··´  SIGALRM   : 14 preset alarm requested
+   secs---.-ms -step- lvl ---comment------------------------
+
+signal lines can be isolated by the "[x]" in the level column.
+
+.SH I) ERRORS
+error lines are preceded by WARNING, ERROR (graceful), or FATAL (clumsy).
+
+   secs---.-ms -step- lvl ---comment------------------------
+   ··········· ······ [g] ´··´  FATAL     : pointer was not grounded
+   secs---.-ms -step- lvl ---comment------------------------
+
+error lines can be isolated by the "[w]", "[g]", or "[c]" in the level column.
+
+.SH COLOPHON
+this page is part of a documentation package meant to make the use of the
+heatherly tools easier and faster
+
+

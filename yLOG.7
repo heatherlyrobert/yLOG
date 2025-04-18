@@ -1,0 +1,161 @@
+.TH yLOG· 7 2008-jul "linux" "decision rationale, scope, and objectives"
+
+.SH NAME
+yLOG \- simple, consistent, and useful process execution debugging
+
+.SH PATRON (see HERITAGE at bottom for more)
+clio-chrysafenios (flowering) greek muse of written and oral history
+
+.SH IMAGERY
+golden young woman holding a scroll, by a chest full of books
+
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore, much more quickly fix trouble.
+
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
+.nf
+yLOG (3)           interfacing with yLOG in general
+yLOG_long (3)      interfacing with full library, long version
+yLOG_short (3)     interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+yLOG_spec (3)      interfacing with full library, specialty
+yLOG_vol (3)       interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+yLOG_uver (3)      interfacing with micro, code-inclusion version
+yLOG (6)           interactive usage and navigation of log files
+.B yLOG (7)´´´´´´´´´´´decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) problem         what problem is the to address
+b) legacy          historical solution
+c) complication    what's different now
+d) answer          general solution
+e) FOCUS²²²²²²²²²²²focus of this software
+f) value           why do it
+g) requirements    what i need (generally)
+h) warnings        what i need to address to be successful
+i) decision        what i will do
+
+.SH A) SITIUATION (S)
+programs are black-boxes and are built to be relatively silent to avoid annoying
+or distracting the user.  this is great, except when something goes wrong.
+when this happens, speed to quality fix is then the top concern.  this is
+true in production, but also in the testing cycle.
+
+.SH B) LEGACY (L)
+computers were expensive, mistakes were very costly, oversight was cruel.
+therefore, systems were monitored, logged, and tested extensively.  code was
+required to be more verbose, proactive, and make trouble-shooting fast.
+
+.SH C) COMPLICATION (C)
+modern code is written quickly, computers are cheap, operators are gone,
+oversight is thin.  the best programs stop input errors, or maybe give the
+user a "code" to tell the help desk.  there are tens of thousands of lines
+of code executed between input and error code.  plus, usually a great deal
+happens between the cause of trouble and the code reacting badly.
+
+.SH D) ANSWER (A)
+between hunting for an error code and running a debugger, i need reusable
+tools to make troubles short and easy.
+   - meaningful and specific error messages
+   - selectable verbosity in program output
+   - status displays the allow insight into inner workings
+   - configurable process execution logging to trace code
+   - lots of temporary print statements ;)
+   - last and nastiest, run-time debuggers (jesus)
+
+.SH E) FOCUS (F)
+for this effort, i am focused on the process execution logging.  a reusable
+method for tracing a program to find the exact point of trouble.  i require
+fast response on a program i may not have touched in years.  for this, i
+require a process logger built into every useful program.  i need to know
+the line of code that misbehaved, not a general idea.
+
+.SH F) VALUE (V)
+the underlying measures are mostly based on number of minutes and hours between
+"break, fix, and re-certify"...
+   - cost of not running -- editor, warehouse, engine, or artifical heart
+   - cost of user manpower now not productive
+   - cost of technical manpower spent fixing the problem
+   - cost of work delayed while fixing
+   - cost of lost momentum in restarting work
+   - loss of confidence in system
+
+for me, its all about confidence it WILL be fixed because i have a standard,
+disciplined method which always leads to a positive outcome.
+
+.SH H) REQUIREMENTS (R)
+.nf
+for yLOG/yLOG_uver...
+a) allow programs to be observed without significantly altering them
+b) provide a forensic trail for programs to aid reproduction of issues
+c) keep it simple so that it does not require huge learning curve
+d) cleanly incorporated so it can remain permenantly in source code
+e) maximize reuse so i don't have to recreate each time
+f) standardize so data can be scanned quickly and troubles found fast
+g) easy and automatic to remove so as to not hamper production
+h) allows programmers to see the true program execution path
+i) cut significant time from tracing, debugging, and maintaining
+j) speed education of new maintainers and unit testers (watch flow)
+k) re-enforce a disciplined development culture and building-to-last
+l) avoid a product that will require me to switch every few years
+m) user-readable, 8-bit ascii text output (no captive interface)
+
+.nf
+as always, all my applications must...
+a) run on any linux box from raspberry to cray
+b) stay focused, small, tight, reliable, and secure
+c) forgo sloppy, kitchen-sink languages, like python, java, or perl
+d) stay away from dependency on external code libraries, like boost
+e) only human-readable, 7-bit safe, ascii streams (not database)
+f) have dedicated, maintained, automated unit testing
+g) build-in tracing and debugging to quickly isolate problems
+h) build-in dumps and detailed reporting on program state
+i) use secure communications between systems where required
+j) clean, clean code so i can maintain after long absences
+k) zero international, multi-lang, multi-byte support (ever)
+l) one-hundred percent keyboard driven and centric
+m) when applicable, follow the vi-keys standard to the letter
+n) all tables must be self describing with labels and queries
+o) all data structures must include dumps, reports, and audits
+
+.SH I) WARNINGS (W)
+.nf
+a) logging eats up cpu, disk, and other resources
+b) is rarely reviewed (only because existing methods are complicated)
+c) can distract when nothing needs to be reviewed (configurable)
+d) is one more thing that can go wrong (always funny)
+e) must be very different for high volume apps
+f) has to be built ahead of time and therefore can slow projects
+g) since its shared, changes can effect all programs
+h) drives a single method of thinking (myopia requires self-review)
+
+.SH G) ALTERNATIVES (A)
+.nf
+a) SKIP      can't do this, my software applications demand more
+b) BUY       limited by their market, stream of changes, buy-outs
+c) MAKE      learn, grow, adapt, and control
+
+.SH H) DECISION (D)
+this is a core function, built into everything, that i can not lose.  i can't
+afford whims of various vendors, long bug-fix cycles, version changes that
+require updating all programs, etc.  i gotta build.
+
+i decided to build this capability into two libraries so i could keep them
+focused and doable...
+   yLOG to produce the output
+   yURG to manage targeting the log entries and general volume
+
+.SH COLOPHON
+this page is part of a documentation package meant to make the use of the
+heatherly tools easier and faster
+
+

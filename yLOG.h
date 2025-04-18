@@ -22,6 +22,8 @@
 #define   YLOG_ONEXIT       'x'
 #define   YLOG_ONBOTH       'b'
 
+#define   DEBUG_UNIT        if (1) 
+
 
 /*===[[ TYPES ]]==========================================*/
 typedef   unsigned char   uchar;

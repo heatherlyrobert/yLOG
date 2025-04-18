@@ -1,0 +1,149 @@
+.TH yLOG_long· 3 2008-jul "linux" "interfacing with full library version"
+
+.SH NAME
+yLOG \- simple, consistent, and useful process execution debugging
+
+.SH PATRON
+clio-chrysafenios (flowering) greek muse of written and oral history
+
+.SH IMAGERY
+golden young woman holding a scroll, by a chest full of books
+
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore, much more quickly fix trouble.
+
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
+.nf
+yLOG (3)           interfacing with yLOG in general
+.B yLOG_long (3)´´´´´´interfacing with full library, long version
+yLOG_short (3)     interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+yLOG_spec (3)      interfacing with full library, specialty
+yLOG_vol (3)       interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+yLOG_uver (3)      interfacing with micro, code-inclusion version
+yLOG (6)           interactive usage and navigation of log files
+yLOG (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) synopsis        function overview
+c) structure       logging entering and exiting functions
+d) characters      logging char/string internal state information
+e) numbers         logging numeric internal state information
+f) complex         logging complex data
+
+.SH A) OVERVIEW
+yLOG long version functions generate output entered into the log as single,
+complete lines.  these are the typical (95%) interface.
+
+.SH B) SYNOPSIS
+.nf
+usage is noted on the far-left of each entry...
+   ! means once-per-program
+   Ï every program
+   · not in every program
+
+---structure-----------------------------------
+Ï  char     yLOG_enter    (char* <func>);
+Ï  char     yLOG_exit     (char* <func>);
+Ï  char     yLOG_exitr    (char* <func>, char <rc>);
+
+---character-data------------------------------
+Ï  void     yLOG_char     (char* <label>, char <char>);
+Ï  void     yLOG_note     (char* <string>);
+Ï  void     yLOG_info     (char* <label>, char* <string>);
+·  void     yLOG_delim    (char* <label>, char* <string>);
+·  void     yLOG_bullet   (int   <value>, char* <string>);
+
+---numeric-data--------------------------------
+Ï  void     yLOG_value    (char* <label>, int    <int>);
+Ï  void     yLOG_point    (char* <label>, void*  <int>);
+·  void     yLOG_hex      (char* <label>, int    <int>);
+·  void     yLOG_llong    (char* <label>, llong  <long long>);
+·  void     yLOG_double   (char* <label>, double <double>);
+·  void     yLOG_pair     (int   <valuej, int    <int>);
+
+---complex-entry-------------------------------
+Ï  void     yLOG_complex  (char*" "<label>" ", cchar  *" "a_format" ", " "..." ");"
+
+.SH C) STRUCTURE
+these three functions mark the entry and exit to functions.
+
+.SS char  yLOG_enter (__FUNCTION__)
+logs entry into a function and indents following calls.
+
+.SS char  yLOG_exit  (__FUNCTION__)
+logs exit from a function and un-indents following calls.
+
+.SS char  yLOG_exitr (__FUNCTION__, <rc>)
+same as yLOG_exit, but also notes the return code value.
+
+.SH D) CHARACTER DATA
+these five functions note internal data states that are char-based.
+standard most calls include <label> which is a 10-char prefix for the data
+to give context.
+
+.SS char  yLOG_char  (<label>, <char>)
+logs a character data state of a particular variable.
+
+.SS char  yLOG_note  (<text>)
+usually used to create break points or note decision branches.
+
+.SS char  yLOG_info  (<label>, <string>)
+logs a string data state of a particular variable.
+
+.SS char  yLOG_delim (<label>, <string>)
+same as yLOG_info, but places delimiters around string
+
+.SS char  yLOG_bullet (<num>, <string>)
+same as yLOG_info, but takes a number as the label
+
+.SH E) NUMERIC DATA
+these seven functions note internal data states that are value-based.
+standard all calls include <label> which is a 10-char prefix for the data to
+give context.
+
+.SS char  yLOG_value (<label>, <int>)
+logs a numeric data state of a particular variable.
+
+.SS char  yLOG_long  (<label>, <long>)
+logs a long numeric data state of a particular variable.
+
+.SS char  yLOG_double (<label>, <double>)
+logs a double numeric data state of a particular variable.
+
+.SS char  yLOG_real   (<label>, <double>)
+just an alias for yLOG_double
+
+.SS char  yLOG_point (<label>, <pointer>)
+logs a address data state of a particular variable.
+
+.SS char  yLOG_hex   (<label>, <int>)
+logs a numeric data state of a particular variable as hex.
+
+.SS char  yLOG_pair  (<int>  , <int>)
+same ase yLOG_value, but the label is a number
+
+.SH F) COMPLEX DATA
+this function allows a printf style vararg interface also using <label>
+which is a 10-char prefix for the data to give context.
+
+.SS char  yLOG_complex (<label>, <format>, ...)
+allows a more versatle interface to avoid many smaller calls.
+
+.SH BUGS
+yLOG is incredibly stable for me, but if anyone else used it it might explode
+and take the universe with it.
+
+.SH COLOPHON
+this page is part of a documentation package meant to make the use of the
+heatherly tools easier and faster

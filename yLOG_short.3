@@ -1,0 +1,122 @@
+.TH yLOG_short· 3 2008-jul "linux" "interfacing with full library version"
+
+.SH NAME
+yLOG \- simple, consistent, and useful process execution debugging
+
+.SH PATRON
+clio-chrysafenios (flowering) greek muse of written and oral history
+
+.SH IMAGERY
+golden young woman holding a scroll, by a chest full of books
+
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore, much more quickly fix trouble.
+
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
+.nf
+yLOG (3)           interfacing with yLOG in general
+yLOG_long (3)      interfacing with full library, long version
+.B yLOG_short (3)´´´´´interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+yLOG_spec (3)      interfacing with full library, specialty
+yLOG_vol (3)       interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+yLOG_uver (3)      interfacing with micro, code-inclusion version
+yLOG (6)           interactive usage and navigation of log files
+yLOG (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) synopsis        function overview
+c) structure       logging entering and exiting functions
+d) characters      logging char/string internal state information
+e) numbers         logging numeric internal state information
+
+.SH A) OVERVIEW
+yLOG short version functions generate compressed output entered into the log
+as a single line for an entire function.  this is very useful for high-volume
+support functions.
+
+WARNING, if the program segfaults or otherwise fatals inside the function,
+its output will NOT get recorded in the log.
+
+.SH B) SYNOPSIS
+.nf
+usage is noted on the far-left of each entry...
+   ! means once-per-program
+   Ï every program
+   · not in every program
+
+---structure-----------------------------------
+Ï  char     yLOG_senter   (char* <func>);
+Ï  char     yLOG_sexit    (char* <func>);
+Ï  char     yLOG_sexitr   (char* <func>, char <rc>);
+
+---character-data------------------------------
+Ï  void     yLOG_schar    (char  <char>);
+Ï  void     yLOG_snote    (char* <text>);
+·  void     yLOG_sinfo    (char* <label>, char* <text>);
+
+---numeric-data--------------------------------
+Ï  void     yLOG_sint     (int    <int>);
+Ï  void     yLOG_spoint   (void*  <int>);
+·  void     yLOG_svalue   (char* <label>, int <int>);
+·  void     yLOG_shex     (int    <int>);
+
+.SH C) STRUCTURE
+these three functions mark the entry and exit to functions.
+
+.SS char  yLOG_senter (__FUNCTION__)
+logs entry into a function, does not output until yLOG_sexit
+
+.SS char  yLOG_sexit  (__FUNCTION__)
+logs exit from a function, and outputs all requested data
+
+.SS char  yLOG_sexitr (__FUNCTION__, <rc>)
+same as yLOG_sexit, but also notes the return code value.
+
+.SH D) CHARACTER DATA
+these three functions note internal data states that are char-based. none
+of the data outputs to log until yLOG_sexit called.
+
+.SS char  yLOG_schar  (<char>)
+logs a character data state of a particular variable.
+
+.SS char  yLOG_snote  (<text>)
+logs a string data state of a particular variable.
+
+.SS char  yLOG_sinfo  (<label>, <text>)
+same as yLOG_snote, but includes a label.
+
+.SH E) NUMERIC DATA
+these seven functions note internal data states that are value-based.
+standard all calls include <label> which is a 10-char prefix for the data to
+give context.
+
+.SS char  yLOG_sint (<int>)
+logs a numeric data state of a particular variable.
+
+.SS char  yLOG_svalue (<label>, <int>)
+same as yLOG_sint, but includes a label.
+
+.SS char  yLOG_spoint (<pointer>)
+logs a address data state of a particular variable.
+
+.SS char  yLOG_shex   (<int>)
+logs a numeric data state of a particular variable as hex.
+
+.SH BUGS
+yLOG is incredibly stable for me, but if anyone else used it it might explode
+and take the universe with it.
+
+.SH COLOPHON
+this page is part of a documentation package meant to make the use of the
+heatherly tools easier and faster

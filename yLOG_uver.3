@@ -1,0 +1,177 @@
+.TH yLOG_uver· 3 2008-jul "linux" "interfacing with micro, code-inclusion version"
+
+.SH NAME
+yLOG_uver \- micro version of yLOG process logging for early use
+
+.SH PATRON (see HERITAGE at bottom for more)
+clio-chrysafenios (flowering) greek muse of written and oral history
+
+.SH IMAGERY
+golden young woman holding a scroll, by a chest full of books
+
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore, much more quickly fix trouble.
+
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
+.nf
+yLOG (3)           interfacing with yLOG in general
+yLOG_long (3)      interfacing with full library, long version
+yLOG_short (3)     interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+yLOG_spec (3)      interfacing with full library, specialty
+yLOG_vol (3)       interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+.B yLOG_uver (3)´´´´´´interfacing with micro, code-inclusion version
+yLOG (6)           interactive usage and navigation of log files
+yLOG (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) log files       openning and closing log files
+c) structure       logging entering and exiting functions
+d) characters      logging char/string internal state information
+e) numbers         logging numeric internal state information
+f) complex         logging complex data
+g) unit-test       interogating log file for unit testing
+h) error files     openning, closing, and interrogating error files
+i) error data      logging complex error messages
+j) unit-test       interogating errors file for unit testing
+
+.SH A) OVERVIEW
+yLOG_uver is a simplied but compatable, source-code inclusion header version
+of yLOG for use with core, low-dependency libraries supporting unit-testing
+to certify yLOG itself.  as a result, only a few of my programs use it.
+
+.SS header
+a simple header must be included in your shared header file
+
+   #include  <yLOG_solo.h>
+
+.SS code inclusion
+the source code file must be included in a primary source/code file
+
+   #include  <yLOG_uver.h>
+
+.SH B) LOG FILES
+yLOG_uver, unlike yLOG, stores all logging information in single, shared
+text file kept in the /tmp directory.  see yLOG (6) for how they look.
+
+   /tmp/ylog_micro.ulog
+
+.SS char  yLOG_uopen  (void)
+clears and opens a fresh logging file, as named above.  it utomatically closes
+any already open log.
+
+.SS char  yLOG_uclose (void)
+closes the logging file after use.
+
+.SS char  yLOG_udone  (void)
+same as yLOG_uclose, but also deletes the file to clean up (unit test).
+
+.SH C) STRUCTURE
+these three functions mark the entry and exit to functions.
+
+.SS char  yLOG_uenter (__FUNCTION__)
+logs entry into a function and indents following calls.
+
+.SS char  yLOG_uexit  (__FUNCTION__)
+logs exit from a function and un-indents following calls.
+
+.SS char  yLOG_uexitr (__FUNCTION__, <rc>)
+same as yLOG_uexit, but also notes the return code value.
+
+.SH D) CHARACTER DATA
+these three functions note internal data states that are char-based.
+standard most calls include <label> which is a 10-char prefix for the data
+to give context.
+
+.SS char  yLOG_uchar  (<label>, <char>)
+logs a character data state of a particular variable.
+
+.SS char  yLOG_unote  (<text>)
+usually used to create break points or note decision branches.
+
+.SS char  yLOG_uinfo  (<label>, <string>)
+logs a string data state of a particular variable.
+
+.SH E) NUMERIC DATA
+these two functions note internal data states that are value-based.
+standard all calls include <label> which is a 10-char prefix for the data to
+give context.
+
+.SS char  yLOG_uvalue (<label>, <integer>)
+logs a numeric data state of a particular variable.
+
+.SS char  yLOG_upoint (<label>, <pointer>)
+logs a address data state of a particular variable.
+
+.SH F) COMPLEX DATA
+this function allows a printf style vararg interface also using <label>
+which is a 10-char prefix for the data to give context.
+
+.SS char  yLOG_ucomplex (<label>, <format>, ...)
+allows a more versatle interface to avoid many smaller calls.
+
+.SH G) UNIT TESTING
+two function work with yENV_uver to interrogate the contents of the
+logging file for unit testing purposes.
+
+.SS char  yLOG_ulines (void)
+returns the count of lines in the logging file.
+
+.SS char* yLOG_upeek  (<a_dir>)
+returns a specific line from the logging file -- ']' means first line, 'Ö'
+next line, ...
+
+.SH H) ERROR FILES
+yLOG_uver, unlike yLOG, stores all error information in single, shared
+text file kept in the /tmp directory.  see yLOG (6) for how they look.
+
+   /tmp/ylog_error.txt
+
+.SS char  yLOG_ueopen  (void)
+clears and opens a fresh logging file, as named above.  it utomatically closes
+any already open log.
+
+.SS char  yLOG_ueclose (void)
+closes the logging file after use.
+
+.SS char  yLOG_uedone  (void)
+same as yLOG_uclose, but also deletes the file to clean up (unit test).
+
+.SH I) ERROR DATA
+this function allows a printf style vararg interface also using <label>
+which is a 10-char prefix for the data to give context.
+
+.SS char  yLOG_uerr (<label>, <format>, ...)
+uses the more versatle vararg interface to allow complex error formats.
+
+.SH J) UNIT TESTING
+two function work with yENV_uver to interrogate the contents of the
+error file for unit testing purposes.
+
+.SS char  yLOG_uelines (void)
+returns the count of lines in the logging file.
+
+.SS char* yLOG_uepeek  (<a_dir>)
+returns a specific line from the logging file -- ']' means first line, 'Ö'
+next line, ...
+
+.SH BUGS
+it is incredibly stable for me, but if anyone else used it it might explode
+and take the universe with it.
+
+.SH COLOPHON
+this page is part of a documentation package meant to make the use of the
+heatherly tools easier and faster
+
+
+

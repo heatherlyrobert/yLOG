@@ -1,429 +1,108 @@
-.TH yLOG 3 2008-jul "linux" "heatherly custom tools manual"
+.TH yLOG· 3 2008-jul "linux" "interfacing with full library version"
 
 .SH NAME
 yLOG \- simple, consistent, and useful process execution debugging
 
+.SH PATRON (see HERITAGE at bottom for more)
+clio-chrysafenios (flowering) greek muse of written and oral history
+
 .SH IMAGERY
-clio-chrysafenios (flowering) - greek muse of written and oral history
+golden young woman holding a scroll, by a chest full of books
 
-.SH SUMMARY
-yLOG is a simple, direct, consistent, and clean shared library to enable
-process execution logging and encourge monitoring, process flow understanding,
-and early issue detection in my custom programs.
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore, much more quickly fix trouble.
 
-.SH SYNOPSIS
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
 .nf
-.B #include  <yLOG.h> and link to either the -lyLOG or -lyLOG_debug
+.B yLOG (3)´´´´´´´´´´´interfacing with yLOG in general
+yLOG_long (3)      interfacing with full library, long version
+yLOG_short (3)     interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+yLOG_spec (3)      interfacing with full library, specialty
+yLOG_vol (3)       interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+yLOG_uver (3)      interfacing with micro, code-inclusion version
+yLOG (6)           interactive usage and navigation of log files
+yLOG (7)           decision rationale, scope, and objectives
 
-.R  ---program level-------------------------------
-.BI "char     yLOGS_begin   (cchar *" "a_program" ", cchar " "a_location" ", cchar " "a_quiet" ");"
-.BI "void     yLOGS_end     (void);"
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) synopsis        function overview
+c) inclusion       bringing the library into your code
+d) log files       openning and closing log files
 
-.R  ---support-------------------------------------
-.BI "char*    yLOGS_version (void);"
-.BI "int      yLOGS_lognum  (void);"
-.BI "llong    yLOGS_time    (void);"
-.BI "char*    yLOGS_path    (void);"
-.BI "char*    yLOGS_filename(void);"
-.BI "char     yLOGS_verify  (cchar *" "a_program" ", cchar " "a_location" ");"
-.BI "char     yLOGS_remove  (cchar *" "a_program" ", cchar " "a_location" ");"
-
-.R  ---structure (long form)-----------------------
-.BI "void     yLOG_enter   (cchar *" "a_func   " ");"
-.BI "void     yLOG_exit    (cchar *" "a_func   " ");"
-.BI "void     yLOG_exitr   (cchar *" "a_func   " ", cint    " "a_rce" ");"
-
-.R  ---data logging (long form)--------------------
-.BI "void     yLOG_note    (cchar *" "a_info" ");"
-.BI "void     yLOG_info    (cchar *" "a_subject" ", cchar  *" "a_info" ");"
-.BI "void     yLOG_delim   (cchar *" "a_subject" ", cchar  *" "a_info" ");"
-.BI "void     yLOG_value   (cchar *" "a_subject" ", cint    " "a_value" ");"
-.BI "void     yLOG_llong   (cchar *" "a_subject" ", cllong  " "a_value" ");"
-.BI "void     yLOG_hex     (cchar *" "a_subject" ", cint    " "a_value" ");"
-.BI "void     yLOG_double  (cchar *" "a_subject" ", cdouble " "a_value" ");"
-.BI "void     yLOG_char    (cchar *" "a_subject" ", cchar   " "a_char" ");"
-.BI "void     yLOG_point   (cchar *" "a_subject" ", cvoid  *" "a_pointer" ");"
-.BI "void     yLOG_bullet  (cint   " "a_num    " ", cchar  *" "a_info" ");"
-.BI "void     yLOG_pair    (cint   " "a_num    " ", cint    " "a_value" ");"
-.BI "void     yLOG_complex (cchar *" "a_subject" ", cchar  *" "a_format" ", " "..." ");"
-
-.R  ---structure (short form)----------------------
-.BI "void     yLOG_senter  (cchar *" "a_func   " ");"
-.BI "void     yLOG_sexit   (cchar *" "a_func   " ");"
-.BI "void     yLOG_sexitr  (cchar *" "a_func   " ", cint    " "a_rce" ");"
-
-.R  ---data logging (short form)-------------------
-.BI "void     yLOG_snote   (cchar *" "a_info   " ");"
-.BI "void     yLOG_sint    (cint   " "a_value  " ");"
-.BI "void     yLOG_shex    (cuint  " "a_value  " ");"
-.BI "void     yLOG_schar   (cchar  " "a_char   " ");"
-.BI "void     yLOG_spoint  (cvoid *" "a_pointer" ");"
-.BI "void     yLOG_sinfo   (cchar *" "a_subject" ", cchar  *" "a_info" ");"
-.BI "void     yLOG_svalue  (cchar *" "a_subject" ", cint    " "a_value" ");"
-
-.R  ---breaks--------------------------------------
-.BI "void     yLOG_break   (void);"
-.BI "void     yLOG_sync    (void);"
-
-.R  ---warnings------------------------------------
-.BI "void     yLOG_warn    (cchar  *" "a_issue" ");"
-.BI "void     yLOG_error   (cchar  *" "a_issue" ");"
-.BI "void     yLOG_fatal   (cchar  *" "a_issue" ");"
-
-.R  ---unit testing--------------------------------
-.BI "void     yLOG_unitcond (int " "a_scrp" ", int " "a_cond" ","
-.BI "                       " " " "int " "a_line" ", char *" "a_desc" ");"
-.BI "void     yLOG_unitstep (int " "a_scrp" ", int " "a_cond" ", int " "a_step" "," 
-.BI "                       " " " "int " "a_line" ", char *" "a_desc" ");"
-.BI "void     yLOG_unitdone (int " "a_scrp" ", int " "a_cond" ", int " "a_step" "," 
-.BI "                       " " " "int " "a_line" ", char *" "a_desc" ");"
-
-.SH GENERAL
+.SH A) OVERVIEW
 yLOG is meant to be a permenant part of the source code so that tracing
 and debugging may be quickened and improved over time.  my custom makefile
-can filter out all debugging lines so that a production (no debugging code)
+filters out all debugging lines so that a production (no debugging code)
 and debugging version (suffixed with _debug) of the program is produced.
-
-all debugging is normally done to a ram-disk (yLOG_SYSTEM) for speed.
-as long as permenent debugging is kept out of sorts and searches, it has never
-significantly slowed any of my programs -- some of which i always run in debug.
 
 yLOG should be used in conjuction with the yURG library which allows debugging
 to be categorized and turned on-and-off by those categories, both on the
 command line and while running.
 
-.SH PROGRAM LEVEL FUNCTIONS
-two simple functions begin and end logging.
+.SH B) SYNOPSIS
+.nf
+char  yLOG_begin    (char* <prog>, char* <location>, char <noise>);
+char  yLOG_end      (void);
 
-.B yLOGS_begin,
-prepares the log file, writes a header, and initializes globals.  it requires
-three pieces of data to complete its job.  any attempts to write data before
-using this function will silently fail.
+.SH C) INCLUSION
 
-program level functions are prefixed with yLOGS_ (not yLOG_) in order to help
-strip debugging from programs.
+.SS header
+a simple header must be included in your shared header file
+   #include  <yLOG.h>
+
+.SS library
+the library must be added to the make process...
+   link to -lyLOG for the production version
+   link to -lyLOG_debug for the debugging version (to debug itself)
+
+.SH D) LOG FILES
+yLOG (by default) creates specific log files to a dedicated temporary directory which is a
+ram-disk, for speed...
+   ram-disk /var/log/yLOG/
+
+each log file begins with a timestamp, includes the program name, and uses the
+".ulog" suffix.  these files are human readable, 8-bit ascii text.
+   YY.MM.DD.hh.mm.ss.program____________________.ulog
+
+.SS char  yLOG_begin (<prog>, <location>, <noise>)
+creates a new log file and header (see yLOG (6) for example of output)
 
 .RS 3
-.B program name
-, used to construct the log file name.
-
-.B write location
-, options are listed in the FILE section.
-
-.B initial state
-, either yLOG_QUIET or yLOG_NOISE
-
-.B example
-, yLOGS_begin  ("khronos", yLOG_SYSTEM, yLOG_NOISE);
+.B <program>, used to construct the log file name.
 .RE
 
-the header for a file looks something like this...
-   heatherly program logger=================================
-      host       : siquei
-      user       : root
-      program    : hestia
-      pid        : 001607
-      start date : Mon May 23 21:03:52 2016
-      start (ms) : 27517
-      log file   : /var/log/yLOG/16.05.23.21.03.52.hestia___
-   =========================================================
-   secs---.-ms -step- lvl ---comment------------------------
-
-.B yLOGS_end,
-writes a footer, closes the log, and frees resources.  any attemps to write
-data after using this function will silently fail.
-
-the footer for a file looks something like this...
-   secs---.-ms -step- lvl ---comment------------------------
-   =========================================================
-      end date   : Thu May 26 07:15:56 2016
-      end (ms)   : 209551847
-      dur (ms)   : 2097
-      duration   :  0h,  0m,  2s
-   =========================================================
-
-.SH SUPPORT FUNCTIONS
-these functions are helpful, but not necessary to normal use.
-
-support level functions are prefixed with yLOGS_ (not yLOG_) in order to help
-strip debugging from programs.
-
-.B yLOGS_version,
-returns current version number and version description.
-
-.B yLOGS_lognum,
-returns the fd used by the log file.
-
-.B yLOGS_time,
-returns the current timestamp used in milli-seconds.
-
-.B yLOGS_path,
-returns the path of the log file.
-
-.B yLOGS_filename,
-returns the full file name of the log.
-
-.B yLOGS_verify,
-finds the log file and verifies it exists.
-
-.B yLOGS_remove,
-finds the log file and removes it/them.
-
-.SH STRUCTURE FUNCTIONS (long form)
-these functions allow clear program tracing by logging entry and exit
-of executing functions.  in long form, each of these functions create
-a single line in the log file and manages indentation levels.
-
-here is an example log file entry for structure [s] and data [i]
-    ... [s] ENTERING (main)                           yLOG_enter   
-    ... [s] Ï  ENTERING (str_move)                    yLOG_enter
-    ... [i] Ï··Ï  x_len     : 12
-    ... [i] Ï··Ï  x_str     : string contents
-    ... [i] Ï··Ï  x_str2    : [another   ]
-    ... [i] Ï··Ï  a note written to help...
-    ... [i] Ï··Ï  x_hex     : 0x0FA126CD
-    ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
-    ... [i] Ï··Ï  func>>, 12, testing, c, x=361;;
-    ... [x] Ï··Ï  SIGALRM   : 14 preset alarm requested with alarm()
-    ... [g] Ï··Ï  FATAL     : pointer was not grounded
-    ... [s] Ï  EXITING  (str_move)                    yLOG_exit
-    ... [s] EXITING  (main)                           yLOG_exit
- * lines are prefixed with time in millsecs and sequence (...)
-
-.B yLOG_enter (__FUNCTION__)
-logs function entrance, and indents.
-
-.B yLOG_exit  (__FUNCTION__)
-logs function exit, and outdents.
-
-.B yLOG_exitr (__FUNCTION__, <int>)
-exit, with a warning return code.
-
-.SH DATA LOGGING FUNCTIONS (long form)
-these functions allow clearer debugging by allowing the logging of current
-variable states and general messages.  in long form, each of these functions
-create a single line in the log file.
-
-in practice, <title> is often the name of the variable (or part of) being
-shown, but not always.  <title> truncates at 10 characters.
-
-here is an example log file entry for structure [s] and data [i]
-    ... [s] ENTERING (main)
-    ... [s] Ï  ENTERING (str_move)
-    ... [i] Ï··Ï  x_len     : 12                      yLOG_value
-    ... [i] Ï··Ï  x_str     : string contents         yLOG_info
-    ... [i] Ï··Ï  x_str2    : [another   ]            yLOG_delim
-    ... [i] Ï··Ï  a note written to help...           yLOG_note
-    ... [i] Ï··Ï  x_hex     : 0x0FA126CD              yLOG_hex
-    ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2          yLOG_point
-    ... [i] Ï··Ï  func>>, 12, testing, c, x=361;;
-    ... [x] Ï··Ï  SIGALRM   : 14 preset alarm requested with alarm()
-    ... [g] Ï··Ï  FATAL     : pointer was not grounded
-    ... [s] Ï  EXITING  (str_move)
-    ... [s] EXITING  (main)
- * lines are prefixed with time in millsecs and sequence (...)
-
-.B yLOG_note  (<string>)
-logs a message.
-
-.B yLOG_info  (<title>, <string>)
-logs a string value.
-
-.B yLOG_delim (<title>, <string>)
-helps with invisible chars in string.
-
-.B yLOG_char  (<title>, <char>)
-logs a character.
-
-.B yLOG_value (<title>, <int>)
-logs a int value.
-
-.B yLOG_llong (<title>, <llong>)
-logs a long long value.
-
-.B yLOG_double (<title>, <double>)
-logs a real value.
-
-.B yLOG_hex   (<title>, <int>)
-logs a int value as hex.
-
-.B yLOG_point (<title>, <point>)
-logs a pointer value.
-
-.B yLOG_bullet (<int>, <string>)
-logs a bullet style.
-
-.B yLOG_pair   (<int>, <int>)
-logs related values.
-
-.SH STRUCTURE FUNCTIONS (short form)
-these functions allow clear program tracing by logging entry and exit
-of executing functions.  in short form, all calls to these functions are
-concatinated and written when yLOG_exit is called.
-
-here is an example log file entry for structure [s] and data [i]
-    ... [s] ENTERING (main)
-    ... [s] Ï  ENTERING (str_move)
-    ... [i] Ï··Ï  x_len     : 12
-    ... [i] Ï··Ï  x_str     : string contents
-    ... [i] Ï··Ï  x_str2    : [another   ]
-    ... [i] Ï··Ï  a note written to help...
-    ... [i] Ï··Ï  x_hex     : 0x0FA126CD
-    ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
-    ... [i] Ï··Ï  func>>, 12, testing, c, x=361;;     SHORT FORM
-    ... [x] Ï··Ï  SIGALRM   : 14 preset alarm requested with alarm()
-    ... [g] Ï··Ï  FATAL     : pointer was not grounded
-    ... [s] Ï  EXITING  (str_move)
-    ... [s] EXITING  (main)
- * lines are prefixed with time in millsecs and sequence (...)
-
-in this case the single line is...
-    1) yLOG_senter (__FUNCTION__) to start
-    6) yLOG_sexit  (__FUNCTION__) to complete with a ;;
-
-.B yLOG_senter (__FUNCTION__)
-logs function entrance.
-
-.B yLOG_sexit  (__FUNCTION__)
-logs function exit.
-
-.B yLOG_sexitr (__FUNCTION__, <int>)
-exit, with a warning return code.
-
-.SH DATA LOGGING FUNCTIONS (short form)
-these functions allow clearer debugging by allowing the logging of current
-variable states and general messages.  in short form, all calls to these
-functions are concatinated and written when yLOG_exit is called.
-
-here is an example log file entry for structure [s] and data [i]
-    ... [s] ENTERING (main)
-    ... [s] Ï  ENTERING (str_move)
-    ... [i] Ï··Ï  x_len     : 12
-    ... [i] Ï··Ï  x_str     : string contents
-    ... [i] Ï··Ï  x_str2    : [another   ]
-    ... [i] Ï··Ï  a note written to help...
-    ... [i] Ï··Ï  x_hex     : 0x0FA126CD
-    ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
-    ... [i] Ï··Ï  func>>, 12, testing, c, x=361;;     SHORT FORM
-    ... [x] Ï··Ï  SIGALRM   : 14 preset alarm requested with alarm()
-    ... [g] Ï··Ï  FATAL     : pointer was not grounded
-    ... [s] Ï  EXITING  (str_move)
-    ... [s] EXITING  (main)
- * lines are prefixed with time in millsecs and sequence (...)
-
-in this case the single line is...
-    1) yLOG_senter (__FUNCTION__) to start
-    2) yLOG_sint   (x_var) which shows 12
-    3) yLOG_snote  (x_str) which shows testing
-    4) yLOG_schar  (x_ch) which shows c
-    5) yLOG_svalue ("x", x_val) which shows x=361
-    6) yLOG_sexit  (__FUNCTION__) to complete with a ;;
-
-.B yLOG_snote  (<string>)
-logs a message.
-
-.B yLOG_schar (<char>)
-logs a character.
-
-.B yLOG_sint  (<int>)
-logs a int value.
-
-.B yLOG_sdouble (<double>)
-logs a real value.
-
-.B yLOG_shex  (<int>)
-logs a int value as hex.
-
-.B yLOG_spoint (<point>)
-logs a pointer value.
-
-.B yLOG_svalue  (<title>, <string>)
-logs a string value.
-
-.B yLOG_sinfo (<title>, <string>)
-logs a string value.
-
-.SH ERROR REPORTING FUNCTIONS (only long form)
-these functions allow a program to make entries that are easily searched and
-filtered later.  errors are marked with [w] warning, [e] error, [g] graceful,
-or [c] clumsy.
-
-here is an example log file entry for structure [s] and data [i]
-    ... [s] ENTERING (main)
-    ... [s] Ï  ENTERING (str_move)
-    ... [i] Ï··Ï  x_len     : 12
-    ... [i] Ï··Ï  x_str     : string contents
-    ... [i] Ï··Ï  x_str2    : [another   ]
-    ... [i] Ï··Ï  a note written to help...
-    ... [i] Ï··Ï  x_hex     : 0x0FA126CD
-    ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
-    ... [i] Ï··Ï  func>>, 12, testing, c, x=361;;
-    ... [x] Ï··Ï  SIGALRM   : 14 preset alarm requested with alarm()
-    ... [g] Ï··Ï  FATAL     : pointer was not grounded    ERROR
-    ... [s] Ï  EXITING  (str_move)
-    ... [s] EXITING  (main)
- * lines are prefixed with time in millsecs and sequence (...)
-
-.B yLOG_warn  (<issue>)
-logs a warning message
-
-.B yLOG_error (<issue>)
-logs a error message
-
-.B yLOG_fatal (<issue>)
-logs a handled fatal message
-
-.B yLOG_boom (<issue>)
-logs a badly handled fatal.
-
-.SH SIGNAL NOTIFICATION FUNCTIONS (only long form)
-these functions allow a program to quickly and specifically note a signal.
-signals are marked with a [x].
-
-here is an example log file entry for structure [s] and data [i]
-    ... [s] ENTERING (main)
-    ... [s] Ï  ENTERING (str_move)
-    ... [i] Ï··Ï  x_len     : 12
-    ... [i] Ï··Ï  x_str     : string contents
-    ... [i] Ï··Ï  x_str2    : [another   ]
-    ... [i] Ï··Ï  a note written to help...
-    ... [i] Ï··Ï  x_hex     : 0x0FA126CD
-    ... [i] Ï··Ï  x_point   : 0x86fe970ab6c2
-    ... [i] Ï··Ï  func>>, 12, testing, c, x=361;;
-    ... [x] Ï··Ï  SIGALRM   : 14 preset alarm requested with alarm()
-    ... [g] Ï··Ï  FATAL     : pointer was not grounded
-    ... [s] Ï  EXITING  (str_move)
-    ... [s] EXITING  (main)
- * lines are prefixed with time in millsecs and sequence (...)
-
-.B yLOG_signal  (<sig_num>)
-logs an async signal.
-
-.SH FILES
-yLOG uses several locations for storing output depending on the setting used
-when yLOGS_begin is called.
+.RS 3
+.B <location>, options for the destination of the file.
+.nf
    1) yLOG_STDOUT           stdout                    screen/pipe
    2) yLOG_SYSTEM           /var/log/yLOG/            ram disk
    3) yLOG_HISTORICAL       /var/log/yLOG.historical/ normal disk
    4) yLOG_ROOT             /root/                    normal disk
    5) yLOG_USB              /mnt/usb1/                usb stick
    6) yLOG_NULL             /dev/null/                bitbucket
+.RE
 
-the file is named as follows...
-   YY.MM.DD.hh.mm.ss.program____________________.ulog
+.RS 3
+.B <noise>, either yLOG_QUIET or yLOG_NOISE
+.RE
+
+.SS char  yLOG_end (void)
+writes a footer (see yLOG (6) for example) and closes the log.
 
 .SH BUGS
 it is incredibly stable for me, but if anyone else used it it might explode
 and take the universe with it.
 
-.SH SEE ALSO
-this documentation is layered to provide easier navigation.
-   yURG (3), shared library for controlling debugging scope
-
-.SH AUTHOR
-heatherlyrobert ata gmail dotta com
-
 .SH COLOPHON
 this page is part of a documentation package meant to make the use of the
 heatherly tools easier and faster
-

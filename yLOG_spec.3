@@ -1,0 +1,111 @@
+.TH yLOG_spec· 3 2008-jul "linux" "interfacing with full library version"
+
+.SH NAME
+yLOG \- simple, consistent, and useful process execution debugging
+
+.SH PATRON (see HERITAGE at bottom for more)
+clio-chrysafenios (flowering) greek muse of written and oral history
+
+.SH IMAGERY
+golden young woman holding a scroll, by a chest full of books
+
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore, much more quickly fix trouble.
+
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
+.nf
+yLOG (3)           interfacing with yLOG in general
+yLOG_long (3)      interfacing with full library, long version
+yLOG_short (3)     interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+.B yLOG_spec (3)´´´´´´interfacing with full library, specialty
+yLOG_vol (3)       interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+yLOG_uver (3)      interfacing with micro, code-inclusion version
+yLOG (6)           interactive usage and navigation of log files
+yLOG (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) synopsis        function overview
+c) breaks          aids in sending signal data to log
+d) output          seeing output file
+d) debug           helpers to retrieve details
+
+.SH A) OVERVIEW
+yLOG has the ability to log error messages to make them stand out.  it also
+allows programmers to later tell exactly when it was generated.
+
+.SH B) SYNOPSIS
+.nf
+---breaks--------------------------------------
+·  char     yLOG_break     (void);
+·  char     yLOG_sync      (void);
+
+---output--------------------------------------
+·  char     yLOGS_verify   (char* <prog>, char <loc>);
+·  char     yLOGS_remove   (char* <prog>, char <loc>);
+
+---debugging-----------------------------------
+·  char*    yLOGS_version  (void);
+·  int      yLOGS_lognum   (void);
+·  llong    yLOGS_time     (void);
+·  char*    yLOGS_path     (void);
+·  char*    yLOGS_filename (void);
+
+.SH C) BREAKS
+these two functions are used to deal with long log files by given major
+break points.
+
+.SS char  yLOG_break (void)
+places a single-line divider in the file for visual purposes.
+
+.SS char  yLOG_sync (void)
+deletes log between sync points to reduce space in daemon tracking.
+
+.SH D) OUTPUT
+these two functions allow a program to confirm logging and eliminate old
+files as needed.  also useful for unit testing.  these level functions are
+prefixed with yLOGS_ (not yLOG_) in order to help strip debugging from programs.
+
+.SS char yLOGS_verify (<program>, <location>)
+finds the log file and verifies it exists.
+
+.SS char yLOGS_remove (<program>, <location>)
+finds the log file and removes it/them.
+
+.SH E) DEBUG
+these five functions are helpful, but not necessary to normal use.  support
+level functions are prefixed with yLOGS_ (not yLOG_) in order to help strip
+debugging from programs.
+
+.SS char* yLOGS_version (void)
+returns current version number and version description.
+
+.SS int yLOGS_lognum (void)
+returns the fd used by the log file.
+
+.SS long long yLOGS_time (void)
+returns the current timestamp used in milli-seconds.
+
+.SS char *yLOGS_path (void)
+returns the path of the log file.
+
+.SS char *yLOGS_filename (void)
+returns the full file name of the log.
+
+.SH BUGS
+yLOG is incredibly stable for me, but if anyone else used it it might explode
+and take the universe with it.
+
+.SH COLOPHON
+this page is part of a documentation package meant to make the use of the
+heatherly tools easier and faster

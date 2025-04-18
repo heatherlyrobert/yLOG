@@ -6,10 +6,18 @@
 
 
 /*---(simple variables)------------------*/
-static char   s_level   =   0;
-static char   s_prefix  [100] = "";
-static FILE  *s_logger  = NULL;
-static char   s_print   [200] = "";
+
+static char  *mylog_oneline = "clio-chrysafenios (flowering) process execution logging";
+
+static char   mylog_level   =   0;
+static char   mylog_prefix  [100] = "";
+static char   mylog_print   [200] = "";
+
+static char  *mylog_lname   = "/tmp/ylog_micro.ulog";
+static FILE  *mylog_lfile   = NULL;
+
+static char  *mylog_ename   = "/tmp/ylog_errors.txt";
+static FILE  *mylog_efile   = NULL;
 
 
 
@@ -18,19 +26,49 @@ static char   s_print   [200] = "";
 /*====================------------------------------------====================*/
 static void      o___SPECIAL_______o (void) {;}
 
-void  yLOGS_ufile  (char *a_file)  { s_logger = fopen (a_file, "wt");  s_level = 0; strcpy (s_prefix, "");  return;  }
-void  yLOGS_udest  (FILE *a_dest)  { s_level =  0;  strcpy (s_prefix, "");  s_logger = a_dest;  return; }
-void  yLOGS_uend   (void)          { if (s_logger == stdout || s_logger == stderr) return 0;  fclose (s_logger); return;  }
+char
+yLOG__ufile             (char a_type, FILE **b_file)
+{
+   /*---(locals)---------+-----+-----+---*/
+   char        rce       =  -10;
+   char        rc        =    0;
+   char        x_name    [LEN_HUND]  = "";
+   FILE       *f         = NULL;
+   /*---(defense)------------------------*/
+   --rce;  if (b_file == NULL)            return rce;
+   /*---(prepare)------------------------*/
+   switch (a_type) {
+   case 'L':  case 'l':  case 'ò':  strlcpy (x_name, mylog_lname, LEN_HUND);  rc = 1;  break;
+   case 'E':  case 'e':  case 'ì':  strlcpy (x_name, mylog_ename, LEN_HUND);  rc = 2;  break;
+   default :  return rce;
+   }
+   /*---(close-first)--------------------*/
+   if (*b_file != NULL) { fflush (*b_file);  fclose (*b_file); }
+   *b_file = NULL;
+   /*---(close-request)------------------*/
+   if (strchr ("le", a_type) != NULL) {  /* close only */
+      return 0;
+   }
+   if (strchr ("òì", a_type) != NULL) {  /* close and delete */
+      unlink    (x_name);  /* remove temp file */
+      return 0;
+   }
+   /*---(open)---------------------------*/
+   f = fopen (x_name, "wt");
+   --rce;  if (f == NULL)                 return rce;
+   fflush (f);
+   /*---(save)---------------------------*/
+   *b_file = f;
+   /*---(complete)-----------------------*/
+   return rc;
+}
 
+char yLOG_uopen       (void)  { return yLOG__ufile ('L', &mylog_lfile); }
+char yLOG_uclose      (void)  { return yLOG__ufile ('l', &mylog_lfile); }
+char yLOG_udone       (void)  { return yLOG__ufile ('ò', &mylog_lfile); }
 
-
-/*====================------------------------------------====================*/
-/*===----                       debugging functions                    ----===*/
-/*====================------------------------------------====================*/
-static void      o___DEBUG_________o (void) {;}
-
-char *yLOG_ulast   (void)          { return s_print; }
-void  yLOG_uclear  (void)          { strcpy (s_print, ""); return;  }
+int   yLOG_ulines  (void)        { return yENV_ulines (mylog_lname); }
+char* yLOG_upeek   (char a_dir)  { return yENV_upeek  (mylog_lname, a_dir); }
 
 
 
@@ -39,44 +77,55 @@ void  yLOG_uclear  (void)          { strcpy (s_print, ""); return;  }
 /*====================------------------------------------====================*/
 static void      o___STRUCTURE_____o (void) {;}
 
-void
+char
 yLOG_uenter   (char *a_func)
 {
    int         i           =    0;
-   if (s_logger == NULL) yLOGS_udest (stderr);
-   sprintf (s_print , "%sENTERING (%.30s)", s_prefix, a_func);
-   fprintf (s_logger, "%s\n", s_print);
-   if (s_level < 10)  ++s_level;
-   strcpy (s_prefix, "");
-   for (i = 0; i < s_level; ++i) {
-      if (i == s_level - 1)  strcat (s_prefix, "´  ");
-      else                   strcat (s_prefix, "´··");
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
+   if      (a_func == NULL)            sprintf (mylog_print , "%sENTERING (%.30s)", mylog_prefix, "((NULL))");
+   else if (strcmp (a_func, "") == 0)  sprintf (mylog_print , "%sENTERING (%.30s)", mylog_prefix, "((empty))");
+   else                                sprintf (mylog_print , "%sENTERING (%.30s)", mylog_prefix, a_func);
+   fprintf (mylog_lfile, "%s\n", mylog_print);
+   if (mylog_level < 10)  ++mylog_level;
+   strcpy (mylog_prefix, "");
+   for (i = 0; i < mylog_level; ++i) {
+      if (i == mylog_level - 1)  strcat (mylog_prefix, "´  ");
+      else                   strcat (mylog_prefix, "´··");
    }
-   return;
+   fflush  (mylog_lfile);
+   return 1;
 }
 
-void
+char
 yLOG_uexit    (char *a_func)
 {
    int         i           =    0;
-   if (s_logger == NULL) yLOGS_udest (stderr);
-   if (s_level >  0)  --s_level;
-   strcpy (s_prefix, "");
-   for (i = 0; i < s_level; ++i) {
-      if (i == s_level - 1)  strcat (s_prefix, "´  ");
-      else                   strcat (s_prefix, "´··");
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
+   if (mylog_level >  0)  --mylog_level;
+   strcpy (mylog_prefix, "");
+   for (i = 0; i < mylog_level; ++i) {
+      if (i == mylog_level - 1)  strcat (mylog_prefix, "´  ");
+      else                   strcat (mylog_prefix, "´··");
    }
-   sprintf (s_print , "%sEXITING  (%.30s)", s_prefix, a_func);
-   fprintf (s_logger, "%s\n", s_print);
-   return;
+   if      (a_func == NULL)            sprintf (mylog_print , "%sEXITING  (%.30s)", mylog_prefix, "((NULL))");
+   else if (strcmp (a_func, "") == 0)  sprintf (mylog_print , "%sEXITING  (%.30s)", mylog_prefix, "((empty))");
+   else                                sprintf (mylog_print , "%sEXITING  (%.30s)", mylog_prefix, a_func);
+   fprintf (mylog_lfile, "%s\n", mylog_print);
+   fflush  (mylog_lfile);
+   return 1;
 }
 
-void
+char
 yLOG_uexitr    (char *a_func, int a_rce)
 {
-   if (s_logger == NULL) yLOGS_udest (stderr);
-   sprintf (s_print , "%sWARNING, rce (%d)", s_prefix, a_rce);
-   fprintf (s_logger, "%s\n", s_print);
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
+   if (a_rce < 0)  sprintf (mylog_print , "%sWARNING, rce (%d)", mylog_prefix, a_rce);
+   else            sprintf (mylog_print , "%sRETURN,  rc  (%d)", mylog_prefix, a_rce);
+   fprintf (mylog_lfile, "%s\n", mylog_print);
+   fflush  (mylog_lfile);
    return yLOG_uexit (a_func);
 }
 
@@ -87,29 +136,42 @@ yLOG_uexitr    (char *a_func, int a_rce)
 /*====================------------------------------------====================*/
 static void      o___MESSAGES______o (void) {;}
 
-void
+char*
+yLOG__string   (char *a_string)
+{
+   if      (a_string == NULL)            return "(NULL)";
+   else if (strcmp (a_string, "") == 0)  return "(empty)";
+   else                                  return a_string;
+}
+
+char
 yLOG_unote    (char *a_info)
 {
-   if (s_logger == NULL) yLOGS_udest (stderr);
-   sprintf (s_print , "%s%s", s_prefix, a_info);
-   fprintf (s_logger, "%s\n", s_print);
-   return;
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
+   sprintf (mylog_print , "%s%s", mylog_prefix, yLOG__string (a_info));
+   fprintf (mylog_lfile, "%s\n", mylog_print);
+   fflush  (mylog_lfile);
+   return 1;
 }
 
-void
+char
 yLOG_uinfo    (char *a_subject, char *a_info)
 {
-   if (s_logger == NULL) yLOGS_udest (stderr);
-   sprintf (s_print , "%s%-10.10s: %s", s_prefix, a_subject, a_info);
-   fprintf (s_logger, "%s\n", s_print);
-   return;
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
+   sprintf (mylog_print , "%s%-10.10s: %s", mylog_prefix, yLOG__string (a_subject), yLOG__string (a_info));
+   fprintf (mylog_lfile, "%s\n", mylog_print);
+   fflush  (mylog_lfile);
+   return 1;
 }
 
-void
+char
 yLOG_uchar         (char *a_subject, uchar a_char)
 {
    uchar c  = 'Ï';
-   if (s_logger == NULL) yLOGS_udest (stderr);
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
    if (a_char >   32 && a_char != 127)  c = a_char;
    switch (a_char) {
    case   0 : c = '£';  break;   /* null   */
@@ -117,30 +179,35 @@ yLOG_uchar         (char *a_subject, uchar a_char)
    case  13 : c = '¦';  break;   /* enter  */
    case  27 : c = '¥';  break;   /* escape */
    case  29 : c = '¨';  break;   /* group  */
-   case  31 : c = '§';  break;   /* escape */
+   case  31 : c = '§';  break;   /* field  */
    case  32 : c = '·';  break;   /* space  */
    }
-   sprintf (s_print , "%s%-10.10s: %c", s_prefix, a_subject, c);
-   fprintf (s_logger, "%s\n", s_print);
-   return;
+   sprintf (mylog_print , "%s%-10.10s: %c", mylog_prefix, yLOG__string (a_subject), c);
+   fprintf (mylog_lfile, "%s\n", mylog_print);
+   fflush  (mylog_lfile);
+   return 1;
 }
 
-void
+char
 yLOG_uvalue        (char *a_subject, int a_value)
 {
-   if (s_logger == NULL) yLOGS_udest (stderr);
-   sprintf (s_print , "%s%-10.10s: %d", s_prefix, a_subject, a_value);
-   fprintf (s_logger, "%s\n", s_print);
-   return;
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
+   sprintf (mylog_print , "%s%-10.10s: %d", mylog_prefix, yLOG__string (a_subject), a_value);
+   fprintf (mylog_lfile, "%s\n", mylog_print);
+   fflush  (mylog_lfile);
+   return 1;
 }
 
-void
+char
 yLOG_upoint        (char *a_subject, void *a_value)
 {
-   if (s_logger == NULL) yLOGS_udest (stderr);
-   sprintf (s_print , "%s%-10.10s: %p", s_prefix, a_subject, a_value);
-   fprintf (s_logger, "%s\n", s_print);
-   return;
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
+   sprintf (mylog_print , "%s%-10.10s: %p", mylog_prefix, yLOG__string (a_subject), a_value);
+   fprintf (mylog_lfile, "%s\n", mylog_print);
+   fflush  (mylog_lfile);
+   return 1;
 }
 
 
@@ -150,31 +217,56 @@ yLOG_upoint        (char *a_subject, void *a_value)
 /*====================------------------------------------====================*/
 static void      o___VARARG________o (void) {;}
 
-void
+char
 yLOG_ucomplex      (char *a_subject, char *a_format, ...)
 {
    char        x_format  [200] = "";
    va_list     args;
-   if (s_logger == NULL) yLOGS_udest (stderr);
+   char        rce         =  -10;
+   --rce;  if (mylog_lfile   == NULL)  return rce;
+   --rce;  if (a_format  == NULL)  return rce;
    va_start  (args, a_format);
    vsnprintf (x_format, 200, a_format, args);
-   sprintf   (s_print , "%s%-10.10s: %s", s_prefix, a_subject, x_format);
-   fprintf   (s_logger, "%s\n", s_print);
+   sprintf   (mylog_print , "%s%-10.10s: %s", mylog_prefix, yLOG__string (a_subject), x_format);
+   fprintf   (mylog_lfile, "%s\n", mylog_print);
    va_end    (args);
-   return;
+   fflush    (mylog_lfile);
+   return 1;
 }
 
-void
-yLOGS_err          (char *a_format, ...)
+
+
+/*====================------------------------------------====================*/
+/*===----                     error reporting                          ----===*/
+/*====================------------------------------------====================*/
+static void      o___ERRORS________o (void) {;}
+
+char yLOG_ueopen       (void)  { return yLOG__ufile ('E', &mylog_efile); }
+char yLOG_ueclose      (void)  { return yLOG__ufile ('e', &mylog_efile); }
+char yLOG_uedone       (void)  { return yLOG__ufile ('ì', &mylog_efile); }
+
+char
+yLOG_uerr               (char *a_format, ...)
 {
-   char        x_format  [200] = "";
+   /*---(locals)---------+-----+-----+---*/
+   char        rce         =  -10;
+   char        x_format  [LEN_FULL] = "";
    va_list     args;
-   if (s_logger == NULL) yLOGS_udest (stderr);
+   /*---(defense)------------------------*/
+   --rce;  if (mylog_efile == NULL)  return rce;
+   /*---(write)--------------------------*/
    va_start  (args, a_format);
-   vsnprintf (x_format, 200, a_format, args);
-   sprintf   (s_print , "%s", x_format);
-   fprintf   (s_logger, "%s\n", s_print);
+   vsnprintf (x_format, LEN_FULL, a_format, args);
+   sprintf   (mylog_print , "%s", x_format);
+   fprintf   (mylog_efile, "%s\n", mylog_print);
    va_end    (args);
-   return;
+   /*---(flush)--------------------------*/
+   fflush    (mylog_efile);
+   /*---(complete)-----------------------*/
+   return 1;
 }
+
+int   yLOG_uelines (void)        { return yENV_ulines (mylog_ename); }
+char* yLOG_uepeek  (char a_dir)  { return yENV_upeek  (mylog_ename, a_dir); }
+
 
