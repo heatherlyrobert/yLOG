@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.1-, incremental fixes"
-#define     P_VERNUM    "2.1c"
-#define     P_VERTXT    "cleaned up MAN files and separated for readability"
+#define     P_VERNUM    "2.1d"
+#define     P_VERTXT    "major overhaul"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -147,19 +147,14 @@
 
 
 /*===[[ ySTR CLIPPING ]]======================================================*/
-#define     LEN_HUGE        10000       /* special cases only                 */
-#define     LEN_RECD         2000       /* longer likely means hacker         */
-#define     LEN_PATH          300       /* large, but not crazy length        */
-#define     LEN_FULL          200       /* large string length                */
-#define     LEN_HUND          100       /* conservative field/arg length      */
-#define     LEN_LONG           75       /* long descrition                    */
-#define     LEN_DESC           50       /* no one reads long descriptions     */
-#define     LEN_TITLE          30       /* for organizing                     */
-#define     LEN_LABEL          20       /* names and labels                   */
-#define     LEN_USER           12       /* user names                         */
-#define     LEN_HEX            10       /* hex codes                          */
-#define     LEN_TERSE          10       /* terse string                       */
-#define     LEN_SHORT           5       /* for small needs                    */
+/*> #define     LEN_RECD         2000       /+ longer likely means hacker         +/   <*/
+/*> #define     LEN_PATH          300       /+ large, but not crazy length        +/   <*/
+/*> #define     LEN_FULL          200       /+ large string length                +/   <*/
+/*> #define     LEN_HUND          100       /+ conservative field/arg length      +/   <*/
+/*> #define     LEN_DESC           50       /+ no one reads long descriptions     +/   <*/
+/*> #define     LEN_TITLE          30       /+ for organizing                     +/   <*/
+/*> #define     LEN_LABEL          20       /+ names and labels                   +/   <*/
+/*> #define     LEN_TERSE          10       /+ terse string                       +/   <*/
 
 
 #define           LOGDIR     "/var/log/yLOG/"
@@ -198,12 +193,13 @@
 #define           TYPE_UNKNOWN    '?'
 /*---(done)-----------------------------*/
 #define           LOG_FD          99
-#define           IF_QUIET        if (myLOG.loud   != 'y' )
-#define           IF_LOGGER       if (myLOG.logger != NULL)
-#define           IF_NOTUNIT      if (myLOG.use    != 'u' )
-#define           DEBUG_YLOGS     if (myLOG.use    == 'd' )
-#define           DEBUG_PROG      if (myLOG.use    == 'd' )
-#define           DEBUG_TOPS      if (myLOG.use    == 'd' )
+#define           IF_QUIET        if (myLOG.m_loud   != 'y' )
+#define           IF_LOGGER       if (myLOG.m_logger != NULL)
+#define           IF_NOSHOW       if (myLOG.m_logger == NULL || myLOG.m_loud   != 'y')
+#define           IF_NOTUNIT      if (myLOG.m_use    != 'u' )
+#define           DEBUG_YLOGS     if (myLOG.m_use    == 'd' )
+#define           DEBUG_PROG      if (myLOG.m_use    == 'd' )
+#define           DEBUG_TOPS      if (myLOG.m_use    == 'd' )
 
 
 
@@ -219,28 +215,28 @@ typedef struct dirent    tDIRENT;
 
 typedef    struct  cITS  tITS;
 struct cITS {
-   char        loud;  
-   char        use;                    /* (-) normal, (d)ebug, or (u)nit      */
-   char        prog        [LEN_TITLE];     /* calling program name           */
-   FILE       *logger;                      /* file to receive messages       */
-   char        full        [LEN_RECD];      /* full message to be written     */
-   char        core;                        /* log core heatherly libraries   */
-   llong       wall_start;                  /* start wall msec time           */
-   int         count;                       /* message count                  */
-   int         indent;                      /* level of indent (0 - 9)        */
-   char        prefix      [LEN_HUND];      /* actual indent text (of spaces) */
-   char        msg         [LEN_PATH];      /* full message to log            */
-   char        single      [LEN_PATH];      /* short form cum message         */
-   int         nsyncs;                      /* count of sync calls            */
-   char        timestamp   [LEN_TITLE];     /* log file timestamp             */
-   char        filename    [LEN_PATH];      /* log file name                  */
-   char        path        [LEN_PATH];      /* path to log file               */
-   char        version     [LEN_HUND];      /* ylog version string            */
-   char        title       [LEN_FULL];      /* title for messages             */
-   char        data        [LEN_FULL];      /* string for messages            */
-   char        temp        [LEN_FULL];      /* string for short working area  */
-   uchar       urg;                         /* called by which urgent         */
-   uchar       stage;                       /* called in which stage          */
+   char        m_loud;  
+   char        m_use;                         /* (-) normal, (d)ebug, or (u)nit      */
+   char        m_prog        [LEN_TITLE];     /* calling program name           */
+   FILE*       m_logger;                      /* file to receive messages       */
+   char        m_full        [LEN_RECD];      /* full message to be written     */
+   char        m_core;                        /* log core heatherly libraries   */
+   llong       m_start;                       /* start wall msec time           */
+   int         m_count;                       /* message count                  */
+   int         m_indent;                      /* level of indent (0 - 9)        */
+   char        m_prefix      [LEN_HUND];      /* actual indent text (of spaces) */
+   char        m_msg         [LEN_FULL];      /* full message to log            */
+   char        m_single      [LEN_PATH];      /* short form cum message         */
+   int         m_nsyncs;                      /* count of sync calls            */
+   char        m_timestamp   [LEN_TITLE];     /* log file timestamp             */
+   char        m_filename    [LEN_PATH];      /* log file name                  */
+   char        m_path        [LEN_PATH];      /* path to log file               */
+   char        m_version     [LEN_HUND];      /* ylog version string            */
+   char        m_title       [LEN_FULL];      /* title for messages             */
+   char        m_data        [LEN_FULL];      /* string for messages            */
+   char        m_temp        [LEN_FULL];      /* string for short working area  */
+   uchar       m_urg;                         /* called by which urgent         */
+   uchar       m_stage;                       /* called in which stage          */
 };
 extern  tITS  myLOG;
 
@@ -250,30 +246,33 @@ extern char unit_answer [LEN_RECD];
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 llong       ylog__timestamp         (void);
-char        ylog__prefix            (void);
-void        ylog__main              (char a_change, char a_level, char *a_message);
+char        ylog__prefix            (int a_indent, int *r_indent, char r_prefix [LEN_HUND]);
+char        ylog__main              (char a_change, char a_level, char a_message [LEN_FULL]);
 
-char        ylogs__progname         (cchar *a_prog);
-char*       ylogs__logname          (cchar *a_prog, cchar a_loc);
+char        ylogs_init              (void);
+char        ylogs__progname         (char *a_prog);
+char*       ylogs__logname          (char *a_prog, char a_loc);
 
 
-char*       ylog_title              (const char *a_title);
-char*       ylog_data               (const char *a_data);
-char*       ylog_terse              (const char *a_data);
+char*       ylog_title              (char *a_title);
+char*       ylog_data               (char *a_data);
+char*       ylog_terse              (char *a_data);
 
 char        ylog__unit_quiet        (void);
 char        ylog__unit_loud         (void);
 char        ylog__unit_end          (void);
 char*       ylog_base__unit         (char *a_question, int a_num);
 
-void        ylog_stage_init         (void);
+char        ylog_stage_init         (void);
 
 
 char        ylog_vol_init           (void);
-char        ylog__find              (const char *a_func);
-char        ylog_check              (const char *a_func);
-char        ylog_check_enter        (const char *a_func);
-char        ylog_check_exit         (const char *a_func);
+char        ylog__find              (char *a_func);
+char        ylog_check              (char *a_func);
+char        ylog_check_enter        (char *a_func);
+char        ylog_check_exit         (char *a_func);
 char*       ylog_vol__unit          (char *a_question, int a_num);
+
+
 
 #endif

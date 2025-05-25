@@ -9,35 +9,41 @@
 /*====================------------------------------------====================*/
 static void      o___ENDS____________________o (void) {;}
 
-void
-yLOG_senter   (cchar a_func [LEN_TITLE])
+char
+yLOG_senter   (char a_func [LEN_TITLE])
 {
    ylog_check_enter (a_func);
-   IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, "%.30s>>", ylog_title (a_func));
-   strncpy  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, "%.30s>>", ylog_title (a_func));
+   strncpy  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 0;
 }
 
-void
-yLOG_sexit    (cchar a_func [LEN_TITLE])
+char
+yLOG_sexit    (char a_func [LEN_TITLE])
 {
-   IF_QUIET  return;
-   strncat  (myLOG.single, ";;", LEN_FULL);
-   ylog__main (LVL_SAME, TYPE_STRUCT, myLOG.single);
+   char        rc          =    0;
+   IF_NOSHOW  return 0;
+   strncat  (myLOG.m_single, ";;", LEN_FULL);
+   rc = ylog__main (LVL_SAME, TYPE_STRUCT, myLOG.m_single);
    ylog_check_exit  (a_func);
-   return;
+   return rc;
 }
 
-void
-yLOG_sexitr   (cchar a_func [LEN_TITLE], cint a_rce)
+char
+yLOG_sexitr   (char a_func [LEN_TITLE], int a_rce)
 {
-   IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, ", WARN %d;;", a_rce);
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   ylog__main (LVL_SAME, TYPE_WARNING, myLOG.single);
+   char        rc          =    0;
+   char        x_type      =  '-';
+   char        x_note      [LEN_TERSE] = "";
+   IF_NOSHOW  return 0;
+   if (a_rce >= 0) { x_type = TYPE_STRUCT;  strcpy (x_note, "NOTE"); }
+   else            { x_type = TYPE_WARNING; strcpy (x_note, "WARN"); }
+   snprintf (myLOG.m_temp, LEN_FULL, ", %s %d;;", x_note, a_rce);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   rc = ylog__main (LVL_SAME, x_type, myLOG.m_single);
    ylog_check_exit  (a_func);
-   return;
+   return rc;
 }
 
 
@@ -47,60 +53,60 @@ yLOG_sexitr   (cchar a_func [LEN_TITLE], cint a_rce)
 /*====================------------------------------------====================*/
 static void      o___CONTENT_________________o (void) {;}
 
-void
-yLOG_snote    (cchar a_info [LEN_FULL])
+char
+yLOG_snote    (char a_info [LEN_FULL])
 {
-   IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, ", %s", ylog_title (a_info));
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %s", ylog_title (a_info));
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
 }
 
-void
+char
 yLOG_sint     (cint  a_value)
 {
-   IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, ", %d", a_value);
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %d", a_value);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
 }
 
-void
-yLOG_sdouble  (const double  a_value)
+char
+yLOG_sdouble  (double  a_value)
 {
-   IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, ", %.6lf", a_value);
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %.6lf", a_value);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
 }
 
-void yLOG_sreal (const double  a_value)  { return yLOG_sdouble (a_value); }
+char yLOG_sreal (double  a_value)  { return yLOG_sdouble (a_value); }
 
-void
-yLOG_shex     (const long  a_value)
+char
+yLOG_shex     (long  a_value)
 {
-   IF_QUIET  return;
-   if (a_value < 0)                 sprintf (myLOG.temp, ", ¢negative?");
-   else if (a_value > 0xFFFFFFFF)   sprintf (myLOG.temp, ", ¢overflow?");
-   else                             sprintf (myLOG.temp, ", 0x%08X", a_value);
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   IF_NOSHOW  return 0;
+   if (a_value < 0)                 sprintf (myLOG.m_temp, ", ¢negative?");
+   else if (a_value > 0xFFFFFFFF)   sprintf (myLOG.m_temp, ", ¢overflow?");
+   else                             sprintf (myLOG.m_temp, ", 0x%08X", a_value);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
 }
 
-void
-yLOG_spoint   (cvoid *a_pointer)
+char
+yLOG_spoint   (void *a_pointer)
 {
-   IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, ", %p", a_pointer);
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %p", a_pointer);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
 }
 
-void
-yLOG_schar    (const unsigned char a_char)
+char
+yLOG_schar    (uchar a_char)
 {
    unsigned char c  = 'Ï';
-   IF_QUIET  return;
+   IF_NOSHOW  return 0;
    if (a_char >   32 && a_char <  127)  c = a_char;
    if (a_char >  160)                   c = a_char;
    switch (a_char) {
@@ -112,9 +118,9 @@ yLOG_schar    (const unsigned char a_char)
    case  31 : c = '§';  break;   /* escape */
    case  32 : c = '·';  break;   /* space  */
    }
-   snprintf (myLOG.temp, LEN_FULL, ", %c", c);
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %c", c);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
 }
 
 
@@ -124,22 +130,22 @@ yLOG_schar    (const unsigned char a_char)
 /*====================------------------------------------====================*/
 static void      o___LABELED_________________o (void) {;}
 
-void
-yLOG_sinfo    (cchar a_subject [LEN_LABEL], cchar a_info [LEN_FULL])
+char
+yLOG_sinfo    (char a_subject [LEN_LABEL], char a_info [LEN_FULL])
 {
-   IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, ", %s=%s", ylog_title (a_subject), ylog_terse (a_info));
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %s=%s", ylog_title (a_subject), ylog_terse (a_info));
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
 }
 
-void
-yLOG_svalue   (cchar a_subject [LEN_LABEL], cint  a_value)
+char
+yLOG_svalue   (char a_subject [LEN_LABEL], cint  a_value)
 {
-   IF_QUIET  return;
-   snprintf (myLOG.temp, LEN_FULL, ", %s=%d", ylog_title (a_subject), a_value);
-   strncat  (myLOG.single, myLOG.temp, LEN_FULL);
-   return;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %s=%d", ylog_title (a_subject), a_value);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
 }
 
 

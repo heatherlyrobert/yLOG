@@ -48,73 +48,75 @@ typedef   const unsigned char   cuchar;
 
 /*===[[ PUBLIC FUNCTIONS (non-strip) ]]===================*/
 /*---(program)--------------*/
-char        yLOGS_begin        (cchar *a_program, cchar a_location, cchar a_quiet);
-void        yLOGS_end          (void);
+char        yLOGS_begin        (char *a_program, char a_location, char a_quiet);
+char        yLOGS_end          (void);
 /*---(support)--------------*/
 char       *yLOGS_version      (void);
 int         yLOGS_lognum       (void);
-long long   yLOGS_time         (void);
+llong       yLOGS_time         (void);
 char       *yLOGS_path         (void);
 char       *yLOGS_filename     (void);
 /*---(testing support)------*/
-char        yLOGS_verify       (cchar *a_name, cchar a_log, cchar a_line);
-char        yLOGS_remove       (cchar *a_name, cchar a_log);
+char        yLOGS_verify       (char *a_name, char a_log, char a_line);
+char        yLOGS_remove       (char *a_name, char a_log);
 
 
 
 /*===[[ PUBLIC FUNCTIONS (stripped) ]]====================*/
 /*---(tracking)-------------*/
-void        yLOGS_curr         (uchar a_stage, uchar a_urg);
+char        yLOG_curr          (char a_stage, char a_urg);
 char*       yLOG_curr_show     (void);
 /*---(general)--------------*/
-void        yLOGS_mute         (void);
-void        yLOGS_unmute       (void);
+char        yLOGS_mute         (void);
+char        yLOGS_unmute       (void);
 char        yLOGS_mute_check   (void);
-char        yLOGS_track        (cchar a_func    [LEN_TITLE], cchar a_type);
-char        yLOGS_untrack      (cchar a_func    [LEN_TITLE]);
+char        yLOGS_track        (char a_func  [LEN_TITLE], char a_type);
+char        yLOGS_untrack      (char a_func  [LEN_TITLE]);
 /*---(function (2))---------*/
-void        yLOG_enter         (cchar a_func    [LEN_TITLE]);
-void        yLOG_exit          (cchar a_func    [LEN_TITLE]);
-void        yLOG_exitr         (cchar a_func    [LEN_TITLE]   , cint a_rce);
+char        yLOG_enter         (char a_func  [LEN_TITLE]);
+char        yLOG_exit          (char a_func  [LEN_TITLE]);
+char        yLOG_exitr         (char a_func  [LEN_TITLE], int a_rce);
 /*---(normal (12))----------*/
-void        yLOG_note          (cchar a_info [LEN_FULL]);
-void        yLOG_info          (cchar a_subject [LEN_LABEL], cchar     a_info [LEN_FULL]);
-void        yLOG_delim         (cchar a_subject [LEN_LABEL], cchar     a_info [LEN_FULL]);
-void        yLOG_value         (cchar a_subject [LEN_LABEL], cint      a_value);
-void        yLOG_llong         (cchar a_subject [LEN_LABEL], cllong    a_value);
-void        yLOG_hex           (cchar a_subject [LEN_LABEL], clong     a_value);
-void        yLOG_double        (cchar a_subject [LEN_LABEL], cdouble   a_value);
-void        yLOG_real          (cchar a_subject [LEN_LABEL], cdouble   a_value);
-void        yLOG_char          (cchar a_subject [LEN_LABEL], cuchar    a_char);
-void        yLOG_point         (cchar a_subject [LEN_LABEL], cvoid    *a_value);
-void        yLOG_bullet        (cint  a_num,                 cchar     a_info [LEN_FULL]);
-void        yLOG_pair          (cint  a_num,                 cint      a_value);
-void        yLOG_complex       (cchar a_subject [LEN_LABEL], cchar *a_format, ...);
+char        yLOG_note          (char a_info  [LEN_FULL]);
+char        yLOG_info          (char a_label [LEN_LABEL], char     a_info [LEN_FULL]);
+char        yLOG_delim         (char a_label [LEN_LABEL], char     a_info [LEN_FULL]);
+char        yLOG_value         (char a_label [LEN_LABEL], int      a_value);
+char        yLOG_llong         (char a_label [LEN_LABEL], llong    a_value);
+char        yLOG_hex           (char a_label [LEN_LABEL], long     a_value);
+char        yLOG_double        (char a_label [LEN_LABEL], double   a_value);
+char        yLOG_real          (char a_label [LEN_LABEL], double   a_value);
+char        yLOG_char          (char a_label [LEN_LABEL], uchar    a_char);
+char        yLOG_point         (char a_label [LEN_LABEL], void    *a_pointer);
+char        yLOG_bullet        (int  a_num,               char     a_info [LEN_FULL]);
+char        yLOG_pair          (int  a_num,               int      a_value);
+char        yLOG_complex       (char a_label [LEN_LABEL], char *a_format, ...);
 /*---(breaks (2))-----------*/
-void        yLOG_break         (void);
-void        yLOG_sync          (void);
-void        yLOG_unitcond      (int a_scrp, int a_cond, int a_line, char *a_desc);
-void        yLOG_unitstep      (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc);
+char        yLOG_break         (void);
+char        yLOG_sync          (void);
+char        yLOG_unitcond      (int a_scrp, int a_cond, int a_line, char *a_desc);
+char        yLOG_unitstep      (int a_scrp, int a_cond, int a_step, int a_line, char *a_desc);
 /*---(compact (9))----------*/
-void        yLOG_senter        (cchar    a_func [LEN_TITLE]);
-void        yLOG_sexit         (cchar    a_func [LEN_TITLE]);
-void        yLOG_sexitr        (cchar    a_func [LEN_TITLE],    cint   a_rce);
-void        yLOG_snote         (cchar    a_info [LEN_FULL]);
-void        yLOG_sinfo         (cchar    a_subject [LEN_LABEL], cchar a_info [LEN_FULL]);
-void        yLOG_sint          (cint     a_value);
-void        yLOG_sdouble       (cdouble  a_value);
-void        yLOG_sreal         (cdouble  a_value);
-void        yLOG_shex          (clong    a_value);
-void        yLOG_schar         (cuchar   a_char);
-void        yLOG_spoint        (cvoid   *a_pointer);
-void        yLOG_svalue        (cchar    a_subject [LEN_LABEL], cint   a_value);
+char        yLOG_senter        (char a_func  [LEN_TITLE]);
+char        yLOG_sexit         (char a_func  [LEN_TITLE]);
+char        yLOG_sexitr        (char a_func  [LEN_TITLE],  int   a_rce);
+char        yLOG_snote         (char a_info  [LEN_FULL]);
+char        yLOG_sinfo         (char a_label [LEN_LABEL], char a_info [LEN_FULL]);
+char        yLOG_sint          (int  a_value);
+char        yLOG_sdouble       (double  a_value);
+char        yLOG_sreal         (double  a_value);
+char        yLOG_shex          (long    a_value);
+char        yLOG_schar         (uchar   a_char);
+char        yLOG_spoint        (void   *a_pointer);
+char        yLOG_svalue        (char a_label [LEN_LABEL], int   a_value);
+
+
 /*---(warnings (4))---------*/
-void        yLOG_warn          (cchar *a_issue);
-void        yLOG_error         (cchar *a_issue);
-void        yLOG_fatal         (cchar *a_issue);
-void        yLOG_boom          (cchar *a_issue);
-void        yLOG_signal        (cint   a_signal);
-void        yLOG_errors        (cchar *a_desc, cchar a_type, cchar *a_file, cint a_line, cchar *a_format, ...);
+char        yLOG_warn          (char *a_issue);
+char        yLOG_error         (char *a_issue);
+char        yLOG_fatal         (char *a_issue);
+char        yLOG_boom          (char *a_issue);
+char        yLOG_signal        (int   a_signal);
+char        yLOG_errors        (char *a_desc, char a_type, char *a_file, int a_line, char *a_format, ...);
 /*---(done)-----------------*/
 
 

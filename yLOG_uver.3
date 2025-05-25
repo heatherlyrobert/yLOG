@@ -35,32 +35,93 @@ yLOG (7)           decision rationale, scope, and objectives
 .SH TABLE OF CONTENTS
 .nf  
 a) overview        quick summary
-b) log files       openning and closing log files
-c) structure       logging entering and exiting functions
-d) characters      logging char/string internal state information
-e) numbers         logging numeric internal state information
-f) complex         logging complex data
-g) unit-test       interogating log file for unit testing
-h) error files     openning, closing, and interrogating error files
-i) error data      logging complex error messages
-j) unit-test       interogating errors file for unit testing
+b) synopsis        function overview
+c) inclusion       bringing the library into your code
+d) log files       openning and closing log files
+e) structure       logging entering and exiting functions
+f) characters      logging char/string internal state information
+g) numbers         logging numeric internal state information
+h) complex         logging complex data
+i) unit-test       interogating log file for unit testing
+j) error files     openning, closing, and interrogating error files
+k) error data      logging complex error messages
+l) unit-test       interogating errors file for unit testing
 
 .SH A) OVERVIEW
 yLOG_uver is a simplied but compatable, source-code inclusion header version
 of yLOG for use with core, low-dependency libraries supporting unit-testing
 to certify yLOG itself.  as a result, only a few of my programs use it.
 
-.SS header
-a simple header must be included in your shared header file
+everything in this capability is a analogue of yLOG proper, but simplified.
+the only exception is are the two unit testing functions which are just
+helpers directed to yENV_uver.
 
+.SH B) SYNOPSIS
+.nf
+usage is noted on the far-left of each entry...
+   ! means once-per-program
+   Ï every program
+   · not in every program
+
+---log-file------------------------------------
+!  char     yLOG_uopen    (void);
+!  char     yLOG_uclose   (void);
+·  char     yLOG_ustdout  (void);
+·  char     yLOG_ureset   (void);
+·  char     yLOG_udone    (void);
+
+---structure-----------------------------------
+Ï  char     yLOG_uenter   (char* <func>);
+Ï  char     yLOG_uexit    (char* <func>);
+Ï  char     yLOG_uexitr   (char* <func>, char <rc>);
+
+---character-data------------------------------
+Ï  char     yLOG_uchar    (char* <label>, char  <char>);
+Ï  char     yLOG_unote    (char* <text>);
+·  char     yLOG_uinfo    (char* <label>, char* <text>);
+
+---numeric-data--------------------------------
+Ï  char     yLOG_uvalue   (char* <label>, int <int>);
+Ï  char     yLOG_upoint   (char* <label>, void*  <int>);
+
+---complex-entry-------------------------------
+Ï  char     yLOG_ucomplex (char* <label>, char* a_format, ...);
+
+---unit-testing-logs---------------------------
+·  char     yLOG_ulines   (void);
+·  char*    yLOG_upeek    (char <a_dir>);
+·  char*    yLOG_uwhich   (void);
+
+---error-file----------------------------------
+!  char     yERR_uopen    (void);
+!  char     yERR_uclose   (void);
+·  char     yERR_ustderr  (void);
+·  char     yERR_ureset   (void);
+·  char     yERR_udone    (void);
+
+---complex-entry-------------------------------
+Ï  char     yERR_uerror   (char* <label>, char* a_format, ...);
+
+---unit-testing-errors-------------------------
+·  char     yERR_ulines   (void);
+·  char*    yERR_upeek    (char <a_dir>);
+·  char*    yERR_uwhich   (void);
+
+.SH C) INCLUSION
+
+.SS header
+a simple header (and yENV> must be included in your shared header file
+
+   #include  <yENV_solo.h>
    #include  <yLOG_solo.h>
 
 .SS code inclusion
-the source code file must be included in a primary source/code file
+the source code file (and yENV> must be included in a primary source file
 
+   #include  <yENV_uver.h>
    #include  <yLOG_uver.h>
 
-.SH B) LOG FILES
+.SH D) LOG FILE
 yLOG_uver, unlike yLOG, stores all logging information in single, shared
 text file kept in the /tmp directory.  see yLOG (6) for how they look.
 
@@ -73,10 +134,16 @@ any already open log.
 .SS char  yLOG_uclose (void)
 closes the logging file after use.
 
+.SS char  yLOG_ustdout (void)
+sends logging output to STDOUT, rather than a file.
+
+.SS char  yLOG_ureset (void)
+yLOG_uclose () followed by yLOG_uopen () to reset file.
+
 .SS char  yLOG_udone  (void)
 same as yLOG_uclose, but also deletes the file to clean up (unit test).
 
-.SH C) STRUCTURE
+.SH E) STRUCTURE
 these three functions mark the entry and exit to functions.
 
 .SS char  yLOG_uenter (__FUNCTION__)
@@ -88,7 +155,7 @@ logs exit from a function and un-indents following calls.
 .SS char  yLOG_uexitr (__FUNCTION__, <rc>)
 same as yLOG_uexit, but also notes the return code value.
 
-.SH D) CHARACTER DATA
+.SH F) CHARACTER DATA
 these three functions note internal data states that are char-based.
 standard most calls include <label> which is a 10-char prefix for the data
 to give context.
@@ -102,7 +169,7 @@ usually used to create break points or note decision branches.
 .SS char  yLOG_uinfo  (<label>, <string>)
 logs a string data state of a particular variable.
 
-.SH E) NUMERIC DATA
+.SH G) NUMERIC DATA
 these two functions note internal data states that are value-based.
 standard all calls include <label> which is a 10-char prefix for the data to
 give context.
@@ -113,14 +180,14 @@ logs a numeric data state of a particular variable.
 .SS char  yLOG_upoint (<label>, <pointer>)
 logs a address data state of a particular variable.
 
-.SH F) COMPLEX DATA
+.SH H) COMPLEX DATA
 this function allows a printf style vararg interface also using <label>
 which is a 10-char prefix for the data to give context.
 
 .SS char  yLOG_ucomplex (<label>, <format>, ...)
 allows a more versatle interface to avoid many smaller calls.
 
-.SH G) UNIT TESTING
+.SH I) UNIT TESTING
 two function work with yENV_uver to interrogate the contents of the
 logging file for unit testing purposes.
 
@@ -131,39 +198,51 @@ returns the count of lines in the logging file.
 returns a specific line from the logging file -- ']' means first line, 'Ö'
 next line, ...
 
-.SH H) ERROR FILES
+.SS char* yLOG_uwhich (void)
+returns the name of the logging file.
+
+.SH J) ERROR FILE
 yLOG_uver, unlike yLOG, stores all error information in single, shared
 text file kept in the /tmp directory.  see yLOG (6) for how they look.
 
    /tmp/ylog_error.txt
 
-.SS char  yLOG_ueopen  (void)
+.SS char  yERR_uopen  (void)
 clears and opens a fresh logging file, as named above.  it utomatically closes
 any already open log.
 
-.SS char  yLOG_ueclose (void)
+.SS char  yERR_uclose (void)
 closes the logging file after use.
 
-.SS char  yLOG_uedone  (void)
-same as yLOG_uclose, but also deletes the file to clean up (unit test).
+.SS char  yERR_ustderr (void)
+sends error output to STDERR, rather than a file.
 
-.SH I) ERROR DATA
+.SS char  yERR_ureset (void)
+yERR_uclose () followed by yERR_uopen () to reset file.
+
+.SS char  yERR_udone  (void)
+same as yERR_uclose, but also deletes the file to clean up (unit test).
+
+.SH K) ERROR DATA
 this function allows a printf style vararg interface also using <label>
 which is a 10-char prefix for the data to give context.
 
-.SS char  yLOG_uerr (<label>, <format>, ...)
+.SS char  yERR_uerror (<label>, <format>, ...)
 uses the more versatle vararg interface to allow complex error formats.
 
-.SH J) UNIT TESTING
+.SH L) UNIT TESTING
 two function work with yENV_uver to interrogate the contents of the
 error file for unit testing purposes.
 
-.SS char  yLOG_uelines (void)
+.SS char  yERR_ulines (void)
 returns the count of lines in the logging file.
 
-.SS char* yLOG_uepeek  (<a_dir>)
+.SS char* yERR_upeek  (<a_dir>)
 returns a specific line from the logging file -- ']' means first line, 'Ö'
 next line, ...
+
+.SS char* yERR_uwhich (void)
+returns the name of the error output file.
 
 .SH BUGS
 it is incredibly stable for me, but if anyone else used it it might explode

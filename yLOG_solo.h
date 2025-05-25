@@ -11,21 +11,27 @@
  *     - straight to specific files
  *     - used as a header inclusion (not a library)
  *
+ *  ONLY required for short-path to getting unit testing working, i.e.,
+ *  yUNIT and koios.  these two only include "_solo.h" headers and
+ *  standard libraries.  after they are working, we test and use full
+ *  yLOG and yURG.
+ *
  *  inclusion...
  *     - add "#include <yLOG_solo.h>" into shared header
  *     - add "#include <yLOG_uver.h>" into one source/code file
  *
+ *  CRITICAL
+ *
+ *     yLOG only exists within non-debug versions so all functions
+ *     prefixed with "yLOG_" are stripped from source code.
+ *
+ *     also, since error messages must survive stripping, they
+ *     MUST be prefixed differently (to keep it simple) -- "yERR_".
+ *
  */
 
 
-#include  <stdio.h>
-#include  <stdarg.h>                   /* va_arg                              */
-#include  <unistd.h>                   /* unlink                              */
-
 #include  <ySTR_solo.h>
-
-#include  <yENV_solo.h>
-#include  <yENV_uver.h>
 
 typedef unsigned char uchar;
 
@@ -34,34 +40,44 @@ typedef unsigned char uchar;
 
 
 /*---(micro logging)---------------------*/
-char        yLOG_uopen         (void);
-int         yLOG_ulines        (void);
-char*       yLOG_upeek         (char a_dir);
-char        yLOG_uclose        (void);
-char        yLOG_udone         (void);
+char        ylog_uopen         (void);
+char        ylog_ustdout       (void);
+char        ylog_ureset        (void);
+char        ylog_uclose        (void);
+char        ylog_udone         (void);
+
+/*---(micro logging unit)----------------*/
+char*       ylog_uwhich        (void);
+int         ylog_ulines        (void);
+char*       ylog_upeek         (char a_dir);
 
 /*---(micro structure)-------------------*/
-char        yLOG_uenter        (char *a_func);
-char        yLOG_uexit         (char *a_func);
-char        yLOG_uexitr        (char *a_func, int a_rce);
+char        ylog_uenter        (char a_func [LEN_DESC]);
+char        ylog_uexit         (char a_func [LEN_DESC]);
+char        ylog_uexitr        (char a_func [LEN_DESC], int a_rce);
 
 /*---(micro data)------------------------*/
-char        yLOG_unote         (char *a_info);
-char        yLOG_uinfo         (char *a_subject, char *a_info);
-char        yLOG_uchar         (char *a_subject, uchar a_char);
-char        yLOG_uvalue        (char *a_subject, int a_value);
-char        yLOG_upoint        (char *a_subject, void *a_value);
-char        yLOG_ucomplex      (char *a_subject, char *a_format, ...);
+char        ylog_unote         (char a_info [LEN_FULL]);
+char        ylog_uinfo         (char a_label [LEN_LABEL], char a_info [LEN_FULL]);
+char        ylog_uchar         (char a_label [LEN_LABEL], uchar a_char);
+char        ylog_uvalue        (char a_label [LEN_LABEL], int a_value);
+char        ylog_upoint        (char a_label [LEN_LABEL], void *a_point);
+char        ylog_ucomplex      (char a_label [LEN_LABEL], char *a_format, ...);
 
 /*---(micro errors)----------------------*/
-char        yLOG_ueopen        (void);
-int         yLOG_uelines       (void);
-char*       yLOG_uepeek        (char a_dir);
-char        yLOG_ueclose       (void);
-char        yLOG_uedone        (void);
+char        yerr_uopen         (void);
+char        yerr_ustderr       (void);
+char        yerr_ureset        (void);
+char        yerr_uclose        (void);
+char        yerr_udone         (void);
 
 /*---(micro error writing)---------------*/
-char        yLOG_uerr          (char *a_format, ...);
+char        yerr_urror         (char *a_format, ...);
+
+/*---(micro error unit)------------------*/
+char*       yerr_uwhich        (void);
+int         yerr_ulines        (void);
+char*       yerr_upeek         (char a_dir);
 
 
 #endif
