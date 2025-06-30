@@ -128,8 +128,8 @@ char  ylog_uclose   (void)        { return ylog__ufile ('l', mylog_lname, &mylog
 char  ylog_udone    (void)        { return ylog__ufile ('ò', mylog_lname, &mylog_lfile); }
 
 char* ylog_uwhich   (void)        { return mylog_lname; }
-int   ylog_ulines   (void)        { return yENV_ulines (mylog_lstd); }
-char* ylog_upeek    (char a_dir)  { return yENV_upeek  (mylog_lstd, a_dir); }
+int   ylog_ulines   (void)        { return yenv_ulines (mylog_lstd); }
+char* ylog_upeek    (char a_dir)  { return yenv_upeek  (mylog_lstd, a_dir); }
 
 
 
@@ -358,7 +358,7 @@ yerr_uerror            (char *a_format, ...)
 }
 
 char* yerr_uwhich  (void)        { return mylog_ename; }
-int   yerr_ulines  (void)        { return yENV_ulines (mylog_estd); }
-char* yerr_upeek   (char a_dir)  { return yENV_upeek  (mylog_estd, a_dir); }
+int   yerr_ulines  (void)        { return yenv_ulines (mylog_estd); }
+char* yerr_upeek   (char a_dir)  { return yenv_upeek  (mylog_estd, a_dir); }
 
 

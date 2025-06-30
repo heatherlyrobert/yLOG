@@ -47,6 +47,8 @@ char
 yLOG_enter    (char a_func [LEN_TITLE])
 {
    ylog_check_enter (a_func);
+   IF_QUIET   return 0;
+   IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "ENTERING (%.30s)", ylog_title (a_func));
    return ylog__main (LVL_BEG , TYPE_STRUCT, myLOG.m_msg);
 }
@@ -55,6 +57,8 @@ char
 yLOG_exit     (char a_func [LEN_TITLE])
 {
    char        rc          =    0;
+   IF_QUIET   return 0;
+   IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "EXITING  (%.30s)", ylog_title (a_func));
    rc = ylog__main (LVL_END , TYPE_STRUCT, myLOG.m_msg);
    ylog_check_exit (a_func);
@@ -64,6 +68,8 @@ yLOG_exit     (char a_func [LEN_TITLE])
 char
 yLOG_exitr    (char a_func [LEN_TITLE], int a_rce)
 {
+   IF_QUIET   return 0;
+   IF_NOSHOW  return 0;
    if (a_rce < 0) {
       snprintf (myLOG.m_msg, LEN_FULL, "WARNING, rce (%d)", a_rce);
       ylog__main (LVL_SAME, TYPE_WARNING, myLOG.m_msg);
@@ -84,6 +90,7 @@ static void      o___MESSAGES________________o (void) {;}
 char
 yLOG_note          (char a_info [LEN_FULL])
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "%.150s...", ylog_data (a_info));
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -92,6 +99,7 @@ yLOG_note          (char a_info [LEN_FULL])
 char
 yLOG_info          (char a_subject [LEN_LABEL], char a_info [LEN_FULL])
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "%-10.10s: %.150s", ylog_title (a_subject), ylog_data (a_info));
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -100,6 +108,7 @@ yLOG_info          (char a_subject [LEN_LABEL], char a_info [LEN_FULL])
 char
 yLOG_delim         (char a_subject [LEN_LABEL], char a_info [LEN_FULL])
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "%-10.10s: [%.50s]", ylog_title (a_subject), ylog_data (a_info));
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -109,6 +118,7 @@ char
 yLOG_char          (char a_subject [LEN_LABEL], unsigned char a_char)
 {
    unsigned char c  = 'Ï';
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    if (a_char >   32 && a_char != 127)  c = a_char;
    switch (a_char) {
@@ -127,6 +137,7 @@ yLOG_char          (char a_subject [LEN_LABEL], unsigned char a_char)
 char
 yLOG_value         (char a_subject [LEN_LABEL], cint a_value)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    sprintf(myLOG.m_msg, "%-10.10s: %d", ylog_title (a_subject), a_value);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -136,6 +147,7 @@ char
 yLOG_hex           (char a_subject [LEN_LABEL], long a_value)
 {
    /* used 08 format so the hex lines up top-to-bottom in lines  */
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    if (a_value < 0)                 sprintf(myLOG.m_msg, "%-10.10s: ¢negative?", ylog_title (a_subject));
    else if (a_value > 0xFFFFFFFF)   sprintf(myLOG.m_msg, "%-10.10s: ¢overflow?", ylog_title (a_subject));
@@ -147,6 +159,7 @@ yLOG_hex           (char a_subject [LEN_LABEL], long a_value)
 char
 yLOG_llong         (char a_subject [LEN_LABEL], llong a_value)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    sprintf(myLOG.m_msg, "%-10.10s: %lld", ylog_title (a_subject), a_value);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -156,6 +169,7 @@ char
 yLOG_double        (char a_subject [LEN_LABEL], double a_value)
 {
    /* used 20.6 format so the decimals line up top-to-bottom in lines  */
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    sprintf(myLOG.m_msg, "%-10.10s: %20.6lf", ylog_title (a_subject), a_value);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -166,6 +180,7 @@ char yLOG_real  (char a_subject [LEN_LABEL], double a_value) { return yLOG_doubl
 char
 yLOG_point         (char a_subject [LEN_LABEL], void *a_value)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    sprintf (myLOG.m_msg, "%-10.10s: %p", ylog_title (a_subject), a_value);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -181,6 +196,7 @@ static void      o___SPECIALTY_______________o (void) {;}
 char
 yLOG_bullet        (cint   a_num,     char a_info [LEN_FULL])
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    sprintf(myLOG.m_msg, "#%-9d: %.150s", a_num, ylog_data (a_info));
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -189,6 +205,7 @@ yLOG_bullet        (cint   a_num,     char a_info [LEN_FULL])
 char
 yLOG_pair          (cint   a_num,     cint  a_value)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    sprintf(myLOG.m_msg, "#%-9d: %d", a_num, a_value);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
@@ -204,6 +221,7 @@ static void      o___VARARG__________________o (void) {;}
 char
 yLOG_complex       (char a_subject [LEN_LABEL], char *a_format, ...)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    /*---(locals)---------+-------------+-*/
    char        x_format  [LEN_FULL] = "";

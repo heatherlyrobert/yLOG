@@ -294,7 +294,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ylog__unit_quiet       (void)
 {
    yLOGS_begin ("yLOG_unit", YLOG_SYS, YLOG_QUIET);
-   myLOG.m_use   = 'u';
+   myLOG.m_use   = '-';
    return 0;
 }
 
@@ -302,7 +302,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ylog__unit_loud        (void)
 {
    yLOGS_begin ("yLOG_unit", YLOG_SYS, YLOG_NOISE);
-   myLOG.m_use   = 'u';
+   myLOG.m_use   = '-';
    return 0;
 }
 

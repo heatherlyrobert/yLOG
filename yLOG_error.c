@@ -12,6 +12,7 @@ static void      o___SIMPLE__________________o (void) {;}
 char
 yLOG_warn          (char *a_issue)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "%-10.10s: %.150s", "WARNING", ylog_data (a_issue));
    return ylog__main (LVL_SAME, TYPE_WARNING , myLOG.m_msg);
@@ -20,6 +21,7 @@ yLOG_warn          (char *a_issue)
 char
 yLOG_error         (char *a_issue)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "%-10.10s: %.150s", "ERROR"  , ylog_data (a_issue));
    return ylog__main (LVL_SAME, TYPE_ERROR   , myLOG.m_msg);
@@ -28,6 +30,7 @@ yLOG_error         (char *a_issue)
 char
 yLOG_fatal         (char *a_issue)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "%-10.10s: %.150s", "FATAL"  , ylog_data (a_issue));
    return ylog__main (LVL_SAME, TYPE_GRACEFUL, myLOG.m_msg);
@@ -36,6 +39,7 @@ yLOG_fatal         (char *a_issue)
 char
 yLOG_boom          (char *a_issue)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "%-10.10s: %.150s", "FATAL"  , ylog_data (a_issue));
    return ylog__main (LVL_SAME, TYPE_CLUMSY  , myLOG.m_msg);
@@ -47,6 +51,7 @@ yLOG_boom          (char *a_issue)
 char
 yLOG_signal        (int   a_signal)
 {
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    switch (a_signal) {  /* 09 kill and 19 stop can not be caught, 26 is weird */
       /*---(user defined)--------*/
@@ -103,6 +108,7 @@ yLOG_errors        (char *a_desc, char a_type, char *a_file, int a_line, char *a
    char        x_format    [LEN_FULL]  = "";
    va_list     x_args;
    /*---(defense)------------------------*/
+   IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
