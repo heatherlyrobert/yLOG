@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.1-, incremental fixes"
-#define     P_VERNUM    "2.1e"
-#define     P_VERTXT    "minor unit testing issues built up, one was in tracking"
+#define     P_VERNUM    "2.1f"
+#define     P_VERTXT    "added microseconds to ulog name and ulog command to help review"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -208,6 +208,7 @@ typedef struct tm        tTIME;
 typedef struct stat      tSTAT;
 typedef struct dirent    tDIRENT;
 
+typedef struct timeval   tTIMEVAL;
 
 
 

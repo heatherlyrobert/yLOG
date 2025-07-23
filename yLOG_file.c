@@ -31,40 +31,47 @@ ylogs__logname       (char *a_prog, char a_loc)
    /*---(locals)-----------+-----+-----+-*/
    time_t      x_now;
    tTIME      *x_local     = NULL;
-   char        t           [LEN_HUND];
+   tTIMEVAL    x_better;
+   int         x_micro     =    0;
+   char        t           [LEN_HUND]  = "";
+   char        x_file      [LEN_HUND]  = "";
    /*---(initialize)---------------------*/
    strcpy (myLOG.m_filename, "/dev/null");
    strcpy (myLOG.m_path    , "");
    if (a_prog == NULL)  return -1;
    /*---(get the date)-------------------*/
-   x_now = time (NULL);
+   /*> x_now = time (NULL);                                                           <*/
+   gettimeofday (&x_better, NULL);
+   x_now   = x_better.tv_sec;
    x_local = localtime (&x_now);
    strftime (myLOG.m_timestamp, LEN_TITLE, "%y.%m.%d.%H.%M.%S.%u.%W.%j", x_local);
+   x_micro = x_better.tv_usec;
    /*---(program name)-------------------*/
    sprintf (t, "%s_____________________________________________________", a_prog);
+   sprintf (x_file, "%s.%06d.%-25.25s.ulog", myLOG.m_timestamp, x_micro, t);
    /*---(create the file name)-----------*/
    switch (a_loc) {
    case YLOG_STDOUT:
       strcpy   (myLOG.m_filename, "stdout");
       break;
    case YLOG_SYS   :
-      snprintf (myLOG.m_filename, LEN_PATH, "%s%s.%-25.25s.ulog", LOGDIR , myLOG.m_timestamp, t);
+      snprintf (myLOG.m_filename, LEN_PATH, "%s%s", LOGDIR , x_file);
       strcpy   (myLOG.m_path, LOGDIR);
       break;
    case YLOG_HIST  :
-      snprintf (myLOG.m_filename, LEN_PATH, "%s%s.%-25.25s.ulog", HISDIR , myLOG.m_timestamp, t);
+      snprintf (myLOG.m_filename, LEN_PATH, "%s%s", HISDIR , x_file);
       strcpy   (myLOG.m_path, HISDIR);
       break;
    case YLOG_ROOT  :
-      snprintf (myLOG.m_filename, LEN_PATH, "%s%s.%-25.25s.ulog", ROOTDIR, myLOG.m_timestamp, t);
+      snprintf (myLOG.m_filename, LEN_PATH, "%s%s", ROOTDIR, x_file);
       strcpy   (myLOG.m_path, ROOTDIR);
       break;
    case YLOG_USB   :
-      snprintf (myLOG.m_filename, LEN_PATH, "%s%s.%-25.25s.ulog", USBDIR , myLOG.m_timestamp, t);
+      snprintf (myLOG.m_filename, LEN_PATH, "%s%s", USBDIR , x_file);
       strcpy   (myLOG.m_path, USBDIR);
       break;
    case YLOG_TMP   :
-      snprintf (myLOG.m_filename, LEN_PATH, "%s%s.%-25.25s.ulog", TMPDIR , myLOG.m_timestamp, t);
+      snprintf (myLOG.m_filename, LEN_PATH, "%s%s", TMPDIR , x_file);
       strcpy   (myLOG.m_path, TMPDIR);
       break;
    case YLOG_NULL  :
@@ -75,7 +82,6 @@ ylogs__logname       (char *a_prog, char a_loc)
       return -2;
       break;
    }
-   /*> printf ("%-20.20s  %c  %s\n", a_prog, a_loc, myLOG.m_filename);                  <*/
    return 0;
 }
 

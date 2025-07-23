@@ -130,7 +130,7 @@ yLOG_char          (char a_subject [LEN_LABEL], unsigned char a_char)
    case  31 : c = '§';  break;   /* escape */
    case  32 : c = '·';  break;   /* space  */
    }
-   sprintf (myLOG.m_msg, "%-10.10s: %c", ylog_title (a_subject), c);
+   sprintf (myLOG.m_msg, "%-10.10s: %c   (%3d)", ylog_title (a_subject), c, a_char);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
 }
 

@@ -127,7 +127,7 @@ yLOG_schar    (uchar a_char)
    case  31 : c = '§';  break;   /* escape */
    case  32 : c = '·';  break;   /* space  */
    }
-   snprintf (myLOG.m_temp, LEN_FULL, ", %c", c);
+   snprintf (myLOG.m_temp, LEN_FULL, ", %c/%d", c, a_char);
    strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
    return 1;
 }

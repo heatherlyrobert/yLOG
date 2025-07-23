@@ -1,0 +1,422 @@
+/*===============================[[ beg-code ]]===============================*/
+
+#include    <yENV_solo.h>
+#include    <yENV_uver.h>
+
+#include    <yUNIT_solo.h>
+
+char    *x_out = "/tmp/ulog.log";
+
+
+char
+unit__create_data    (char a_size)
+{
+   yUNIT_mincond ("purge all ulog files");
+   yUNIT_minval  ("call purge"                         , system ("/usr/local/bin/ulog x            > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_mindnoc ();
+
+   if (a_size == 1) {
+      yUNIT_mincond ("add a single file");
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.00.19.41.3.29.204.780208.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_mindnoc ();
+   }
+
+   if (a_size == 2) {
+      yUNIT_mincond ("add a multiple files");
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.19.3.29.204.706443.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.19.3.29.204.840451.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.26.3.29.204.563325.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.26.3.29.204.691083.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.27.3.29.204.231545.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.27.3.29.204.415499.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.27.3.29.204.508397.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.27.3.29.204.599329.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.27.3.29.204.686564.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.27.3.29.204.778218.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.27.3.29.204.869873.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_minval  ("add single file"                    , system ("touch /var/log/yLOG/25.07.23.01.25.27.3.29.204.960413.HFIX_____________________.ulog    > /dev/null      2>&1"),    0);
+      yUNIT_mindnoc ();
+   }
+
+   return 0;
+}
+
+char unit___purge ()   {  unit__create_data (0); }
+
+
+
+char
+unit___ulog_list        (char a_scrp, char a_list, char a_unit)
+{
+   /*---(header)-------------------------*/
+   yUNIT_minscrpy ("yLOG", "ulog", "(ULOG) listing and removing files");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   unit___purge ();
+
+   yUNIT_mincond ("purge ulog files (when there are none)");
+   yUNIT_minval  ("call with remove (DEBUG)"           , system ("/usr/local/bin/ulog_debug x      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    5);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  x");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  0");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "no ulog files in /var/log/yLOG/, nothing to do");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_minval  ("call with remove (PROD)"            , system ("/usr/local/bin/ulog x            > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    0);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("list ulog files (when there are none)");
+   yUNIT_minval  ("call with list (DEBUG)"             , system ("/usr/local/bin/ulog_debug l      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    5);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  l");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  0");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "no ulog files in /var/log/yLOG/, nothing to do");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_minval  ("call with list (PROD)"              , system ("/usr/local/bin/ulog l            > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    0);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   unit__create_data (1);
+
+   yUNIT_mincond ("list ulog files (with single file)");
+   yUNIT_minval  ("call with list (DEBUG)"             , system ("/usr/local/bin/ulog_debug l      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  l");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  list all ulog files");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 1   /var/log/yLOG/25.07.23.00.19.41.3.29.204.780208.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  y");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_minval  ("call with list (PROG)"              , system ("/usr/local/bin/ulog       l      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    1);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , " 1   /var/log/yLOG/25.07.23.00.19.41.3.29.204.780208.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("purge ulog files (with single file)");
+   yUNIT_minval  ("call with remove (DEBUG)"           , system ("/usr/local/bin/ulog_debug x      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    7);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  x");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  remove existing ulog files");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  0");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   unit__create_data (2);
+
+   yUNIT_mincond ("list ulog files (with multiple files");
+   yUNIT_minval  ("call with list (DEBUG)"             , system ("/usr/local/bin/ulog_debug l      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,   19);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  l");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  12");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  list all ulog files");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 1   /var/log/yLOG/25.07.23.01.25.19.3.29.204.706443.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 2   /var/log/yLOG/25.07.23.01.25.19.3.29.204.840451.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 3   /var/log/yLOG/25.07.23.01.25.26.3.29.204.563325.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 4   /var/log/yLOG/25.07.23.01.25.26.3.29.204.691083.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 5   /var/log/yLOG/25.07.23.01.25.27.3.29.204.231545.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 6   /var/log/yLOG/25.07.23.01.25.27.3.29.204.415499.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 7   /var/log/yLOG/25.07.23.01.25.27.3.29.204.508397.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 8   /var/log/yLOG/25.07.23.01.25.27.3.29.204.599329.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 9   /var/log/yLOG/25.07.23.01.25.27.3.29.204.686564.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "10   /var/log/yLOG/25.07.23.01.25.27.3.29.204.778218.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "11   /var/log/yLOG/25.07.23.01.25.27.3.29.204.869873.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "12   /var/log/yLOG/25.07.23.01.25.27.3.29.204.960413.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  y");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_minval  ("call with list (PROG)"              , system ("/usr/local/bin/ulog       l      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,   12);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , " 1   /var/log/yLOG/25.07.23.01.25.19.3.29.204.706443.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 2   /var/log/yLOG/25.07.23.01.25.19.3.29.204.840451.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 3   /var/log/yLOG/25.07.23.01.25.26.3.29.204.563325.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 4   /var/log/yLOG/25.07.23.01.25.26.3.29.204.691083.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 5   /var/log/yLOG/25.07.23.01.25.27.3.29.204.231545.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 6   /var/log/yLOG/25.07.23.01.25.27.3.29.204.415499.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 7   /var/log/yLOG/25.07.23.01.25.27.3.29.204.508397.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 8   /var/log/yLOG/25.07.23.01.25.27.3.29.204.599329.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , " 9   /var/log/yLOG/25.07.23.01.25.27.3.29.204.686564.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "10   /var/log/yLOG/25.07.23.01.25.27.3.29.204.778218.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "11   /var/log/yLOG/25.07.23.01.25.27.3.29.204.869873.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "12   /var/log/yLOG/25.07.23.01.25.27.3.29.204.960413.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("purge ulog files (with multiple files)");
+   yUNIT_minval  ("call with remove (DEBUG)"           , system ("/usr/local/bin/ulog_debug x      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    7);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  x");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  12");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  remove existing ulog files");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  0");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+unit___ulog_latest      (char a_scrp, char a_list, char a_unit)
+{
+   /*---(header)-------------------------*/
+   yUNIT_minscrpy ("yLOG", "ulog", "(ULOG) editing latest file");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   unit___purge ();
+
+   yUNIT_mincond ("edit latest ulog files (when there are none)");
+   yUNIT_minval  ("call with latest (DEBUG)"           , system ("/usr/local/bin/ulog_debug        > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    5);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  0");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "no ulog files in /var/log/yLOG/, nothing to do");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   unit__create_data (1);
+
+   yUNIT_mincond ("edit latest ulog files (with single file)");
+   yUNIT_minval  ("call with latest (DEBUG)"           , system ("/usr/local/bin/ulog_debug        > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  -");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  edit/view latest ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "nam  /var/log/yLOG/25.07.23.00.19.41.3.29.204.780208.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   unit__create_data (2);
+
+   yUNIT_mincond ("edit latest ulog files (with multiple files)");
+   yUNIT_minval  ("call with latest (DEBUG)"           , system ("/usr/local/bin/ulog_debug        > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  12");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  -");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  edit/view latest ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "nam  /var/log/yLOG/25.07.23.01.25.27.3.29.204.960413.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   unit___purge ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+unit___ulog_relative    (char a_scrp, char a_list, char a_unit)
+{
+   /*---(header)-------------------------*/
+   yUNIT_minscrpy ("yLOG", "ulog", "(ULOG) editing a relative file");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   unit___purge ();
+
+   yUNIT_mincond ("edit newest ulog file (when there are none)");
+   yUNIT_minval  ("call with newest (DEBUG)"           , system ("/usr/local/bin/ulog_debug ]      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    5);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  ]");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  0");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "no ulog files in /var/log/yLOG/, nothing to do");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("edit oldest ulog file (when there are none)");
+   yUNIT_minval  ("call with oldest (DEBUG)"           , system ("/usr/local/bin/ulog_debug [      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    5);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  [");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  0");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "no ulog files in /var/log/yLOG/, nothing to do");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   unit__create_data (1);
+
+   yUNIT_mincond ("edit newest ulog file (with single file)");
+   yUNIT_minval  ("call with newest (DEBUG)"           , system ("/usr/local/bin/ulog_debug ]      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  ]");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  edit/view ulog relative to newest");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  y");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "nam  /var/log/yLOG/25.07.23.00.19.41.3.29.204.780208.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("edit next newest ulog file (with single file)");
+   yUNIT_minval  ("call with newest (DEBUG)"           , system ("/usr/local/bin/ulog_debug ] 2    > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    6);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  ]");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  2");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  2");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "target can not be greater than count");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("edit oldest ulog file (with single file)");
+   yUNIT_minval  ("call with oldest (DEBUG)"           , system ("/usr/local/bin/ulog_debug [      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  [");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  edit/view ulog relative to oldest");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  y");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "nam  /var/log/yLOG/25.07.23.00.19.41.3.29.204.780208.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("edit next oldest ulog file (with single file)");
+   yUNIT_minval  ("call with oldest (DEBUG)"           , system ("/usr/local/bin/ulog_debug [ 2    > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    6);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  [");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  2");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  2");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "target can not be greater than count");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   unit__create_data (2);
+
+   yUNIT_mincond ("edit newest ulog file (with multiple files)");
+   yUNIT_minval  ("call with newest (DEBUG)"           , system ("/usr/local/bin/ulog_debug ]      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  ]");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  12");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  edit/view ulog relative to newest");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  y");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "nam  /var/log/yLOG/25.07.23.01.25.27.3.29.204.960413.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("edit fifth newest ulog file (with multiple files)");
+   yUNIT_minval  ("call with newest (DEBUG)"           , system ("/usr/local/bin/ulog_debug ] 5    > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  ]");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  5");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  12");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  5");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  edit/view ulog relative to newest");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  y");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "nam  /var/log/yLOG/25.07.23.01.25.27.3.29.204.599329.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("edit oldest ulog file (with multiple files)");
+   yUNIT_minval  ("call with oldest (DEBUG)"           , system ("/usr/local/bin/ulog_debug [      > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  [");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  ");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  12");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  1");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  edit/view ulog relative to oldest");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  y");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "nam  /var/log/yLOG/25.07.23.01.25.19.3.29.204.706443.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("edit third oldest ulog file (with multiple files)");
+   yUNIT_minval  ("call with oldest (DEBUG)"           , system ("/usr/local/bin/ulog_debug [ 3    > /tmp/ulog.log  2>&1"),    0);
+   yUNIT_minval  ("... check count"                    , yenv_ulines  (x_out)        ,    8);
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '[')   , "who  /usr/local/bin/ulog_debug");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "dir  [");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "pos  3");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "cnt  12");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "trg  3");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "act  edit/view ulog relative to oldest");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "han  y");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "nam  /var/log/yLOG/25.07.23.01.25.26.3.29.204.563325.HFIX_____________________.ulog");
+   yUNIT_minstr  ("... check line"                     , yenv_upeek   (x_out, '>')   , "(n/a)");
+   yUNIT_mindnoc ();
+
+   unit___purge ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## ulog\n");
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   unit___ulog_list      (++n, x_list, x_unit);
+   unit___ulog_latest    (++n, x_list, x_unit);
+   unit___ulog_relative  (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+

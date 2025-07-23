@@ -21,6 +21,8 @@ INC_MINE   =
 NAME_UTIL  = 
 # libraries only for the utilities
 LIB_UTIL   = 
+# files to be included in editing session (maybe conf, data, ...)
+EDIT_TOO   = ulog.sh
 
 
 
@@ -38,7 +40,13 @@ include /usr/local/sbin/zeno_make
 
 #===(post-processing)======================================#
 # create a rule for...
-#install_post       :
+install_post       :
+	# add ulog helper to install directory
+	@cp -f ulog.sh        /usr/local/bin/ulog
+	@chmod +x             /usr/local/bin/ulog
+	@sha1sum              /usr/local/bin/ulog
+	# add ulog links to alter execution
+	ln --force --physical /usr/local/bin/ulog   /usr/local/bin/ulog_debug
 #remove_post        :
 
 
