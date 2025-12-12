@@ -72,7 +72,7 @@ char        yerr_uclose        (void);
 char        yerr_udone         (void);
 
 /*---(micro error writing)---------------*/
-char        yerr_urror         (char *a_format, ...);
+char        yerr_uerror        (char *a_format, ...);
 
 /*---(micro error unit)------------------*/
 char*       yerr_uwhich        (void);

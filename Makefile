@@ -47,6 +47,7 @@ install_post       :
 	@sha1sum              /usr/local/bin/ulog
 	# add ulog links to alter execution
 	ln --force --physical /usr/local/bin/ulog   /usr/local/bin/ulog_debug
+	ln --force --symbolic /usr/local/man/man6/yLOG_ulog.6.bz2   /usr/local/man/man6/ulog.6
 #remove_post        :
 
 

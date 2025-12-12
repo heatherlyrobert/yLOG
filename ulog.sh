@@ -81,7 +81,7 @@ if [[ $1 == "l" ]]; then
    if [[ "$x_debug" == "y" ]]; then
       echo "act  list all ulog files"
    fi
-   ls -1 /var/log/yLOG/*.ulog | nl -w2 -s"   "
+   ls -1 /var/log/yLOG/*.ulog 2> /dev/null | nl -w2 -s"   "
    declare x_handled="y"
 fi
 
@@ -93,9 +93,9 @@ if [[ $1 == "[" ]]; then
       echo "act  edit/view ulog relative to oldest"
    fi
    if [[ $2 == "l" ]]; then
-      ls -1 /var/log/yLOG/*.ulog | nl -w2 -s"   "
+      ls -1 /var/log/yLOG/*.ulog 2> /dev/null | nl -w2 -s"   "
    else
-      declare x_file="$(ls -1 /var/log/yLOG/*.ulog | head -n $x_target | tail -n 1)"
+      declare x_file="$(ls -1 /var/log/yLOG/*.ulog 2> /dev/null | head -n $x_target | tail -n 1)"
    fi
    declare x_handled="y"
 fi
@@ -108,9 +108,9 @@ if [[ $1 == "]" ]]; then
       echo "act  edit/view ulog relative to newest"
    fi
    if [[ $2 == "l" ]]; then
-      ls -1 -r /var/log/yLOG/*.ulog | nl -w2 -s"   "
+      ls -1 -r /var/log/yLOG/*.ulog 2> /dev/null | nl -w2 -s"   "
    else
-      declare x_file="$(ls -1 /var/log/yLOG/*.ulog | tail -n $x_target | head -n 1)"
+      declare x_file="$(ls -1 /var/log/yLOG/*.ulog 2> /dev/null | tail -n $x_target | head -n 1)"
    fi
    declare x_handled="y"
 fi
@@ -125,7 +125,7 @@ if [[ "$x_handled" != "y" ]]; then
    if [[ $x_debug == "y" ]]; then
       echo "act  edit/view latest ulog"
    fi
-   declare x_file="$(ls -1 /var/log/yLOG/*.ulog | tail -n 1)"
+   declare x_file="$(ls -1 /var/log/yLOG/*.ulog 2> /dev/null | tail -n 1)"
    declare x_handled="y"
 fi
 

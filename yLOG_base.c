@@ -56,7 +56,7 @@ static void      o___SPECIALTY_______________o (void) {;};
 static char s_ylog_curr [LEN_TERSE] = "";
 
 char 
-yLOG_curr               (char a_stage, char a_urg)
+yLOG_curr               (uchar a_stage, uchar a_urg)
 {
    /*> printf ("specific area\n");                                                    <*/
    /*> printf ("start %c %c, orig   %c %c\n", a_stage, a_urg, myLOG.m_stage, myLOG.m_urg);   <*/

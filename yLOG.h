@@ -64,7 +64,7 @@ char        yLOGS_remove       (char *a_name, char a_log);
 
 /*===[[ PUBLIC FUNCTIONS (stripped) ]]====================*/
 /*---(tracking)-------------*/
-char        yLOG_curr          (char a_stage, char a_urg);
+char        yLOG_curr          (uchar a_stage, uchar a_urg);
 char*       yLOG_curr_show     (void);
 /*---(general)--------------*/
 char        yLOGS_mute         (void);

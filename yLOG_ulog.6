@@ -1,0 +1,72 @@
+.TH ulog· 6 2008-jul "linux" "interactive usage and navigation of log files"
+
+.SH NAME
+yLOG \- simple, consistent, and useful process execution debugging
+
+.SH PATRON (see HERITAGE at bottom for more)
+clio-chrysafenios (flowering) greek muse of written and oral history
+
+.SH IMAGERY
+golden young woman holding a scroll, by a chest full of books
+
+.SH SUMMARY (see yLOG (7) for more information)
+yLOG and yLOG_uver allow standardized, structured, and configurable process
+execution logging that helps me quickly understand program flow, isolate and
+diagnose issues, and therefore much more quickly fix the trouble.
+
+.SH SERIOUS FOREWARNING
+i am a crazy, selfish, dog-fooding c-programmer.  my code tends to be
+experimental and constantly evolving.  my point is NOT to be the best, it is
+to challenge myself, build from scratch, and allow fast problem solving.
+
+.SH DOCUMENTATION
+.nf
+yLOG (3)           interfacing with yLOG in general
+yLOG_long (3)      interfacing with full library, long version
+yLOG_short (3)     interfacing with full library, short version
+yLOG_error (3)     interfacing with full library, error reporting
+yLOG_spec (3)      interfacing with full library, specialty
+yLOG_vol (3)       interfacing with full library, volume control
+yLOG_unit (3)      interfacing with full library, unit testing
+yLOG_uver (3)      interfacing with micro, code-inclusion version
+yLOG (6)           interactive usage and navigation of log files
+yLOG (7)           decision rationale, scope, and objectives
+.B ulog (6)´´´´´´´´´´´using the command line ulog tool
+
+.SH A) OVERVIEW
+yLOG creates temporary tracing/debugging execution log files, in a specified
+area, which can then be reviewed in detail.  the ulog program make access
+easier.
+
+.SH B) USAGE
+ulog is very simple glue script that can sse the log files and open them in vim.
+that's it.  and only has a couple options.  it may be called from anywhere.
+
+.SS ulog l
+lists all current .ulog files in the logging area, with line numbers
+
+.SS ulog 4
+opens the .ulog listing next to that number
+
+.SS ulog [
+opens the head/oldest .ulog file in vim
+
+.SS ulog [ 2
+opens the second from oldest in vim
+
+.SS ulog ]
+opens the tail/newest .uolg file in vim
+
+.SS ulog ] 3
+opens the third from newest .uolg file in vim
+
+.SS ulog x
+erases all current .ulog files in the logging area
+
+.SH BUGS
+yLOG is incredibly stable for me, but if anyone else used it it might explode
+and take the universe with it.
+
+.SH COLOPHON
+this page is part of a documentation package meant to make the use of the
+heatherly tools easier and faster

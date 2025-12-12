@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.1-, incremental fixes"
-#define     P_VERNUM    "2.1f"
-#define     P_VERTXT    "added microseconds to ulog name and ulog command to help review"
+#define     P_VERNUM    "2.1g"
+#define     P_VERTXT    "small updates for unit testing in other libraries"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
