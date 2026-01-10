@@ -77,9 +77,9 @@ char        yLOG_enter         (char a_func  [LEN_TITLE]);
 char        yLOG_exit          (char a_func  [LEN_TITLE]);
 char        yLOG_exitr         (char a_func  [LEN_TITLE], int a_rce);
 /*---(normal (12))----------*/
-char        yLOG_note          (char a_info  [LEN_FULL]);
-char        yLOG_info          (char a_label [LEN_LABEL], char     a_info [LEN_FULL]);
-char        yLOG_delim         (char a_label [LEN_LABEL], char     a_info [LEN_FULL]);
+char        yLOG_note          (char a_info  [LEN_RECD]);
+char        yLOG_info          (char a_label [LEN_LABEL], char     a_info [LEN_RECD]);
+char        yLOG_delim         (char a_label [LEN_LABEL], char     a_info [LEN_RECD]);
 char        yLOG_value         (char a_label [LEN_LABEL], int      a_value);
 char        yLOG_llong         (char a_label [LEN_LABEL], llong    a_value);
 char        yLOG_hex           (char a_label [LEN_LABEL], long     a_value);
@@ -87,7 +87,7 @@ char        yLOG_double        (char a_label [LEN_LABEL], double   a_value);
 char        yLOG_real          (char a_label [LEN_LABEL], double   a_value);
 char        yLOG_char          (char a_label [LEN_LABEL], uchar    a_char);
 char        yLOG_point         (char a_label [LEN_LABEL], void    *a_pointer);
-char        yLOG_bullet        (int  a_num,               char     a_info [LEN_FULL]);
+char        yLOG_bullet        (int  a_num,               char     a_info [LEN_RECD]);
 char        yLOG_pair          (int  a_num,               int      a_value);
 char        yLOG_complex       (char a_label [LEN_LABEL], char *a_format, ...);
 /*---(breaks (2))-----------*/

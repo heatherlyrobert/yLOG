@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.1-, incremental fixes"
-#define     P_VERNUM    "2.1g"
-#define     P_VERTXT    "small updates for unit testing in other libraries"
+#define     P_VERNUM    "2.1h"
+#define     P_VERTXT    "updates to allow longer data output to help ySORT unit testing"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -145,18 +145,6 @@
 
 
 
-
-/*===[[ ySTR CLIPPING ]]======================================================*/
-/*> #define     LEN_RECD         2000       /+ longer likely means hacker         +/   <*/
-/*> #define     LEN_PATH          300       /+ large, but not crazy length        +/   <*/
-/*> #define     LEN_FULL          200       /+ large string length                +/   <*/
-/*> #define     LEN_HUND          100       /+ conservative field/arg length      +/   <*/
-/*> #define     LEN_DESC           50       /+ no one reads long descriptions     +/   <*/
-/*> #define     LEN_TITLE          30       /+ for organizing                     +/   <*/
-/*> #define     LEN_LABEL          20       /+ names and labels                   +/   <*/
-/*> #define     LEN_TERSE          10       /+ terse string                       +/   <*/
-
-
 #define           LOGDIR     "/var/log/yLOG/"
 #define           HISDIR     "/var/log/yLOG.historical/"
 #define           ROOTDIR    "/"
@@ -226,7 +214,7 @@ struct cITS {
    int         m_count;                       /* message count                  */
    int         m_indent;                      /* level of indent (0 - 9)        */
    char        m_prefix      [LEN_HUND];      /* actual indent text (of spaces) */
-   char        m_msg         [LEN_FULL];      /* full message to log            */
+   char        m_msg         [LEN_RECD];      /* full message to log            */
    char        m_single      [LEN_PATH];      /* short form cum message         */
    int         m_nsyncs;                      /* count of sync calls            */
    char        m_timestamp   [LEN_TITLE];     /* log file timestamp             */
@@ -248,7 +236,7 @@ extern char unit_answer [LEN_RECD];
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 llong       ylog__timestamp         (void);
 char        ylog__prefix            (int a_indent, int *r_indent, char r_prefix [LEN_HUND]);
-char        ylog__main              (char a_change, char a_level, char a_message [LEN_FULL]);
+char        ylog__main              (char a_change, char a_level, char a_message [LEN_RECD]);
 
 char        ylogs_init              (void);
 char        ylogs__progname         (char *a_prog);

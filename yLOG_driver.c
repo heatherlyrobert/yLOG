@@ -64,7 +64,7 @@ ylog__prefix            (int a_indent, int *r_indent, char r_prefix [LEN_HUND])
 }
 
 char             /* PURPOSE : write a message to the log file          */
-ylog__main              (char a_change, char a_level, char a_message [LEN_FULL])
+ylog__main              (char a_change, char a_level, char a_message [LEN_RECD])
 {
    /*===[[ design notes ]]====================================================#
     *   - writes a log message to the log file, no matter what

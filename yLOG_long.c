@@ -88,29 +88,29 @@ yLOG_exitr    (char a_func [LEN_TITLE], int a_rce)
 static void      o___MESSAGES________________o (void) {;}
 
 char
-yLOG_note          (char a_info [LEN_FULL])
+yLOG_note          (char a_info [LEN_RECD])
 {
    IF_QUIET   return 0;
    IF_NOSHOW  return 0;
-   snprintf (myLOG.m_msg, LEN_FULL, "%.150s...", ylog_data (a_info));
+   snprintf (myLOG.m_msg, LEN_RECD, "%s", ylog_data (a_info));
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
 }
 
 char
-yLOG_info          (char a_subject [LEN_LABEL], char a_info [LEN_FULL])
+yLOG_info          (char a_subject [LEN_LABEL], char a_info [LEN_RECD])
 {
    IF_QUIET   return 0;
    IF_NOSHOW  return 0;
-   snprintf (myLOG.m_msg, LEN_FULL, "%-10.10s: %.150s", ylog_title (a_subject), ylog_data (a_info));
+   snprintf (myLOG.m_msg, LEN_RECD, "%-10.10s: %s", ylog_title (a_subject), ylog_data (a_info));
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
 }
 
 char
-yLOG_delim         (char a_subject [LEN_LABEL], char a_info [LEN_FULL])
+yLOG_delim         (char a_subject [LEN_LABEL], char a_info [LEN_RECD])
 {
    IF_QUIET   return 0;
    IF_NOSHOW  return 0;
-   snprintf (myLOG.m_msg, LEN_FULL, "%-10.10s: [%.50s]", ylog_title (a_subject), ylog_data (a_info));
+   snprintf (myLOG.m_msg, LEN_RECD, "%-10.10s: [%s]", ylog_title (a_subject), ylog_data (a_info));
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
 }
 
@@ -194,11 +194,11 @@ yLOG_point         (char a_subject [LEN_LABEL], void *a_value)
 static void      o___SPECIALTY_______________o (void) {;}
 
 char
-yLOG_bullet        (cint   a_num,     char a_info [LEN_FULL])
+yLOG_bullet        (cint   a_num,     char a_info [LEN_RECD])
 {
    IF_QUIET   return 0;
    IF_NOSHOW  return 0;
-   sprintf(myLOG.m_msg, "#%-9d: %.150s", a_num, ylog_data (a_info));
+   sprintf(myLOG.m_msg, "#%-9d: %s", a_num, ylog_data (a_info));
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
 }
 
@@ -228,11 +228,11 @@ yLOG_complex       (char a_subject [LEN_LABEL], char *a_format, ...)
    va_list     args;
    /*---(to console)---------------------*/
    va_start  (args, a_format);
-   vsnprintf (x_format, LEN_FULL, a_format, args);
+   vsnprintf (x_format, LEN_RECD, a_format, args);
    if (a_subject != NULL && strcmp (a_subject, "ERROR") == 0) {
       sprintf   (myLOG.m_msg, "%s", x_format);
    } else {
-      sprintf   (myLOG.m_msg, "%-10.10s: %.150s", ylog_title (a_subject), x_format);
+      sprintf   (myLOG.m_msg, "%-10.10s: %s", ylog_title (a_subject), x_format);
    }
    va_end    (args);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
