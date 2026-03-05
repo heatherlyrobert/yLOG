@@ -4,6 +4,37 @@
 
 
 
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2008 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
+
 /*====================------------------------------------====================*/
 /*===----                       helper functions                       ----===*/
 /*====================------------------------------------====================*/
@@ -47,9 +78,11 @@ char
 yLOG_enter    (char a_func [LEN_TITLE])
 {
    ylog_check_enter (a_func);
+   /*> printf ("yLOG_enter  >>> %c %p\n", myLOG.m_loud, myLOG.m_logger);              <*/
    IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    snprintf (myLOG.m_msg, LEN_FULL, "ENTERING (%.30s)", ylog_title (a_func));
+   /*> printf ("yLOG_enter  %s\n\n", myLOG.m_msg);                                    <*/
    return ylog__main (LVL_BEG , TYPE_STRUCT, myLOG.m_msg);
 }
 
@@ -57,9 +90,13 @@ char
 yLOG_exit     (char a_func [LEN_TITLE])
 {
    char        rc          =    0;
+   /*> printf ("yLOG_exit   >>> %c %p\n", myLOG.m_loud, myLOG.m_logger);              <*/
    IF_QUIET   return 0;
+   /*> printf ("yLOG_exit   post quiet\n");                                           <*/
    IF_NOSHOW  return 0;
+   /*> printf ("yLOG_exit   post noshow\n");                                          <*/
    snprintf (myLOG.m_msg, LEN_FULL, "EXITING  (%.30s)", ylog_title (a_func));
+   /*> printf ("yLOG_exit   %s\n\n", myLOG.m_msg);                                    <*/
    rc = ylog__main (LVL_END , TYPE_STRUCT, myLOG.m_msg);
    ylog_check_exit (a_func);
    return rc;
@@ -68,6 +105,7 @@ yLOG_exit     (char a_func [LEN_TITLE])
 char
 yLOG_exitr    (char a_func [LEN_TITLE], int a_rce)
 {
+   /*> printf ("yLOG_exitr  >>> %c %p\n", myLOG.m_loud, myLOG.m_logger);              <*/
    IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    if (a_rce < 0) {
@@ -77,6 +115,8 @@ yLOG_exitr    (char a_func [LEN_TITLE], int a_rce)
       snprintf (myLOG.m_msg, LEN_FULL, "NOTE, rc (%d)", a_rce);
       ylog__main (LVL_SAME, TYPE_WARNING, myLOG.m_msg);
    }
+   /*> printf ("yLOG_exitr  %s\n", myLOG.m_msg);                                      <*/
+   /*> printf ("yLOG_exitr  +++ %c %p\n", myLOG.m_loud, myLOG.m_logger);              <*/
    return yLOG_exit (a_func);
 }
 

@@ -8,7 +8,7 @@
 SCRP          (LONG) verify structure messages                                    0s  structure       yLOG_enter, yLOG_exit, yLOG_exitr                                            ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     initialize the system                ylog__unit_quiet                                                                                                                  i_equal     0                                                                                                    
+     exec     initialize the system                ylog__unit_quiet                                                                                                                  z_equal     0                                                                                                    
      code     manually set the quiet off           - - - - - - - - - - - - -   myLOG.m_loud  = 'y';                                                                                                                                                                                                         
      code     manually set system to unit test     - - - - - - - - - - - - -   myLOG.m_use   = '-';                                                                                                                                                                                                         
 
@@ -78,7 +78,7 @@ SCRP          (LONG) verify structure messages                                 
      get      ...check prefix                      ylog_base__unit             "prefix"               , 0                                                                            s_equal     BASE prefix      :  0   0[]                                                                          
 
    COND       wrap up testing                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.015))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up                              ylog__unit_end                                                                                                                    i_equal     0                                                                                                    
+     exec     wrap up                              ylog__unit_end                                                                                                                    z_equal     0                                                                                                    
 
 
 
@@ -87,7 +87,7 @@ SCRP          (LONG) verify structure messages                                 
 SCRP          (LONG) verify string messages                                       0s  string          yLOG_note, yLOG_info                                                         ((02.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     initialize the system                ylog__unit_quiet                                                                                                                  i_equal     0                                                                                                    
+     exec     initialize the system                ylog__unit_quiet                                                                                                                  z_equal     0                                                                                                    
      code     manually set the quiet off           - - - - - - - - - - - - -   myLOG.m_loud  = 'y';                                                                                                                                                                                                         
      code     manually set system to unit test     - - - - - - - - - - - - -   myLOG.m_use   = '-';                                                                                                                                                                                                         
 
@@ -98,22 +98,22 @@ SCRP          (LONG) verify string messages                                    
 
    COND       verify a note                                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     call main                            yLOG_note                   "checking on writing a note"                                                                          v_null      0                                                                                                    
-     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´  checking on writing a note...]                       
+     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´  checking on writing a note]                          
      get      ...check prefix                      ylog_base__unit             "prefix"               , 0                                                                            s_equal     BASE prefix      :  1   3[´  ]                                                                       
 
    COND       verify a null note (accident)                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.004))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     call main                            yLOG_note                   NULL                                                                                                  v_null      0                                                                                                    
-     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´  ¢ data was null ?...]                                
+     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´  ¢ data was null ?]                                   
      get      ...check prefix                      ylog_base__unit             "prefix"               , 0                                                                            s_equal     BASE prefix      :  1   3[´  ]                                                                       
 
    COND       verify a empty note (accident)                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.005))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     call main                            yLOG_note                   ""                                                                                                    v_null      0                                                                                                    
-     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´  ¢ data was empty ?...]                               
+     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´  ¢ data was empty ?]                                  
      get      ...check prefix                      ylog_base__unit             "prefix"               , 0                                                                            s_equal     BASE prefix      :  1   3[´  ]                                                                       
 
    COND       verify a long note                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.006))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     call main                            yLOG_note                   "test abcdefghijklmnopqrstuvwxyz supercalifragatisticexpialadocious"                                  v_null      0                                                                                                    
-     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´  test abcdefghijklmnopqrstuvwxyz supercalifragatisticexpialadocious...] 
+     get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´  test abcdefghijklmnopqrstuvwxyz supercalifragatisticexpialadocious]    
      get      ...check prefix                      ylog_base__unit             "prefix"               , 0                                                                            s_equal     BASE prefix      :  1   3[´  ]                                                                       
 
    COND       verify string info                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.007))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
@@ -172,7 +172,7 @@ SCRP          (LONG) verify string messages                                    
      get      ...check prefix                      ylog_base__unit             "prefix"               , 0                                                                            s_equal     BASE prefix      :  0   0[]                                                                          
 
    COND       wrap up testing                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.018))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up                              ylog__unit_end                                                                                                                    i_equal     0                                                                                                    
+     exec     wrap up                              ylog__unit_end                                                                                                                    z_equal     0                                                                                                    
 
 
 
@@ -181,7 +181,7 @@ SCRP          (LONG) verify string messages                                    
 SCRP          (LONG) verify numeric messages                                      0s  value           yLOG_char, yLOG_value, yLOG_llong, yLOG_double                               ((03.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     initialize the system                ylog__unit_quiet                                                                                                                  i_equal     0                                                                                                    
+     exec     initialize the system                ylog__unit_quiet                                                                                                                  z_equal     0                                                                                                    
      code     manually set the quiet off           - - - - - - - - - - - - -   myLOG.m_loud  = 'y';                                                                                                                                                                                                         
      code     manually set system to unit test     - - - - - - - - - - - - -   myLOG.m_use   = '-';                                                                                                                                                                                                         
 
@@ -250,7 +250,7 @@ SCRP          (LONG) verify numeric messages                                   
      get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i ´··´  abcdefghij:           123.450000]                 
 
    COND       wrap up testing                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.011))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up                              ylog__unit_end                                                                                                                    i_equal     0                                                                                                    
+     exec     wrap up                              ylog__unit_end                                                                                                                    z_equal     0                                                                                                    
 
 
 
@@ -259,7 +259,7 @@ SCRP          (LONG) verify numeric messages                                   
 SCRP          (LONG) verify specialty messages                                    0s  special         yLOG_hex, yLOG_point, yLOG_bullet, yLOG_pair                                 ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     initialize the system                ylog__unit_quiet                                                                                                                  i_equal     0                                                                                                    
+     exec     initialize the system                ylog__unit_quiet                                                                                                                  z_equal     0                                                                                                    
      code     manually set the quiet off           - - - - - - - - - - - - -   myLOG.m_loud  = 'y';                                                                                                                                                                                                         
      code     manually set system to unit test     - - - - - - - - - - - - -   myLOG.m_use   = '-';                                                                                                                                                                                                         
 
@@ -350,7 +350,7 @@ SCRP          (LONG) verify specialty messages                                 
      get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i #1        : -654321]                                    
 
    COND       wrap up testing                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.011))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up                              ylog__unit_end                                                                                                                    i_equal     0                                                                                                    
+     exec     wrap up                              ylog__unit_end                                                                                                                    z_equal     0                                                                                                    
 
 
 
@@ -359,7 +359,7 @@ SCRP          (LONG) verify specialty messages                                 
 SCRP          (LONG) verify variadic messages                                     0s  variadic        yLOG_complex                                                                 ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     initialize the system                ylog__unit_quiet                                                                                                                  i_equal     0                                                                                                    
+     exec     initialize the system                ylog__unit_quiet                                                                                                                  z_equal     0                                                                                                    
      code     manually set the quiet off           - - - - - - - - - - - - -   myLOG.m_loud  = 'y';                                                                                                                                                                                                         
      code     manually set system to unit test     - - - - - - - - - - - - -   myLOG.m_use   = '-';                                                                                                                                                                                                         
 
@@ -380,7 +380,7 @@ SCRP          (LONG) verify variadic messages                                  
      get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··i koios:123:5: errors: SCRP illegal char 'j' (abcde)]                 
 
    COND       wrap up testing                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.011))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up                              ylog__unit_end                                                                                                                    i_equal     0                                                                                                    
+     exec     wrap up                              ylog__unit_end                                                                                                                    z_equal     0                                                                                                    
 
 
 

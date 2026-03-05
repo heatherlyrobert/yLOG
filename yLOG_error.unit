@@ -8,7 +8,7 @@
 SCRP          (ERROR) verify simple error messages                                0s  simple          yLOG_warn, yLOG_error, yLOG_fatal                                            ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     initialize the system                ylog__unit_quiet                                                                                                                  i_equal     0                                                                                                    
+     exec     initialize the system                ylog__unit_quiet                                                                                                                  z_equal     0                                                                                                    
      code     manually set the quiet off           - - - - - - - - - - - - -   myLOG.m_loud  = 'y';                                                                                                                                                                                                         
      code     manually set system to unit test     - - - - - - - - - - - - -   myLOG.m_use   = '-';                                                                                                                                                                                                         
 
@@ -73,7 +73,7 @@ SCRP          (ERROR) verify simple error messages                             
      get      ...check result                      ylog_base__unit             "full"                 , 0                                                                            s_equal     BASE full        : ¬¬[¬¬¬¬¬¬¬.¬¬¬     ¬¬ ··x ¢unknown? : ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬ 
 
    COND       wrap up testing                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.017))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up                              ylog__unit_end                                                                                                                    i_equal     0                                                                                                    
+     exec     wrap up                              ylog__unit_end                                                                                                                    z_equal     0                                                                                                    
 
 
 

@@ -4,6 +4,37 @@
 
 
 
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2008 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
+
 /*===[[ ONE_LINERS ]]=========================================================*/
 /*                      ´·········1·········2·········3·········4·········5·········6·········7*/
 /*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
@@ -37,9 +68,9 @@
 #define     P_CREATED   "2008-07"
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
-#define     P_VERMINOR  "2.1-, incremental fixes"
-#define     P_VERNUM    "2.1h"
-#define     P_VERTXT    "updates to allow longer data output to help ySORT unit testing"
+#define     P_VERMINOR  "2.2-, catch-up with prod fixes"
+#define     P_VERNUM    "2.2a"
+#define     P_VERTXT    "catch little zeno/make issues and get unit-testing passed"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -47,11 +78,11 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_DEPANSI   ""
 #define     P_DEPPOSIX  ""
-#define     P_DEPCORE   "ySTR"
+#define     P_DEPCORE   ""
 #define     P_DEPVIKEY  ""
 #define     P_DEPGRAPH  ""
-#define     P_DEPOTHER  "ySORT,yJOBS,yEXEC"
-#define     P_DEPSOLO   ""
+#define     P_DEPOTHER  ""
+#define     P_DEPSOLO   "ySTR_solo"
 #define     P_DEPALIEN  ""
 /*········· ··········· ´·····························´········································*/
 /*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
@@ -226,6 +257,7 @@ struct cITS {
    char        m_temp        [LEN_FULL];      /* string for short working area  */
    uchar       m_urg;                         /* called by which urgent         */
    uchar       m_stage;                       /* called in which stage          */
+   int         m_lines                        /* count of lines in log          */
 };
 extern  tITS  myLOG;
 
@@ -247,10 +279,6 @@ char*       ylog_title              (char *a_title);
 char*       ylog_data               (char *a_data);
 char*       ylog_terse              (char *a_data);
 
-char        ylog__unit_quiet        (void);
-char        ylog__unit_loud         (void);
-char        ylog__unit_end          (void);
-char*       ylog_base__unit         (char *a_question, int a_num);
 
 char        ylog_stage_init         (void);
 

@@ -2,8 +2,39 @@
 #include    "yLOG.h"
 #include    "yLOG_priv.h"
 
+
+
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2008 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
 tITS        myLOG;
-static int  s_lines  = 0;
 
 
 
@@ -173,7 +204,7 @@ yLOGS_verify            (char *a_name, char a_log, char a_line)
       return rce;
    }
    /*---(get a line)------------------*/
-   s_lines = 0;
+   myLOG.m_lines = 0;
    --rce;  if (a_line >= 0) {
       strncpy (myLOG.m_full, "-", LEN_PATH);
       f = fopen (x_name, "rt");
@@ -186,8 +217,8 @@ yLOGS_verify            (char *a_name, char a_log, char a_line)
          if (feof (f))   break;
          x_len = strlen (x_recd);
          if (x_recd [x_len - 1] == '\n') x_recd [--x_len] = '\0';
-         if (s_lines == a_line) strncpy (myLOG.m_full, x_recd, LEN_PATH);
-         ++s_lines;
+         if (myLOG.m_lines == a_line) strncpy (myLOG.m_full, x_recd, LEN_PATH);
+         ++(myLOG.m_lines);
       }
       if (myLOG.m_full [0] == '-') {
          DEBUG_YLOGS  yLOG_exitr   (__FUNCTION__, rce);
@@ -280,71 +311,5 @@ yLOGS_remove            (char *a_name, char a_log)
    DEBUG_YLOGS  yLOG_exit    (__FUNCTION__);
    return c;
 }
-
-
-
-/*====================------------------------------------====================*/
-/*===----                         unit testing                         ----===*/
-/*====================------------------------------------====================*/
-static void      o___UNITTEST________________o (void) {;};
-
-char          unit_answer [LEN_RECD];
-
-char       /*----: set up program urgents/debugging --------------------------*/
-ylog__unit_quiet       (void)
-{
-   yLOGS_begin ("yLOG_unit", YLOG_SYS, YLOG_QUIET);
-   myLOG.m_use   = '-';
-   return 0;
-}
-
-char       /*----: set up program urgents/debugging --------------------------*/
-ylog__unit_loud        (void)
-{
-   yLOGS_begin ("yLOG_unit", YLOG_SYS, YLOG_NOISE);
-   myLOG.m_use   = '-';
-   return 0;
-}
-
-char       /*----: stop logging ----------------------------------------------*/
-ylog__unit_end         (void)
-{
-   yLOGS_end     ();
-   return 0;
-}
-
-char*            /*--> unit test accessor ------------------------------*/
-ylog_base__unit         (char *a_question, int a_num)
-{
-   /*---(locals)-----------+-----+-----+-*/
-   char        t           [LEN_RECD]  = "[]";
-   int         c           =    0;
-   /*---(prepare)------------------------*/
-   strncpy  (unit_answer, "BASE             : question not understood", LEN_RECD);
-   /*---(crontab name)-------------------*/
-   if      (strcmp (a_question, "prefix"     ) == 0) {
-      sprintf (t, "[%s]", myLOG.m_prefix);
-      snprintf (unit_answer, LEN_RECD, "BASE prefix      : %2d  %2d%s", myLOG.m_indent, strlen (myLOG.m_prefix), t);
-   }
-   else if (strcmp (a_question, "full"       ) == 0) {
-      c = strlen (myLOG.m_full);
-      if (c > 99)  c = 99;
-      sprintf (t, "[%s]", myLOG.m_full);
-      snprintf (unit_answer, LEN_RECD, "BASE full        : %2d%s", c, t);
-   }
-   else if (strcmp (a_question, "prog"       ) == 0) {
-      sprintf (t, "[%s]", myLOG.m_prog);
-      snprintf (unit_answer, LEN_RECD, "BASE prog        : %2d%s", strlen (myLOG.m_prog), t);
-   }
-   else if (strcmp (a_question, "loud"       ) == 0) {
-      snprintf (unit_answer, LEN_RECD, "BASE loud        : %c  %2d", myLOG.m_loud, myLOG.m_count);
-   }
-   else if (strcmp (a_question, "lines"      ) == 0) {
-      snprintf (unit_answer, LEN_RECD, "BASE lines       : %2d", s_lines);
-   }
-   /*---(complete)-----------------------*/
-   return unit_answer;
-}
-
 
 /*===[[ END ]]================================================================*/
