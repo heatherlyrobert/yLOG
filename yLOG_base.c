@@ -1,6 +1,6 @@
 /*============================[[ beg-of-code ]]===============================*/
-#include    "yLOG.h"
-#include    "yLOG_priv.h"
+#include   "yLOG.h"
+#include   "yLOG_priv.h"
 
 
 
@@ -35,6 +35,8 @@
 
 
 tITS        myLOG;
+
+char unit_answer [LEN_RECD]  = "";
 
 
 

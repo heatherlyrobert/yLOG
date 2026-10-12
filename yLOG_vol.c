@@ -1,6 +1,6 @@
 /*============================[[ beg-of-code ]]===============================*/
-#include  "yLOG.h"
-#include  "yLOG_priv.h"
+#include   "yLOG.h"
+#include   "yLOG_priv.h"
 
 
 
@@ -35,13 +35,14 @@
 
 
 
+#define  MAX_TRACK   100
 typedef struct cTRACK  tTRACK;
 static struct cTRACK {
    char        type;
    int         len;
    char        name        [LEN_LABEL];
 };
-static tTRACK s_tracks   [100];
+static tTRACK s_tracks   [MAX_TRACK];
 static int    s_ntrack   = 0;
 
 
@@ -80,7 +81,7 @@ yLOGS_unmute   (void)
    myLOG.m_loud  = 'y';
    strncpy (myLOG.m_msg , "", LEN_FULL);
    strncpy (myLOG.m_full, "", LEN_PATH);
-   return 0;
+   return 1;
 }
 
 char
@@ -152,9 +153,23 @@ ylog_check_exit  (char *a_func)
 }
 
 char
-yLOGS_track    (char *a_func, char a_type)
+yLOGS_notrack  (void)
+{
+   int         i           =    0;
+   if (s_ntrack == 0)  return 0;
+   for (i = 0; i < s_ntrack; ++i) {
+      s_tracks [i].type      = 0;
+      s_tracks [i].len       = 0;
+      s_tracks [i].name [0]  = '\0';
+   }
+   return 1;
+}
+
+char
+yLOGS_track    (char a_func [LEN_TITLE], char a_type)
 {
    char        rce         =  -10;
+   char        rc          =    0;
    int         x_len       =    0;
    int         n           =   -1;
    --rce;  if (a_func == NULL)                   return rce;
@@ -163,20 +178,23 @@ yLOGS_track    (char *a_func, char a_type)
    --rce;  if (x_len >= LEN_LABEL)               return rce;
    --rce;  if (a_type == 0)                      return rce;
    --rce;  if (strchr ("exb", a_type) == NULL)   return rce;
+   if (s_ntrack == 0)  yLOGS_mute ();
    n = ylog__find (a_func);
    if (n < 0) {
       s_tracks [s_ntrack].type = a_type;
       strncpy (s_tracks [s_ntrack].name, a_func, LEN_LABEL);
       s_tracks [s_ntrack].len = x_len;
       ++s_ntrack;
+      rc = 1;
    } else {
       s_tracks [n].type = a_type;
+      rc = 0;
    }
-   return 0;
+   return rc;
 }
 
 char
-yLOGS_untrack  (char *a_func)
+yLOGS_untrack  (char a_func [LEN_TITLE])
 {
    char        rce         =  -10;
    int         x_len       =    0;
@@ -188,7 +206,7 @@ yLOGS_untrack  (char *a_func)
    n = ylog__find (a_func);
    --rce;  if (n < 0)  return rce;
    s_tracks [n].type = '-';
-   return 0;
+   return 1;
 }
 
 

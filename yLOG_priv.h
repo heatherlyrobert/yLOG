@@ -1,6 +1,6 @@
 /*============================[[ beg-of-code ]]===============================*/
-#ifndef YLOG_pguard
-#define YLOG_pguard loaded
+#ifndef    YLOG_priv_guard
+#define    YLOG_priv_guard   loaded
 
 
 
@@ -69,8 +69,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.2-, catch-up with prod fixes"
-#define     P_VERNUM    "2.2a"
-#define     P_VERTXT    "catch little zeno/make issues and get unit-testing passed"
+#define     P_VERNUM    "2.2b"
+#define     P_VERTXT    "trouble with proper header guards and log values not reseting when openning"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

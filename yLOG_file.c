@@ -1,6 +1,6 @@
 /*============================[[ beg-of-code ]]===============================*/
-#include  "yLOG.h"
-#include  "yLOG_priv.h"
+#include   "yLOG.h"
+#include   "yLOG_priv.h"
 
 
 
@@ -217,6 +217,8 @@ yLOGS_begin         (char *a_program, char a_loc, char a_quiet)
    IF_LOGGER  fprintf (myLOG.m_logger, "=================================================================================\n");
    IF_LOGGER  fprintf (myLOG.m_logger, "secs---.-ms -step- cat ---comment------------------------------------------------\n");
    IF_LOGGER  fflush (myLOG.m_logger);
+   /*---(complete)-----------------------*/
+   yLOGS_notrack ();
    /*---(complete)-----------------------*/
    return 1;
 }

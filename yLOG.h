@@ -1,6 +1,6 @@
-/*============================[[    beg-code    ]]============================*/
-#ifndef   YLOG_HGUARD
-#define   YLOG_HGUARD       loaded
+/*============================[[ beg-of-code ]]===============================*/
+#ifndef    YLOG_guard 
+#define    YLOG_guard        loaded
 
 
 
@@ -102,6 +102,7 @@ char*       yLOG_curr_show     (void);
 char        yLOGS_mute         (void);
 char        yLOGS_unmute       (void);
 char        yLOGS_mute_check   (void);
+char        yLOGS_notrack      (void);
 char        yLOGS_track        (char a_func  [LEN_TITLE], char a_type);
 char        yLOGS_untrack      (char a_func  [LEN_TITLE]);
 /*---(function (2))---------*/

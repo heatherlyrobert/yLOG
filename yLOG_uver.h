@@ -1,3 +1,6 @@
+/*============================[[ beg-of-code ]]===============================*/
+#ifndef    YLOG_uver_guard
+#define    YLOG_uver_guard   loaded
 
 
 
@@ -35,6 +38,9 @@
 #include  <stdio.h>
 #include  <stdarg.h>                   /* va_arg                              */
 #include  <unistd.h>                   /* unlink                              */
+
+#include  <yENV_solo.h>
+#include  <yENV_uver.h>
 
 
 /*
@@ -146,6 +152,9 @@ ylog__ufile             (char a_type, char b_name [LEN_HUND], FILE **b_file)
       fflush (f);
       /*> printf ("open general å%sæ (%p)\n", b_name, *b_file);                       <*/
    }
+   /*---(reset)--------------------------*/
+   mylog_level = 0;
+   strcpy (mylog_prefix, "");
    /*---(save)---------------------------*/
    *b_file = f;
    /*> printf ("done         å%sæ (%p)\n", b_name, *b_file);                          <*/
@@ -394,3 +403,5 @@ int   yerr_ulines  (void)        { return yenv_ulines (mylog_estd); }
 char* yerr_upeek   (char a_dir)  { return yenv_upeek  (mylog_estd, a_dir); }
 
 
+
+#endif

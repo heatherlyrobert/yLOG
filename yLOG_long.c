@@ -1,6 +1,6 @@
 /*============================[[ beg-of-code ]]===============================*/
-#include  "yLOG.h"
-#include  "yLOG_priv.h"
+#include   "yLOG.h"
+#include   "yLOG_priv.h"
 
 
 
@@ -270,9 +270,9 @@ yLOG_complex       (char a_subject [LEN_LABEL], char *a_format, ...)
    va_start  (args, a_format);
    vsnprintf (x_format, LEN_RECD, a_format, args);
    if (a_subject != NULL && strcmp (a_subject, "ERROR") == 0) {
-      sprintf   (myLOG.m_msg, "%s", x_format);
+      snprintf   (myLOG.m_msg, LEN_RECD, "%s", x_format);
    } else {
-      sprintf   (myLOG.m_msg, "%-10.10s: %s", ylog_title (a_subject), x_format);
+      snprintf   (myLOG.m_msg, LEN_RECD, "%-10.10s: %s", ylog_title (a_subject), x_format);
    }
    va_end    (args);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);

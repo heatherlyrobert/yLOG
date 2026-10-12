@@ -9,8 +9,6 @@
 /*====================------------------------------------====================*/
 static void      o___UNITTEST________________o (void) {;};
 
-char          unit_answer [LEN_RECD];
-
 char       /*----: set up program urgents/debugging --------------------------*/
 ylog__unit_quiet        (void)
 {

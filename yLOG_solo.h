@@ -1,6 +1,6 @@
-/*============================[[    beg-code    ]]============================*/
-#ifndef   YLOG_SOLO   
-#define   YLOG_SOLO         loaded
+/*============================[[ beg-of-code ]]===============================*/
+#ifndef    YLOG_solo_guard
+#define    YLOG_solo_guard   loaded
 
 
 

@@ -3,6 +3,9 @@
 #include    <yENV_solo.h>
 #include    <yENV_uver.h>
 
+#include    "yLOG_solo.h"
+#include    "yLOG_uver.h"
+
 #include    <yUNIT_solo.h>
 
 char    *x_out = "/tmp/ulog.log";
