@@ -195,13 +195,21 @@ yLOG_hex           (char a_subject [LEN_LABEL], long a_value)
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
 }
 
-
 char
 yLOG_llong         (char a_subject [LEN_LABEL], llong a_value)
 {
    IF_QUIET   return 0;
    IF_NOSHOW  return 0;
    sprintf(myLOG.m_msg, "%-10.10s: %lld", ylog_title (a_subject), a_value);
+   return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
+}
+
+char
+yLOG_ullong        (char a_subject [LEN_LABEL], ullong a_value)
+{
+   IF_QUIET   return 0;
+   IF_NOSHOW  return 0;
+   sprintf(myLOG.m_msg, "%-10.10s: %llu", ylog_title (a_subject), a_value);
    return ylog__main (LVL_SAME, TYPE_INFO, myLOG.m_msg);
 }
 

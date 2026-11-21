@@ -69,8 +69,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, stable in production"
 #define     P_VERMINOR  "2.2-, catch-up with prod fixes"
-#define     P_VERNUM    "2.2b"
-#define     P_VERTXT    "trouble with proper header guards and log values not reseting when openning"
+#define     P_VERNUM    "2.2c"
+#define     P_VERTXT    "added yLOG_llong and yLOG_ullong (plus shorts) to test ySTR_format.c"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

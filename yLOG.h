@@ -115,6 +115,7 @@ char        yLOG_info          (char a_label [LEN_LABEL], char     a_info [LEN_R
 char        yLOG_delim         (char a_label [LEN_LABEL], char     a_info [LEN_RECD]);
 char        yLOG_value         (char a_label [LEN_LABEL], int      a_value);
 char        yLOG_llong         (char a_label [LEN_LABEL], llong    a_value);
+char        yLOG_ullong        (char a_label [LEN_LABEL], ullong   a_value);
 char        yLOG_hex           (char a_label [LEN_LABEL], long     a_value);
 char        yLOG_double        (char a_label [LEN_LABEL], double   a_value);
 char        yLOG_real          (char a_label [LEN_LABEL], double   a_value);
@@ -135,6 +136,8 @@ char        yLOG_sexitr        (char a_func  [LEN_TITLE],  int   a_rce);
 char        yLOG_snote         (char a_info  [LEN_FULL]);
 char        yLOG_sinfo         (char a_label [LEN_LABEL], char a_info [LEN_FULL]);
 char        yLOG_sint          (int  a_value);
+char        yLOG_sllong        (llong  a_value);
+char        yLOG_sullong       (ullong  a_value);
 char        yLOG_sdouble       (double  a_value);
 char        yLOG_sreal         (double  a_value);
 char        yLOG_shex          (long    a_value);

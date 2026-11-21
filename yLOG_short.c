@@ -108,6 +108,26 @@ yLOG_sint     (cint  a_value)
 }
 
 char
+yLOG_sllong   (llong  a_value)
+{
+   IF_QUIET   return 0;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %lld", a_value);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
+}
+
+char
+yLOG_sullong  (ullong  a_value)
+{
+   IF_QUIET   return 0;
+   IF_NOSHOW  return 0;
+   snprintf (myLOG.m_temp, LEN_FULL, ", %llu", a_value);
+   strncat  (myLOG.m_single, myLOG.m_temp, LEN_FULL);
+   return 1;
+}
+
+char
 yLOG_sdouble  (double  a_value)
 {
    IF_QUIET   return 0;
